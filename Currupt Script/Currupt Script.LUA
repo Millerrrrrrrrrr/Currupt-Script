@@ -1,4 +1,13 @@
 --[[
+Prisuhm
+Mirror
+Lance
+Bunny
+Ayrapheyr
+Nowiry
+Ren
+HoppaC4
+Jayphen
 --WE HAVE TAKEN OVER░ \☻/\☻/--
 --░░░░░░░░░░░░░░░░░░░▌░ ▌--
 --░░░░░░░░░░░░░░░░░░ / \░ / \--
