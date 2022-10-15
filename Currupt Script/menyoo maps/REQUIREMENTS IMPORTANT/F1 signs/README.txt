@@ -1,0 +1,1 @@
+To install the mod, you need to download it : https://www.gta5-mods.com/misc/f1-tyre-wall
