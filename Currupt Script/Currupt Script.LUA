@@ -28,7 +28,39 @@ util.require_natives(1651208000)
 
 util.keep_running()
 
+-- auto-updating system
+-- Credit to Lance, Prism and Jade for this
 
+local response = false
+local localVer = 4.9
+if not dev_mode then
+    async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion", function(output)
+        currentVer = tonumber(output)
+        response = true
+        if localVer ~= currentVer then
+            notify("This version of JadeScript is outdated but functional. Please update to a more stable version.")
+            menu.action(menu.my_root(), "Update JadeScript", {}, "", function()
+                async_http.init('raw.githubusercontent.com', '/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
+                    local err = select(2,load(a))
+                    if err then
+                        notify("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
+                    return end
+                    local f = io.open(filesystem.scripts_dir() .. SCRIPT_RELPATH, "wb")
+                    f:write(a)
+                    f:close()
+                    notify("Successfully updated!")
+                    notify("Restarting Currupt Script :)")
+                    util.restart_script()
+                end)
+                async_http.dispatch()
+            end)
+        end
+    end, function() response = true end)
+    async_http.dispatch()
+    repeat 
+        util.yield()
+    until response
+end
 
 
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
@@ -1464,7 +1496,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 4.8\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 4.9\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
@@ -3654,7 +3686,7 @@ end)
 		end
 	end)
 
-	menu.action(protex, "Super cleans shit :)", {"clean"}, "Attempt to fuck every single entity without exception. Not recommended but fuck it", function(on_click)
+	menu.action(protex, "Super Clean Shit", {"clean"}, "Attempt to fuck every single entity without exception. Not recommended but fuck it", function(on_click)
 		local ct = 0
 		for k,ent in pairs(entities.get_all_vehicles_as_handles()) do
 			ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
@@ -3662,7 +3694,7 @@ end)
 
 			ct = ct + 1
 		end
-		util.toast("Pooped all vehicles")
+		util.toast("Pooped all vehicles!")
 		for k,ent in pairs(entities.get_all_peds_as_handles()) do
 			if not PED.IS_PED_A_PLAYER(ent) then
 				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
@@ -3671,7 +3703,7 @@ end)
 			end
 			ct = ct + 1
 		end
-		util.toast("Shagged all peds")
+		util.toast("Shagged all peds AUUUUUGGH!!!")
 		for k,ent in pairs(entities.get_all_objects_as_handles()) do
 			if ent ~= PLAYER.PLAYER_PED_ID() then
 				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
@@ -3679,8 +3711,46 @@ end)
 				ct = ct + 1
 			end
 		end
-		util.toast("Fucked all objects")
-		notification("Shit cleaned > " .. ct .. "Entities", colors.green)
+		util.toast("Gobbled all pickups nom nom!")
+		util.toast("Fucked Everything Off :)")
+		notification("Shit cleaned nom nom > " .. ct .. "Entities", colors.green)
+			for k,ent in pairs(entities.get_all_pickups_as_handles()) do
+				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+				entities.delete_by_handle(ent)
+				util.yield()
+			return
+		end
+	end)
+
+	menu.toggle_loop(protex, "No Entity Spawn", {"noentities"}, "De spawns all entites.", function(on_loop)
+		local ct = 0
+		for k,ent in pairs(entities.get_all_vehicles_as_handles()) do
+			ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+			entities.delete_by_handle(ent)
+
+			ct = ct + 1
+		end
+		for k,ent in pairs(entities.get_all_peds_as_handles()) do
+			if not PED.IS_PED_A_PLAYER(ent) then
+				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+				entities.delete_by_handle(ent)
+
+			end
+			ct = ct + 1
+		end
+		for k,ent in pairs(entities.get_all_objects_as_handles()) do
+			if ent ~= PLAYER.PLAYER_PED_ID() then
+				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+				entities.delete_by_handle(ent)
+				ct = ct + 1
+			end
+		end
+			for k,ent in pairs(entities.get_all_pickups_as_handles()) do
+				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+				entities.delete_by_handle(ent)
+				util.yield()
+			return
+		end
 	end)
 
 	menu.divider(protex, "Currupt Protections")
@@ -6436,7 +6506,7 @@ end
 
     local automobcrash = menu.list(crash, "Automobile Crash", {}, "")
 
-    	menu.action(automobcrash, "Automobile Crash", {"automob"}, "Sends ped's and automobiles causing (S0) events.", function()
+    	menu.action(automobcrash, "Automobile Crash", {"automob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function()
     	notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
@@ -6452,7 +6522,7 @@ end
     	notification("Automobile Crash Sent To " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     			end)
 
-    	menu.toggle_loop(automobcrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events.", function(on_toggle)
+    	menu.toggle_loop(automobcrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
     	notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
@@ -6483,8 +6553,13 @@ end
 	menu.trigger_commands("explode" .. players.get_name(pid))
 	menu.trigger_commands("explode" .. players.get_name(pid))
 	menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
-	menu.trigger_commands("footlettucecrash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
+                  menu.trigger_commands("steamroll" .. players.get_name(pid))
+		util.yield(1000)
+	menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	notification("Bruh -_-", colors.red)
     			end)
 
@@ -6492,14 +6567,19 @@ end
     	notification("Rahhh Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("explode" .. players.get_name(pid))
 	menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
-	menu.trigger_commands("footlettucecrash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
+                  menu.trigger_commands("steamroll" .. players.get_name(pid))
+		util.yield(1000)
+	menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	notification("Bruh -_-", colors.red)
     			end)
 
     local tehecrash = menu.list(crash, "Teheh Crash", {}, "")
  
-    	menu.action(tehecrash, "Teheh Crash", {"tehe"}, "Every crash and trolls all in 1 (Laggy).", function()
+    	menu.action(tehecrash, "Teheh Crash", {"tehe"}, "Stand crashes and trolls all in 1 (Laggy).", function()
     	notification("Teheheh sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("bounty".. players.get_name(pid) .. " 10000")
 	menu.trigger_commands("ceokick" .. players.get_name(pid))
@@ -6527,6 +6607,7 @@ end
 	menu.trigger_commands("explode" .. players.get_name(pid))
 	menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
+                  menu.trigger_commands("steamroll" .. players.get_name(pid))
 	menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("notifyspam" .. players.get_name(pid))
         		local int_min = -2147483647
@@ -6573,7 +6654,7 @@ end
         end)
     end)
 
-    	menu.toggle_loop(tehecrash, "Teheh Crash", {"toggletehe"}, "Every crash and trolls all in 1 (Laggy).", function(on_toggle)
+    	menu.toggle_loop(tehecrash, "Teheh Crash", {"toggletehe"}, "Stand crashes and trolls all in 1 looped(Laggy).", function(on_toggle)
     	notification("Teheheh sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("bounty".. players.get_name(pid) .. " 10000")
 	menu.trigger_commands("ceokick" .. players.get_name(pid))
@@ -6598,6 +6679,7 @@ end
 	menu.trigger_commands("explode" .. players.get_name(pid))
 	menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
+                  menu.trigger_commands("steamroll" .. players.get_name(pid))
 	menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("notifyspam" .. players.get_name(pid))
         		local int_min = -2147483647
@@ -6867,7 +6949,16 @@ end
 		util.yield(1000)
 	menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
 		util.yield(1000)
+	menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
+	menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
+                  menu.trigger_commands("steamroll" .. players.get_name(pid))
+		util.yield(1000)
+	menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	menu.trigger_commands("doge"..PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(1000)
 	menu.trigger_commands("notifyspam"..PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("casinotp"..PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("mission"..PLAYER.GET_PLAYER_NAME(pid))
@@ -6879,7 +6970,7 @@ end
     			end)
 
 
-    	menu.toggle_loop(allin1crash, "All in1 Crash", {"toggleallin1"}, "Sends 2t1spec, frag, poodle, pow, and doge all at once. Uses 49 Script different events and other methods.", function(on_toggle)
+    	menu.toggle_loop(allin1crash, "All in1 Crash", {"toggleallin1"}, "Sends 2t1spec, frag, poodle, pow, and doge all at once. Uses 49 Script different events and other methods looped.", function(on_toggle)
     	notification("All in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
@@ -7110,25 +7201,31 @@ end
 	menu.divider(crash, "Stand Crashes")
 
     if menu.get_edition() >= 2 then 
-        menu.action(crash, "Elegant", {"crash"}, "Blocked by most menus.", function()
+        menu.toggle_loop(crash, "Elegant", {"crash"}, "Blocked by most menus.", function(on_loop)
             menu.trigger_commands("crash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.action(crash, "Next-Gen", {"ngcrash"}, "Blocked by popular menus.", function()
-            menu.trigger_commands("breakup" .. players.get_name(pid))
+        menu.toggle_loop(crash, "Next-Gen", {"ngcrash"}, "Blocked by popular menus.", function(on_loop)
+            menu.trigger_commands("ngcrash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.action(crash, "Burger King Foot Lettuce", {"footlettuce"}, "Can't be blocked without consequences, but the target might karma you for using it.", function()
+        menu.toggle_loop(crash, "Steamroller", {"steamroll"}, "Note: This crash will also affect other players close to your target.", function(on_loop)
+            menu.trigger_commands("steamroll" .. players.get_name(pid))
+        end)
+    end
+
+    if menu.get_edition() >= 2 then 
+        menu.toggle_loop(crash, "Burger King Foot Lettuce", {"footlettuce"}, "Can't be blocked without consequences, but the target might karma you for using it.", function(on_loop)
             menu.trigger_commands("footlettuce" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.action(crash, "Vehicular Manslaughter", {"slaughter"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function()
+        menu.toggle_loop(crash, "Vehicular Manslaughter", {"slaughter"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function(on_loop)
             menu.trigger_commands("slaughter" .. players.get_name(pid))
         end)
     end
