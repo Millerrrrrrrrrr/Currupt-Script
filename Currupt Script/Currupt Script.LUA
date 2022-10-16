@@ -22,7 +22,6 @@ util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
 util.require_natives(1640181023)
 util.require_natives(1627063482)
-
 util.require_natives(1660775568)
 util.require_natives(1651208000)
 
@@ -30,6 +29,10 @@ util.keep_running()
 
 -- auto-updating system
 -- Credit to Lance, Prism and Jade for this
+local function notify(text)
+    util.toast("[CurruptScript] " .. text)
+end
+
 
 local response = false
 local localVer = 4.9
@@ -38,8 +41,8 @@ if not dev_mode then
         currentVer = tonumber(output)
         response = true
         if localVer ~= currentVer then
-            notify("This version of JadeScript is outdated but functional. Please update to a more stable version.")
-            menu.action(menu.my_root(), "Update JadeScript", {}, "", function()
+                  notify("This version of Currupt Script is outdated but functional. Please update to a more stable version.")
+            menu.action(menu.my_root(), "Update Currupt Script", {}, "", function()
                 async_http.init('raw.githubusercontent.com', '/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
                     local err = select(2,load(a))
                     if err then
@@ -61,6 +64,7 @@ if not dev_mode then
         util.yield()
     until response
 end
+
 
 
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
