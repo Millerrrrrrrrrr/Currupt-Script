@@ -27,46 +27,6 @@ util.require_natives(1651208000)
 
 util.keep_running()
 
--- auto-updating system
--- Credit to Lance, Prism and Jade for this
-local function notify(text)
-    util.toast("[CurruptScript] " .. text)
-end
-
-
-local response = false
-local localVer = 4.9
-if not dev_mode then
-    async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion", function(output)
-        currentVer = tonumber(output)
-        response = true
-        if localVer ~= currentVer then
-                  notify("This version of Currupt Script is outdated but functional. Please update to a more stable version.")
-            menu.action(menu.my_root(), "Update Currupt Script", {}, "", function()
-                async_http.init('raw.githubusercontent.com', '/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
-                    local err = select(2,load(a))
-                    if err then
-                        notify("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
-                    return end
-                    local f = io.open(filesystem.scripts_dir() .. SCRIPT_RELPATH, "wb")
-                    f:write(a)
-                    f:close()
-                    notify("Successfully updated!")
-                    notify("Restarting Currupt Script :)")
-                    util.restart_script()
-                end)
-                async_http.dispatch()
-            end)
-        end
-    end, function() response = true end)
-    async_http.dispatch()
-    repeat 
-        util.yield()
-    until response
-end
-
-
-
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
 
 if not filesystem.exists(script_dir .. "/functions.lua") then
@@ -3990,11 +3950,27 @@ menu.toggle_loop(spams, "I <3 VOLOD", {""}, "Russians hate this ;)", function(on
     util.yield(50)
 end)
 
-----------------------Fun Shit--
+----------------------Fun Shit------
+-- Hulk Smash!
+-------------------------------------
+menu.toggle(funfun, "Hulk Smash!", {"hulksmash"}, "", function(on_toggle)
+    if toggle then
+        menu.trigger_commands("damagemultiplier 10000")
+        menu.trigger_commands("superjump")
+    else
+    menu.trigger_commands("damagemultiplier 1.01")
+    menu.trigger_commands("damagemultiplier 1")
+    menu.trigger_commands("superjump")
+    end 
+end)
+-------------------------------------
+
 	menu.toggle(funfun, "2nd Person Perspective", {"2ndpp"}, "Sets your camera in another players/npc's face", function(on_toggle)
 			notification("Hahahah look at meeee xD", colors.red)
 			menu.trigger_commands("2ndperson")
 	end)
+
+-------------------------------------
 
 	worldchaos = menu.list(menu.my_root(), "Chaos Shit", {}, "", function(); end)
 	menu.divider(worldchaos, "Chaos mode")
@@ -4232,8 +4208,7 @@ GenerateFeatures = function(pid)
 		--notification("Deleted [" .. ped_name .. "]", true, false)
 	end
 
-	vehopts = menu.list(menu.player_root(pid), "Vehicle Events", {}, "Works only if you are standing near to selected player", function(); end) -- blatant skid here
-	
+	vehopts = menu.list(menu.player_root(pid), "Vehicle Events", {}, "Works only if you are standing near to selected player", function(); end)
 	lock_sub_vehicle_tab = menu.list(vehopts, "Lock Options", {}, "", function(); end)
 	mov_sub_vehicle_tab = menu.list(vehopts, "Movement Options", {}, "", function(); end)
 	troll_sub_vehicle_tab = menu.list(vehopts, "Trolling Options", {}, "", function(); end)
@@ -7825,6 +7800,23 @@ end
 function decode(text)
 	return string.gsub(text, "%+", " ")
 end
+
+
+local maxpl = menu.list(misc, "Max Players To 32")
+
+menu.slider(maxpl, "Max Players To 32", {"maxplayers"}, "Set the maximum number of players in a session (only works when you are the host)", 1, 32, 32, 1, function (value)
+    if Stand_internal_script_can_run then
+        NETWORK.NETWORK_SESSION_SET_MATCHMAKING_GROUP_MAX(0, value)
+       util.toast("Slots are now free :)")
+    end
+end)
+menu.slider(maxpl, "Max Spectators", {"maxSpectators"}, "Set the maximum number of observers (only works when you are the host)", 0, 2, 2, 1, function (value)
+    if Stand_internal_script_can_run then
+        NETWORK.NETWORK_SESSION_SET_MATCHMAKING_GROUP_MAX(4, value)
+        util.toast("Slots are now free :)")
+    end
+end)
+
 
 local chat_trans = menu.list(misc, "Chat Translator")
 
