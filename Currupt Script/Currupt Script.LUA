@@ -7304,58 +7304,6 @@ menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for
 end)
 
 
-local detnoclip = menu.list(detections, "Noclip", {}, "")
-menu.toggle_loop(detnoclip, "Noclip", {}, "Detects if the player is using noclip aka levitation.", function()
-    for _, pid in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local ped_ptr = entities.handle_to_pointer(ped)
-        local vehicle = PED.GET_VEHICLE_PED_IS_USING(ped)
-        local oldpos = players.get_position(pid)
-        util.yield()
-        local currentpos = players.get_position(pid)
-        local vel = ENTITY.GET_ENTITY_VELOCITY(ped)
-        if not util.is_session_transition_active() and players.exists(pid)
-        and get_interior_player_is_in(pid) == 0 and get_transition_state(pid) ~= 0
-        and not PED.IS_PED_IN_ANY_VEHICLE(ped, false) -- too many false positives occured when players where driving. so fuck them. lol.
-        and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped)
-        and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped) and not PED.IS_PED_USING_SCENARIO(ped)
-        and not TASK.GET_IS_TASK_ACTIVE(ped, 160) and not TASK.GET_IS_TASK_ACTIVE(ped, 2)
-        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(pid)) <= 395.0 -- 400 was causing false positives
-        and ENTITY.GET_ENTITY_HEIGHT_ABOVE_GROUND(ped) > 5.0 and not ENTITY.IS_ENTITY_IN_AIR(ped) and entities.player_info_get_game_state(ped_ptr) == 0
-        and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
-        and vel.x == 0.0 and vel.y == 0.0 and vel.z == 0.0 then
-            util.toast(players.get_name(pid) .. " Is Noclipping")
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(detnoclip, "Noclip Auto Kick", {}, "Detects if the player is using noclip aka levitation, blocks there joins and breakup kicks them.", function()
-    for _, pid in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local ped_ptr = entities.handle_to_pointer(ped)
-        local vehicle = PED.GET_VEHICLE_PED_IS_USING(ped)
-        local oldpos = players.get_position(pid)
-        util.yield()
-        local currentpos = players.get_position(pid)
-        local vel = ENTITY.GET_ENTITY_VELOCITY(ped)
-        if not util.is_session_transition_active() and players.exists(pid)
-        and get_interior_player_is_in(pid) == 0 and get_transition_state(pid) ~= 0
-        and not PED.IS_PED_IN_ANY_VEHICLE(ped, false) -- too many false positives occured when players where driving. so fuck them. lol.
-        and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped)
-        and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped) and not PED.IS_PED_USING_SCENARIO(ped)
-        and not TASK.GET_IS_TASK_ACTIVE(ped, 160) and not TASK.GET_IS_TASK_ACTIVE(ped, 2)
-        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(pid)) <= 395.0 -- 400 was causing false positives
-        and ENTITY.GET_ENTITY_HEIGHT_ABOVE_GROUND(ped) > 5.0 and not ENTITY.IS_ENTITY_IN_AIR(ped) and entities.player_info_get_game_state(ped_ptr) == 0
-        and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
-        and vel.x == 0.0 and vel.y == 0.0 and vel.z == 0.0 then
-        menu.trigger_commands("blast" .. players.get_name(pid))
-            util.toast(players.get_name(pid) .. " Is Noclipping")
-            break
-        end
-    end
-end)
-
 local gdmedits = menu.list(detections, "Godmode", {}, "")
 menu.toggle_loop(gdmedits, "Godmode", {}, "Detects if someone is using godmode.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
