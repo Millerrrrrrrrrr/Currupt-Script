@@ -6220,6 +6220,18 @@ end
 		end
 	end)
 
+	menu.toggle(drops, "Cash 3600 Timer", {"cash3600"}, "Turns on and off ceopay and cash 3600.", function(on_toggle)
+	if on_toggle then
+		notification("Currupt Drop On :)", colors.green)
+        		menu.trigger_commands("ceopay".. players.get_name(pid))
+		menu.trigger_commands("cash".. players.get_name(pid) .. " 3600")
+	else
+		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
+        		menu.trigger_commands("ceopay".. players.get_name(pid) .. " off")
+		notification("Currupt Drop Off :P", colors.green)
+		end
+	end)
+
 	menu.action(frienm, "Spectate", {"spec"}, "", function()
     	notification("Spectating " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 		menu.trigger_commands("spectate" .. PLAYER.GET_PLAYER_NAME(pid))
