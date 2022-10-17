@@ -7418,7 +7418,7 @@ menu.toggle_loop(vehgdm, "Vehicle Godmode", {}, "Detects if someone is using a v
         if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
             for i, interior in ipairs(interior_stuff) do
                 if not ENTITY._GET_ENTITY_CAN_BE_DAMAGED(player_veh) and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
-                    util.draw_debug_text(players.get_name(pid) .. "  Is In Vehicle Godmode" .. "(" .. name .. ")")
+                    util.draw_debug_text(players.get_name(pid) .. "  Is In Vehicle Godmode")
                     break
                 end
             end
@@ -7435,8 +7435,8 @@ menu.toggle_loop(vehgdm, "Vehicle Godmode Auto Kick", {}, "Detects if someone is
             for i, interior in ipairs(interior_stuff) do
                 if not ENTITY._GET_ENTITY_CAN_BE_DAMAGED(player_veh) and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
                 menu.trigger_commands("blast" .. players.get_name(pid))
-                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
-                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
+                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode")
+                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode")
                     break
                 end
             end
@@ -7453,8 +7453,8 @@ menu.toggle_loop(vehgdm, "Vehicle Godmode Auto Slingshot", {}, "Detects if someo
             for i, interior in ipairs(interior_stuff) do
                 if not ENTITY._GET_ENTITY_CAN_BE_DAMAGED(player_veh) and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
                 menu.trigger_commands("slingshot" .. players.get_name(pid))
-                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
-                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
+                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode")
+                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode")
                     break
                 end
             end
@@ -7471,8 +7471,8 @@ menu.toggle_loop(vehgdm, "Vehicle Godmode Auto Kick Them Out", {}, "Detects if s
             for i, interior in ipairs(interior_stuff) do
                 if not ENTITY._GET_ENTITY_CAN_BE_DAMAGED(player_veh) and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
                 menu.trigger_commands("vehkick" .. players.get_name(pid))
-                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
-                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode" .. "(" .. name .. ")")
+                    util.draw_debug_text(players.get_name(pid) .. "Is In Vehicle Godmode")
+                    util.toast(players.get_name(pid) .. "Is In Vehicle Godmode")
                     break
                 end
             end
@@ -7639,7 +7639,7 @@ menu.toggle_loop(detsuperd, "Super Drive", {}, "Detects if the player is using s
         local veh_speed = (ENTITY.GET_ENTITY_SPEED(vehicle)* 2.236936)
         local class = VEHICLE.GET_VEHICLE_CLASS(vehicle)
         if class ~= 15 and class ~= 16 and veh_speed >= 180 and VEHICLE.GET_PED_IN_VEHICLE_SEAT(vehicle, -1) and players.get_vehicle_model(pid) ~= util.joaat("oppressor") then -- not checking opressor mk1 cus its stinky
-        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
+        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive")
             break
         end
     end
@@ -7653,8 +7653,8 @@ menu.toggle_loop(detsuperd, "Super Drive Auto Kick", {}, "Detects if the player 
         local class = VEHICLE.GET_VEHICLE_CLASS(vehicle)
         if class ~= 15 and class ~= 16 and veh_speed >= 180 and VEHICLE.GET_PED_IN_VEHICLE_SEAT(vehicle, -1) and players.get_vehicle_model(pid) ~= util.joaat("oppressor") then -- not checking opressor mk1 cus its stinky
         menu.trigger_commands("blast" .. players.get_name(pid))
-        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
-            util.toast(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
+        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive")
+            util.toast(players.get_name(pid) .. " Is Using Super Drive")
             break
         end
     end
@@ -7668,8 +7668,8 @@ menu.toggle_loop(detsuperd, "Super Drive Auto Slingshot", {}, "Detects if the pl
         local class = VEHICLE.GET_VEHICLE_CLASS(vehicle)
         if class ~= 15 and class ~= 16 and veh_speed >= 180 and VEHICLE.GET_PED_IN_VEHICLE_SEAT(vehicle, -1) and players.get_vehicle_model(pid) ~= util.joaat("oppressor") then -- not checking opressor mk1 cus its stinky
         menu.trigger_commands("slingshot" .. players.get_name(pid))
-        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
-            util.toast(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
+        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive")
+            util.toast(players.get_name(pid) .. " Is Using Super Drive")
             break
         end
     end
@@ -7683,8 +7683,8 @@ menu.toggle_loop(detsuperd, "Super Drive Auto Kick Them Out", {}, "Detects if th
         local class = VEHICLE.GET_VEHICLE_CLASS(vehicle)
         if class ~= 15 and class ~= 16 and veh_speed >= 180 and VEHICLE.GET_PED_IN_VEHICLE_SEAT(vehicle, -1) and players.get_vehicle_model(pid) ~= util.joaat("oppressor") then -- not checking opressor mk1 cus its stinky
         menu.trigger_commands("vehkick" .. players.get_name(pid))
-        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
-            util.toast(players.get_name(pid) .. " Is Using Super Drive" .. "(" .. name .. ")")
+        util.draw_debug_text(players.get_name(pid) .. " Is Using Super Drive")
+            util.toast(players.get_name(pid) .. " Is Using Super Drive")
             break
         end
     end
