@@ -16,17 +16,71 @@ Jayphen
 --░░░░░░░░░░░I███████████████████].--
 ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-util.require_natives("natives-1660775568")
-util.require_natives("natives-1651208000")
-util.require_natives("natives-1627063482")
-util.require_natives("natives-1640181023")
+util.keep_running()
 util.require_natives(1640181023)
 util.require_natives(1627063482)
 util.require_natives(1660775568)
 util.require_natives(1651208000)
+util.require_natives("natives-1660775568")
+util.require_natives("natives-1651208000")
+util.require_natives("natives-1627063482")
+util.require_natives("natives-1640181023")
 
-util.keep_running()
+--------------------------------------------------------------------------------------
 
+	splashes = menu.list(menu.my_root(), "Splash Screen", {}, "", function(); end)
+
+
+local aalib = require("aalib")
+local PlaySound = aalib.play_sound
+local SND_ASYNC<const> = 0x0001
+local SND_FILENAME<const> = 0x00020000
+
+resources_dir = filesystem.resources_dir() .. '\\curruptscript\\'
+curruptscript_logo = directx.create_texture(resources_dir .. 'curruptscript_logo.png')
+
+if not filesystem.is_dir(resources_dir) then
+    notify("If Currupt Script is not installed properly. Some things will fail to load or break.")
+end
+
+menu.toggle(splashes, "Splash Screen", {"Splash Screen"}, "Hit 3 on your number pad to save state.", function(enable)
+if not SCRIPT_SILENT_START then 
+    logo_alpha = 0
+    logo_alpha_incr = 0.02
+    logo_alpha_thread = util.create_thread(function (thr)
+        while true do
+            logo_alpha = logo_alpha + logo_alpha_incr
+            if logo_alpha > 1 then
+                logo_alpha = 1
+            elseif logo_alpha < 0 then 
+                logo_alpha = 0
+                util.stop_thread()
+            end
+            util.yield()
+        end
+    end)
+
+    logo_thread = util.create_thread(function (thr)
+        starttime = os.clock()
+        local alpha = 0
+        while true do
+            directx.draw_texture(curruptscript_logo, 0.10, 0.10, 0.5, 0.5, 0.5, 0.5, 0, 1, 1, 1, logo_alpha)
+            timepassed = os.clock() - starttime
+            if timepassed > 1 then
+                logo_alpha_incr = -0.01
+            end
+            if logo_alpha == 0 then
+                util.stop_thread()
+            end
+            util.yield()
+        end
+    end)
+    PlaySound(resources_dir .. "\\bruh.wav", SND_FILENAME | SND_ASYNC)
+        end
+end)
+
+menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/CMBYPZr2Rc")
+--------------------------------------------------------------------------------------
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
 
 if not filesystem.exists(script_dir .. "/functions.lua") then
@@ -319,7 +373,7 @@ menu.divider(local_lists["World"], "World")
 
 local local_sub_lists <const> = {
     ["Weapons"] = menu.list(local_lists["Self"], "Weapons"),
-    ["Clear World"] = menu.list(local_lists["World"], "Clear World")
+    ["Clean Area"] = menu.list(local_lists["World"], "Clean Area")
 }
 
 ------------------------------
@@ -328,8 +382,7 @@ local local_sub_lists <const> = {
 
 menu.divider(local_sub_lists["Weapons"], "Weapons")
 
-menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"},
-"Autoload all the weapons everytime you join a new session.", function(state)
+menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"}, "Autoload all the weapons everytime you join a new session.", function(state)
     if state then
         players.on_join(function(player_id)
             local my_player_id <const> = players.user()
@@ -356,9 +409,9 @@ local clear_world = {
     ignore_player_vehicles = true
 }
 
-menu.divider(local_sub_lists["Clear World"], "Clear World")
+menu.divider(local_sub_lists["Clean Area"], "Clean Area")
 
-menu.action(local_sub_lists["Clear World"], "Clear World", {"clearworld"}, "", function()
+menu.action(local_sub_lists["Clean Area"], "Clean Area", {"cleanarea"}, "Great hotkey as it does not disturb friends by choice.", function()
     local is_in_session <const> = NETWORK.NETWORK_IS_IN_SESSION()
 
     if is_in_session then
@@ -436,23 +489,23 @@ menu.action(local_sub_lists["Clear World"], "Clear World", {"clearworld"}, "", f
     end
 end)
 
-menu.toggle(local_sub_lists["Clear World"], "Clear Vehicles", {"clearvehicles"}, "", function(state)
+menu.toggle(local_sub_lists["Clean Area"], "Clear Vehicles", {"clearvehicles"}, "", function(state)
     clear_world.vehicles = state
 end, true)
 
-menu.toggle(local_sub_lists["Clear World"], "Clear Peds", {"clearpeds"}, "", function(state)
+menu.toggle(local_sub_lists["Clean Area"], "Clear Peds", {"clearpeds"}, "", function(state)
     clear_world.peds = state
 end, true)
 
-menu.toggle(local_sub_lists["Clear World"], "Clear Objects", {"clearobjects"}, "", function(state)
+menu.toggle(local_sub_lists["Clean Area"], "Clear Objects", {"clearobjects"}, "", function(state)
 clear_world.objects = state
 end, true)
 
-menu.toggle(local_sub_lists["Clear World"], "Clear Pickups", {"clearpickups"}, "", function(state)
+menu.toggle(local_sub_lists["Clean Area"], "Clear Pickups", {"clearpickups"}, "", function(state)
     clear_world.pickups = state
 end, true)
 
-menu.toggle(local_sub_lists["Clear World"], "Ignore Player Vehicles", {"clearnoplayervehicles"}, "", function(state)
+menu.toggle(local_sub_lists["Clean Area"], "Ignore Player Vehicles", {"clearnoplayervehicles"}, "", function(state)
     clear_world.ignore_player_vehicles = state
 end, true)
 
@@ -3560,8 +3613,8 @@ end)
 	
 	end)
 
-	menu.click_slider(protex,"Clear Shit Up", {"superc"}, "1 = peds, 2 = vehicles, 3 = objects, 4 = pickups, 5 = all \n note that this excludes players and their vehicles", 1, 5, 1, 1, function(on_change)
-		if on_change == 1 then
+	menu.click_slider(protex,"Clear Shit Up", {"superc"}, "5 = peds, 4 = vehicles, 3 = objects, 2 = pickups, 1 = all \nNote: This excludes players and their vehicles.", 1, 5, 1, 1, function(on_change)
+		if on_change == 5 then
 			local count = 0
 			for k,ent in pairs(entities.get_all_peds_as_handles()) do
 				if not PED.IS_PED_A_PLAYER(ent) then
@@ -3573,7 +3626,7 @@ end)
 			end
 			notification(count .. " Peds have been fucked off", colors.green)
 		end
-		if on_change == 2 then
+		if on_change == 4 then
 			local count = 0
 			for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
 				local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(ent, -1, false)
@@ -3598,7 +3651,7 @@ end)
 			notification(count .. " Objects fucked", colors.green)
 			return
 		end
-		if on_change == 4 then
+		if on_change == 2 then
 			local count = 0
 			for k, ent in pairs(entities.get_all_pickups_as_handles()) do
 				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
@@ -3609,7 +3662,7 @@ end)
 			notification(count .. " Pickups have been bruhh", colors.green)
 			return
 		end
-		if on_change == 5 then
+		if on_change == 1 then
 			local count = 0
 			for k, ent in pairs(entities.get_all_peds_as_handles()) do
 				if not PED.IS_PED_A_PLAYER(ent) then
@@ -3646,6 +3699,7 @@ end)
 				util.yield()
 			end
 			notification(count .. "All Cleared :) ", colors.green)
+			util.toast("All Cleared " .. count .. " entities removed. :)")
 			return
 		end
 	end)
@@ -3676,7 +3730,7 @@ end)
 			end
 		end
 		util.toast("Gobbled all pickups nom nom!")
-		util.toast("Fucked Everything Off :)")
+		util.toast("Fucked Everything off " .. ct .. " Entities removed. :)")
 		notification("Shit cleaned nom nom > " .. ct .. "Entities", colors.green)
 			for k,ent in pairs(entities.get_all_pickups_as_handles()) do
 				ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
@@ -3950,27 +4004,25 @@ menu.toggle_loop(spams, "I <3 VOLOD", {""}, "Russians hate this ;)", function(on
     util.yield(50)
 end)
 
-----------------------Fun Shit------
+----------------------Fun Shit-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Hulk Smash!
--------------------------------------
-menu.toggle(funfun, "Hulk Smash!", {"hulksmash"}, "", function(on_toggle)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+menu.toggle(funfun, "Hulk Smash!", {"hulkmode"}, "", function(toggle)
     if toggle then
         menu.trigger_commands("damagemultiplier 10000")
         menu.trigger_commands("superjump")
     else
     menu.trigger_commands("damagemultiplier 1.01")
     menu.trigger_commands("damagemultiplier 1")
-    menu.trigger_commands("superjump")
+        menu.trigger_commands("superjump")
     end 
 end)
--------------------------------------
 
 	menu.toggle(funfun, "2nd Person Perspective", {"2ndpp"}, "Sets your camera in another players/npc's face", function(on_toggle)
 			notification("Hahahah look at meeee xD", colors.red)
 			menu.trigger_commands("2ndperson")
 	end)
-
--------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	worldchaos = menu.list(menu.my_root(), "Chaos Shit", {}, "", function(); end)
 	menu.divider(worldchaos, "Chaos mode")
@@ -6269,11 +6321,65 @@ local function bitTest(addr, offset)
     return (memory.read_int(addr) & (1 << offset)) ~= 0
 end
 
+    	menu.action(crash, "Test Event 1", {"test1"}, "Crashes Modders woop woop.", function()
+    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        		local int_min = -2147483647
+        		local int_max = 2147483647
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-555356783,1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max),
+            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+        			end
+        			util.yield()
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+        			end
+        	menu.trigger_commands("givesh" .. players.get_name(pid))
+        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    			end)
+
+    	menu.action(crash, "Test Event 2", {"test2"}, "Only Legits Merge with1", function()
+    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        		local int_min = -2147483647
+        		local int_max = 2147483647
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786, math.random(int_min, int_max), math.random(int_min, int_max),
+            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+        			end
+        			util.yield()
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
+        			end
+        	menu.trigger_commands("givesh" .. players.get_name(pid))
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
+    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    			end)
+
+    	menu.action(crash, "Test Event 3", {"test3"}, "Testing Testing 1-2.", function()
+    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        		local int_min = -2147483647
+        		local int_max = 2147483647
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max), math.random(int_min, int_max),
+            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+        			end
+        			util.yield()
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
+        			end
+        	menu.trigger_commands("givesh" .. players.get_name(pid))
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
+    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    			end)
+
 
     local damncrash = menu.list(crash, "Damn Crash", {}, "")
 
     	menu.action(damncrash, "Damn Crash", {"damncrash"}, "This one is bound to hurt.", function()
-    	notification("Doge Coin Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    	notification("Damn Crash Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
         			for i = 1, 15 do
@@ -6285,8 +6391,8 @@ end
         			util.yield()
         			for i = 1, 15 do
             			util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522 ,59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221,59486,48512151,-9545440 , math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440, math.random(int_min, int_max)})
         			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
         			end
 	menu.trigger_commands("notifyspam" .. players.get_name(pid))
@@ -6318,7 +6424,7 @@ end
 
 
     	menu.toggle_loop(damncrash, "Damn Crash", {"toggledamn"}, "This one is bound to hurt.", function(on_toggle)
-    	notification("Doge Coin Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    	notification("Damn Crash Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
         			for i = 1, 15 do
@@ -6330,8 +6436,8 @@ end
         			util.yield()
         			for i = 1, 15 do
             			util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522 ,59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221,59486,48512151,-9545440 , math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440, math.random(int_min, int_max)})
         			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
         			end
 	menu.trigger_commands("notifyspam" .. players.get_name(pid))
@@ -6374,8 +6480,8 @@ end
         			util.yield()
         			for i = 1, 15 do
             			util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522 ,59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221,59486,48512151,-9545440 , math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522, 59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440 , math.random(int_min, int_max)})
         			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
         			end
         	menu.trigger_commands("givesh" .. players.get_name(pid))
@@ -6409,8 +6515,8 @@ end
         			util.yield()
         			for i = 1, 15 do
             			util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522 ,59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221,59486,48512151,-9545440 , math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1733737974, pid, 789522, 59486,48512151,-9545440,5845131,848153,math.random(int_min, int_max)})
+        			util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440 , math.random(int_min, int_max)})
         			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
         			end
         	menu.trigger_commands("givesh" .. players.get_name(pid))
