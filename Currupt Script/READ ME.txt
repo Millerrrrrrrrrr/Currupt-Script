@@ -12,6 +12,9 @@ C:\Users\PC-NAME\AppData\Roaming\Stand\Lua Scripts
 Paste "menyoo vehicles" folder in Lua Scripts folder 
 C:\Users\PC-NAME\AppData\Roaming\Stand\Lua Scripts
 
+Paste "Outifits" files in Places folder 
+C:\Users\PC-NAME\AppData\Roaming\Stand\Outifits
+
 
 Paste "Places" files in Places folder 
 C:\Users\PC-NAME\AppData\Roaming\Stand\Places
