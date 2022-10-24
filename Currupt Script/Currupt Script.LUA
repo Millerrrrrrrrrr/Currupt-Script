@@ -4813,22 +4813,13 @@ GenerateFeatures = function(pid)
 	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
 
 
-	killgod = menu.list(griefing, "Kill Godmoded Player", {}, "")
-
-
-	menu.action(killgod, "Kill Godmoded Player", {"killgod"}, "", function()
-		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
-		menu.trigger_commands("explode" .. PLAYER.GET_PLAYER_NAME(pid))
-		util.yield(10)
-		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
-	end)
-
-	menu.toggle(killgod, "Kill Godmoded Player", {"togglekillgod"}, "", function(on_toggle)
+	menu.toggle(griefing, "Kill Godmoded Player", {"killgod"}, "", function(on_toggle)
 	if on then
 		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
-		menu.trigger_commands("explode" .. PLAYER.GET_PLAYER_NAME(pid))
+		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
 	else
 		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
+		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
 		end
 	end)
 
@@ -7483,7 +7474,7 @@ end
 
     local allin1crash = menu.list(crash, "All in1 Crash", {}, "")
 
-    	menu.action(allin1crash, "All in1 Crash", {"allin1"}, "Sends 2t1spec, frag, poodle, pow, skidpow, doge, automob, error, notifyspam, casinotp, mission, ring, cage mugloop and explode all at once. Uses 50 Script different events and other methods.", function()
+    	menu.action(allin1crash, "All in1 Crash", {"allin1"}, "Sends 2t1spec, frag, poodle, pow, skidpow, doge, bozocrash, automob, error, notifyspam, casinotp, mission, ring, cage mugloop and explode all at once. Uses 50 Script different events and other methods.", function()
     	notification("All in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
@@ -7526,7 +7517,7 @@ end
     			end)
 
 
-    	menu.toggle_loop(allin1crash, "All in1 Crash", {"toggleallin1"}, "Sends 2t1spec, frag, poodle, pow, skidpow, and doge all at once. Uses 50 Script different events and other methods looped.", function(on_toggle)
+    	menu.toggle_loop(allin1crash, "All in1 Crash", {"toggleallin1"}, "Sends 2t1spec, frag, poodle, pow, skidpow, bozocrash and doge all at once. Uses 50 Script different events and other methods looped.", function(on_toggle)
     	notification("All in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
 	menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
