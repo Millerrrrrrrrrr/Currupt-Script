@@ -4812,8 +4812,29 @@ GenerateFeatures = function(pid)
 	
 	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
 
+
+	killgod = menu.list(griefing, "Kill Godmoded Player", {}, "")
+
+
+	menu.action(killgod, "Kill Godmoded Player", {"killgod"}, "", function()
+		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
+		menu.trigger_commands("explode" .. PLAYER.GET_PLAYER_NAME(pid))
+		util.yield(10)
+		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
+	end)
+
+	menu.toggle(killgod, "Kill Godmoded Player", {"togglekillgod"}, "", function(on_toggle)
+	if on then
+		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
+		menu.trigger_commands("explode" .. PLAYER.GET_PLAYER_NAME(pid))
+	else
+		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
+		end
+	end)
+
+
 	cage_options = menu.list(griefing, "Cage Options", {}, "")
-	
+
 	menu.divider(cage_options, "Cage Options")
 
 
