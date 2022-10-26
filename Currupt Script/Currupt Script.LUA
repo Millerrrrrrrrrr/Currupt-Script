@@ -1551,7 +1551,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 5.2\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 5.3\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
