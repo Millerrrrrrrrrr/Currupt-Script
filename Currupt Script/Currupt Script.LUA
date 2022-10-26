@@ -507,173 +507,8 @@ players.on_join(function(player_id)
 
 	menu.divider(menu.player_root(player_id), "Currupt Script")
 
-    local trolling_net_list <const> = menu.list(menu.player_root(player_id), "Trolling Loops")
-    menu.divider(trolling_net_list, "Trolling Loops")
-
-
-    menu.toggle_loop(trolling_net_list, "Asteroid Smash", {}, "Crush the player with an asteroid", function() 
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        coords.z = coords['z'] + 15.0
-        local asteroid = entities.create_object(3751297495, coords)
-        ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
-    end)
-
-    menu.toggle_loop(trolling_net_list, "Ragdoll loop", {}, "Keeps target ragdolled", function()
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
-        util.yield(10)
-    end)
-
-    menu.toggle_loop(trolling_net_list, "Flame loop", {}, "Spam fire beneath the target", function()
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
-        util.yield(25)
-    end)
-
-    menu.toggle_loop(trolling_net_list, "Water Jet loop", {}, "Spam water jets beneath the target", function()
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
-        util.yield(25)
-    end)
-
-    menu.toggle_loop(trolling_net_list, "Crap trail", {}, "", function()
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        coords.z = coords['z'] + 1.5
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
-        util.yield(65)
-    end)
-
-    menu.toggle_loop(trolling_net_list, "Flame path", {}, "They better run", function()
-        local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
-        --coords.z = coords['z'] + 1.5
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 38, 0, false, false, 0, false)
-        util.yield(65)
-    end)
-
-
-
-   menu.toggle_loop(trolling_net_list, "Lamar Spam", {"togglelamar"}, "Send's a ton of Lamar's (only works on others, not yourself). Might crash a legit player", function(on_toggle)
-            if pid ~= players.user() and players.exists(pid) and not aU then
-                aU = true
-                pedhash = 0x45463A0D
-                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
-                    STREAMING.REQUEST_MODEL(pedhash)
-                    util.yield(10)
-                end
-                notification("Lamar Spam has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true)
-                local bh = PLAYER.GET_PLAYER_PED(pid)
-                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
-                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
-                local bk = {}
-                local bf = bi
-                bf.x = bf.x
-                bf.y = bf.y
-                bf.z = bf.z
-                for U = 1, 175 do
-                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
-                    util.yield(25)
-                end
-                notification("Done sending", true, true)
-                util.yield(3000)
-                notification("Cleaning up", true, true)
-                for U = 1, 175 do
-                    entities.delete_by_handle(bk[U])
-                    util.yield(10)
-                end
-                util.yield(10)
-                if not players.exists(pid) then
-                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
-                    notification("Player left", true, false)
-                end
-                util.yield(10)
-                aU = false
-            end
-            if aU then
-            end
-        end)
-
-
-   menu.toggle_loop(trolling_net_list, "Wade Spam", {"togglewade"}, "Send's a ton of wades (only works on others, not yourself). Might crash a legit player", function(on_toggle)
-            if pid ~= players.user() and players.exists(pid) then
-                pedhash = 0xD266D9D6
-                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
-                    STREAMING.REQUEST_MODEL(pedhash)
-                    util.yield(10)
-                end
-                notification("Wade Crash has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true, colors.red)
-                local bh = PLAYER.GET_PLAYER_PED(pid)
-                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
-                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
-                local bk = {}
-                local bf = bi
-                bf.x = bf.x
-                bf.y = bf.y
-                bf.z = bf.z
-                for U = 1, 150 do
-                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
-                    util.yield(25)
-                end
-                    util.toast("Done sending")
-                util.yield(3000)
-                    util.toast("Cleaning up")
-                for U = 1, 150 do
-                    entities.delete_by_handle(bk[U])
-                    util.yield(10)
-                end
-                util.yield(10)
-                if not players.exists(pid) then
-                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
-                    util.toast("Player left")
-                end
-                util.yield(10)
-                aU = false
-            end
-            if aU then
-            end
-        end)
-
-   menu.toggle_loop(trolling_net_list, "Village People 360 Wade Raper", {"waderape"}, "Send's a few wades (only works on others, not yourself) Might crash a legit player.", function(on_toggle)
-            if pid ~= players.user() and players.exists(pid) then
-                pedhash = 0xD266D9D6
-                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
-                    STREAMING.REQUEST_MODEL(pedhash)
-                    util.yield(10)
-                end
-                notification("Village People 360 Crash has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true, colors.red)
-                local bh = PLAYER.GET_PLAYER_PED(pid)
-                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
-                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
-                local bk = {}
-                local bf = bi
-                bf.x = bf.x
-                bf.y = bf.y
-                bf.z = bf.z
-                for U = 1, 10 do
-                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
-                    util.yield(100)
-                end
-                    util.toast("Done sending")
-                util.yield(10)
-                    util.toast("Cleaning up")
-                for U = 1, 10 do
-                    entities.delete_by_handle(bk[U])
-                    util.yield(0)
-                end
-                util.yield(0)
-                if not players.exists(pid) then
-                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
-                    util.toast("Player left")
-                end
-                util.yield(0)
-                aU = false
-            end
-            if aU then
-            end
-        end)
-
+    local trolling_net_list <const> = menu.list(menu.player_root(player_id), "Extra Trolling")
+    menu.divider(trolling_net_list, "Extra Trolling")
 
     ------------------------------
     -- Trolling Section
@@ -4972,7 +4807,7 @@ GenerateFeatures = function(pid)
 	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
 
 
-	menu.toggle(griefing, "Kill Godmoded Player", {"killgod"}, "", function(on_toggle)
+	menu.toggle(griefing, "Kill Godmoded Player V1", {"killgod"}, "", function(on_toggle)
 	if on then
 		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
 		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
@@ -4982,6 +4817,198 @@ GenerateFeatures = function(pid)
 		end
 	end)
 
+menu.toggle_loop(griefing, "Kill Godmode Player V2", {"killgodmode"}, "Note: this will not work if they have no ragdoll on", function(on_toggle)
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("khanjali")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, false)
+    util.yield(1200)
+    entities.delete_by_handle(vehicle1)
+end)
+
+
+    menu.toggle_loop(griefing, "Asteroid Smash", {}, "Crush the player with an asteroid", function() 
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] + 15.0
+        local asteroid = entities.create_object(3751297495, coords)
+        ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
+    end)
+
+    menu.toggle_loop(griefing, "Ragdoll loop", {}, "Keeps target ragdolled", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
+        util.yield(10)
+    end)
+
+    menu.toggle_loop(griefing, "Flame loop", {}, "Spam fire beneath the target", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
+        util.yield(25)
+    end)
+
+    menu.toggle_loop(griefing, "Water Jet loop", {}, "Spam water jets beneath the target", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
+        util.yield(25)
+    end)
+
+    menu.toggle_loop(griefing, "Crap trail", {}, "", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] + 1.5
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
+        util.yield(65)
+    end)
+
+    menu.toggle_loop(griefing, "Flame path", {}, "They better run", function()
+        local coords = players.get_position(pid)
+        --coords.z = coords['z'] + 1.5
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 38, 0, false, false, 0, false)
+        util.yield(65)
+    end)
+
+
+
+   menu.toggle_loop(griefing, "Lamar Spam", {"togglelamar"}, "Send's a ton of Lamar's (only works on others, not yourself). Might crash a legit player", function(on_toggle)
+            if pid ~= players.user() and players.exists(pid) and not aU then
+                aU = true
+                pedhash = 0x45463A0D
+                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
+                    STREAMING.REQUEST_MODEL(pedhash)
+                    util.yield(10)
+                end
+                notification("Lamar Spam has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true)
+                local bh = PLAYER.GET_PLAYER_PED(pid)
+                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
+                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
+                local bk = {}
+                local bf = bi
+                bf.x = bf.x
+                bf.y = bf.y
+                bf.z = bf.z
+                for U = 1, 175 do
+                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
+                    util.yield(25)
+                end
+                notification("Done sending", true, true)
+                util.yield(3000)
+                notification("Cleaning up", true, true)
+                for U = 1, 175 do
+                    entities.delete_by_handle(bk[U])
+                    util.yield(10)
+                end
+                util.yield(10)
+                if not players.exists(pid) then
+                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
+                    notification("Player left", true, false)
+                end
+                util.yield(10)
+                aU = false
+            end
+            if aU then
+            end
+        end)
+
+
+   menu.toggle_loop(griefing, "Wade Spam", {"togglewade"}, "Send's a ton of wades (only works on others, not yourself). Might crash a legit player", function(on_toggle)
+            if pid ~= players.user() and players.exists(pid) then
+                pedhash = 0xD266D9D6
+                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
+                    STREAMING.REQUEST_MODEL(pedhash)
+                    util.yield(10)
+                end
+                notification("Wade Crash has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true, colors.red)
+                local bh = PLAYER.GET_PLAYER_PED(pid)
+                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
+                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
+                local bk = {}
+                local bf = bi
+                bf.x = bf.x
+                bf.y = bf.y
+                bf.z = bf.z
+                for U = 1, 150 do
+                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
+                    util.yield(25)
+                end
+                    util.toast("Done sending")
+                util.yield(3000)
+                    util.toast("Cleaning up")
+                for U = 1, 150 do
+                    entities.delete_by_handle(bk[U])
+                    util.yield(10)
+                end
+                util.yield(10)
+                if not players.exists(pid) then
+                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
+                    util.toast("Player left")
+                end
+                util.yield(10)
+                aU = false
+            end
+            if aU then
+            end
+        end)
+
+   menu.toggle_loop(griefing, "Village People 360 Wade Raper", {"waderape"}, "Send's a few wades (only works on others, not yourself) Might crash a legit player.", function(on_toggle)
+            if pid ~= players.user() and players.exists(pid) then
+                pedhash = 0xD266D9D6
+                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
+                    STREAMING.REQUEST_MODEL(pedhash)
+                    util.yield(10)
+                end
+                notification("Village People 360 Crash has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true, colors.red)
+                local bh = PLAYER.GET_PLAYER_PED(pid)
+                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
+                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
+                local bk = {}
+                local bf = bi
+                bf.x = bf.x
+                bf.y = bf.y
+                bf.z = bf.z
+                for U = 1, 10 do
+                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
+                    util.yield(100)
+                end
+                    util.toast("Done sending")
+                util.yield(10)
+                    util.toast("Cleaning up")
+                for U = 1, 10 do
+                    entities.delete_by_handle(bk[U])
+                    util.yield(0)
+                end
+                util.yield(0)
+                if not players.exists(pid) then
+                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
+                    util.toast("Player left")
+                end
+                util.yield(0)
+                aU = false
+            end
+            if aU then
+            end
+        end)
 
 	cage_options = menu.list(griefing, "Cage Options", {}, "")
 
@@ -9817,7 +9844,6 @@ end
             end
         end)
     end)
-
 
     local allin1crash = menu.list(crash, "All in1 Crash", {}, "")
 
