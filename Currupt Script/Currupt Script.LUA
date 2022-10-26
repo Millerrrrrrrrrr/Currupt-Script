@@ -4846,41 +4846,71 @@ menu.toggle_loop(griefing, "Kill Godmode Player V2", {"killgodmode"}, "Note: thi
     entities.delete_by_handle(vehicle1)
 end)
 
+    menu.toggle_loop(griefing, "TP On Ped Loop", {"tploopon"}, "", function(on_toggle)
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    end)
 
-    menu.toggle_loop(griefing, "Asteroid Smash", {}, "Crush the player with an asteroid", function() 
+    menu.toggle_loop(griefing, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
         local coords = players.get_position(pid)
         coords.z = coords['z'] + 15.0
         local asteroid = entities.create_object(3751297495, coords)
         ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
     end)
 
-    menu.toggle_loop(griefing, "Ragdoll loop", {}, "Keeps target ragdolled", function()
+    menu.toggle_loop(griefing, "Ragdoll loop", {"ragdollon"}, "Keeps target ragdolled", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
         util.yield(10)
     end)
 
-    menu.toggle_loop(griefing, "Flame loop", {}, "Spam fire beneath the target", function()
+    menu.toggle_loop(griefing, "Flame loop", {"fireon"}, "Spam fire beneath the target", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
         util.yield(25)
     end)
 
-    menu.toggle_loop(griefing, "Water Jet loop", {}, "Spam water jets beneath the target", function()
+    menu.toggle_loop(griefing, "Water Jet loop", {"wateron"}, "Spam water jets beneath the target", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
         util.yield(25)
     end)
 
-    menu.toggle_loop(griefing, "Crap trail", {}, "", function()
+    menu.toggle_loop(griefing, "Crap trail", {"crapon"}, "", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] + 1.5
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
         util.yield(65)
     end)
+
+    menu.toggle_loop(griefing, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    c.z = c.z -1
+    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
+        STREAMING.REQUEST_ANIM_DICT(agroup)
+        util.yield()
+    end
+    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
+    util.yield(100)
+    entities.create_object(mshit, c)
+    end)
+
+menu.toggle_loop(griefing, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    c.z = c.z -1
+    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
+        STREAMING.REQUEST_ANIM_DICT(agroup)
+        util.yield()
+    end
+    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
+    util.yield(100)
+    entities.create_object(rshit, c)
+end)
+
 
     menu.toggle_loop(griefing, "Flame path", {}, "They better run", function()
         local coords = players.get_position(pid)
