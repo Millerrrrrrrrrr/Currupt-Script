@@ -4908,7 +4908,7 @@ end)
 
 
 
-   menu.toggle_loop(griefing, "Lamar Spam", {"togglelamar"}, "Send's a ton of Lamar's (only works on others, not yourself). Might crash a legit player", function(on_toggle)
+   menu.toggle_loop(griefing, "Lamar Spam", {"togglelamar"}, "Send's a ton of Lamar's only works on others, not yourself. Might crash a legit player (If you loose your hair, type U command : gostory)", function(on_toggle)
             if pid ~= players.user() and players.exists(pid) and not aU then
                 aU = true
                 pedhash = 0x45463A0D
@@ -4949,7 +4949,7 @@ end)
         end)
 
 
-   menu.toggle_loop(griefing, "Wade Spam", {"togglewade"}, "Send's a ton of wades (only works on others, not yourself). Might crash a legit player", function(on_toggle)
+   menu.toggle_loop(griefing, "Wade Spam", {"togglewade"}, "Send's a ton of wades only works on others, not yourself. Might crash a legit player (If you loose your hair, type U command : gostory)", function(on_toggle)
             if pid ~= players.user() and players.exists(pid) then
                 pedhash = 0xD266D9D6
                 while not STREAMING.HAS_MODEL_LOADED(pedhash) do
