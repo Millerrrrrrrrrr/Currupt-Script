@@ -1328,20 +1328,6 @@ opti_settings = menu.toggle(main_menu,'Optimised Settings', {""}, 'Improve FPS a
     menu.trigger_commands("autocompletespecialsell "..opti_value)
 end)
 
-menu.action(main_menu, "Press if stuck", {}, "Press if the warehouse screen/scaleform gets stuck. It will forcequit you to SP, but you at least wont have to restart your game.", function()
-    menu.trigger_commands("forcequittosp")
-end)
-
-
-menu.action(main_menu,'Solo Spoofed Session', {""}, 'Reduces even more risks.\nNOTE: Will make you go in solo session with spoofed session so you cant be crashed or checked by R* Admins.', function()
-	if menu.get_value(afkMoneyCargo) then
-        util.toast(luaname.."You need to turn off Money Loop !")
-    else
-	    menu.trigger_commands("go solo")
-	    menu.trigger_commands("spoofsession storymode")
-    end
-end)
-
 moneyMultiplier = menu.toggle_loop(main_menu, 'Disable RP', {""}, 'Dont earn anymore RP with cargo sells.', function()
 	if menu.get_value(moneyMultiplier) then
         util.draw_debug_text("RP Disabled")
@@ -1351,12 +1337,13 @@ moneyMultiplier = menu.toggle_loop(main_menu, 'Disable RP', {""}, 'Dont earn any
 	end
 end)
 
-menu.divider(main_menu, "Misc")
-menu.action(main_menu,'Restart the game', {""}, 'Use it if you are stuck in the warehouse screen.', function()
-	default_settings()
-	menu.trigger_commands("stopluamusinessbanager")
-	menu.trigger_commands("forcequittosp")
-	menu.trigger_commands("stopluamusinessbanagercargoaddon")
+menu.action(main_menu,'Solo Spoofed Session', {""}, 'Reduces even more risks.\nNOTE: Will make you go in solo session with spoofed session so you cant be crashed or checked by R* Admins.', function()
+	    menu.trigger_commands("go solo")
+	    menu.trigger_commands("spoofsession storymode")
+end)
+
+menu.action(main_menu, "Send To Storymode If Stuck", {"gostorymode"}, "Press if the warehouse screen/scaleform gets stuck. It will forcequit you to SP, but you at least wont have to restart your game.", function()
+    menu.trigger_commands("forcequittosp")
 end)
 
 
