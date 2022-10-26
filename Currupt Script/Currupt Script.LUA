@@ -4597,11 +4597,10 @@ GenerateFeatures = function(pid)
 
 	menu.toggle(troll_sub_vehicle_tab, "Stealth Remote Control", {"stealthremote"}, "Enters there vehicle without them knowing and exits the same way. Note: It will disable them using that car unti lspawned again.", function(on_toggle)
 	if on_toggle then
+		menu.trigger_commands("tpmyspot")
 		menu.trigger_commands("invisibility" .. " On")
                   	menu.trigger_commands("otr")
 		menu.trigger_commands("tpveh" .. players.get_name(pid))
-		menu.trigger_commands("undoteleport")
-		menu.trigger_commands("tpmyspot")
 		menu.trigger_commands("rc" .. " On")
 	else
                   	menu.trigger_commands("otr")
