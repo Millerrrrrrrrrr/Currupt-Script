@@ -7809,10 +7809,10 @@ end, false)
     			end)
 
 
-    local scrash = menu.list(crash, "Crash Event (S1)", {}, "")
+    local scrash = menu.list(crash, "TODO Crash (S1)", {}, "")
 
-    	menu.action(scrash, "Crash Event (S1)", {"s1crash"}, "", function()
-    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    	menu.action(scrash, "TODO Crash (S1)", {"s1crash"}, "", function()
+    	notification("TODO Crash (S1) sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
         			for i = 1, 15 do
@@ -7826,10 +7826,10 @@ end, false)
         			end
         	menu.trigger_commands("givesh" .. players.get_name(pid))
         			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    	notification("TODO Crashed" .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     			end)
 
-    	menu.toggle_loop(scrash, "Crash Event (S1)", {"s1crash"}, "", function(on_toggle)
+    	menu.toggle_loop(scrash, "TODO Crash (S1)", {"toggles1crash"}, "Note: DO NOT SPECTATE WHEN TOGGLED.", function(on_toggle)
     	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		local int_min = -2147483647
         		local int_max = 2147483647
