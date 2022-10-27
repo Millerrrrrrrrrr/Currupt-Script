@@ -17,10 +17,6 @@ Jayphen
 ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 util.keep_running()
-util.require_natives(1640181023)
-util.require_natives(1627063482)
-util.require_natives(1660775568)
-util.require_natives(1651208000)
 util.require_natives("natives-1660775568")
 util.require_natives("natives-1651208000")
 util.require_natives("natives-1627063482")
@@ -710,45 +706,21 @@ players.on_join(function(player_id)
 end)
 
 players.dispatch_on_join()
-
--- All credit goes to lance#8213 for this, I did not write any of it.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--           __  ___   ______   _   __   __  __   ____     ____          
+--          /  |/  /  / ____/  / | / /  / / / /  / __ \   / __ \ \ \ \ \   
+--         / /|_/ /  / __/    /  |/ /  / / / /  / / / /  / / / /  _____ |
+--        / /  / /  / /___   / /|  /  / /_/ /  / /_/ /  / /_/ _/ / /_/
+--       /_/  /_/  /_____/  /_/ |_/   \____/   \____/   \____/            
 
 slaxdom = require("lib/slaxdom")
 slaxml = require("lib/slaxml")
+lunajson = require("lunajson")
+local iniparser = require("iniparser")
+local fail_text = "This file failed to load properly and may be of an unsupported format. Please submit a bug report on Discord and attach the vehicle you just tried loading."
+local instruction_text = "\nHold shift and ctrl while clicking an option to delete this vehicle from your directory.\nHold space and click an option to add to your favorites."
 
-vehicles_dir = filesystem.scripts_dir() .. '\\menyoo vehicles\\'
-if not filesystem.is_dir(vehicles_dir) then
-    filesystem.mkdir(vehicles_dir)
-end
-
-maps_dir = filesystem.scripts_dir() .. '\\menyoo maps\\'
-if not filesystem.is_dir(maps_dir) then
-    filesystem.mkdir(maps_dir)
-end
-
-local function file_exists(path)
-    local file = io.open(path, "rb")
-    if file then file:close() end
-    return file ~= nil
-end
-
-local function split_str(inputstr, sep)
-    if sep == nil then
-            sep = "%s"
-    end
-    local t={}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-            table.insert(t, str)
-    end
-    return t
-end
-
-local function nil_handler(val, default)
-    if val == nil then
-        val = default
-    end
-    return val
-end
+	menyoos = menu.list(menu.my_root(), "Menyoo", {}, "", function(); end)
 
 function request_anim_dict(dict)
     request_time = os.time()
@@ -764,44 +736,7 @@ function request_anim_dict(dict)
     end
 end
 
-local function to_boolean(text)
-    if text == 'true' or text == "1" then
-        return true
-    end
-    return false
-end
-
-local function log(content)
-    if verbose then
-        util.log("[SPOONER] " .. content)
-    end
-end
-
-local function parse_xml(path)
-    -- does this path even exist?
-    if not file_exists(path) then
-        util.toast("yeah mate that file doesn\'t exist, pretty cringe")
-        return
-    end
-    -- break file into string
-    local xml = io.open(path):read('*all')
-    -- dom that shit ;)
-    local dom = slaxdom:dom(xml, {stripWhitespace=true})
-    -- return our dominant superior ;)
-    return dom
-end
-
-local function get_element_text(el)
-    local pieces = {}
-    for _,n in ipairs(el.kids) do
-      if n.type=='element' then pieces[#pieces+1] = get_element_text(n)
-      elseif n.type=='text' then pieces[#pieces+1] = n.value
-      end
-    end
-    return table.concat(pieces)
-end
-
-local function request_model_load(hash)
+function request_model_load(hash)
     request_time = os.time()
     if not STREAMING.IS_MODEL_VALID(hash) then
         return
@@ -814,6 +749,298 @@ local function request_model_load(hash)
         util.yield()
     end
 end
+
+
+function hasValue( tbl, str )
+    local f = false
+    for i = 1, #tbl do
+        if type( tbl[i] ) == "table" then
+            f = hasValue( tbl[i], str )  --  return value from recursion
+            if f then break end  --  if it returned true, break out of loop
+        elseif tbl[i] == str then
+            return true
+        end
+    end
+    return f
+end
+
+
+function split_str(inputstr, sep)
+    if sep == nil then
+            sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end
+
+function to_boolean(text)
+    if text == 'true' or text == "1" then
+        return true
+    end
+    return false
+end
+
+function get_element_text(el)
+    local pieces = {}
+    for _,n in ipairs(el.kids) do
+      if n.type=='element' then pieces[#pieces+1] = get_element_text(n)
+      elseif n.type=='text' then pieces[#pieces+1] = n.value
+      end
+    end
+    return table.concat(pieces)
+end
+
+
+store_dir = filesystem.store_dir() .. '\\LanceSpooner\\'
+
+
+vehicles_dir = store_dir .. '\\vehicles\\'
+if not filesystem.is_dir(vehicles_dir) then
+    filesystem.mkdir(vehicles_dir)
+end
+
+
+maps_dir = store_dir .. '\\maps\\'
+if not filesystem.is_dir(maps_dir) then
+    filesystem.mkdir(maps_dir)
+end
+
+
+
+function parse_xml(path)
+    -- does this path even exist?
+    if not filesystem.exists(path) then
+        util.toast("Error parsing XML. File doesn\'t exist?")
+        return
+    end
+    -- break file into string
+    local xml = io.open(path):read('*all')
+    -- dom that shit ;)
+    local dom = slaxdom:dom(xml, {stripWhitespace=true})
+    -- return our dominant superior ;)
+    return dom
+end
+
+all_vehicles = {}
+all_maps = {}
+
+favorite_vehicles = {}
+favorite_maps = {}
+
+function search_vehicle(query)
+    local finds = {}
+    for i, path in ipairs(filesystem.list_files(vehicles_dir)) do
+        local v_name = path:gsub(vehicles_dir, '')
+        if string.endswith(v_name, '.ini') or string.endswith(v_name, '.xml') or string.endswith(v_name, '.json') then
+            if string.contains(string.lower(v_name), query) then
+                finds[#finds + 1] = v_name
+            end
+        end
+    end
+    return finds
+end
+
+function search_map(query)
+    local finds = {}
+    for i, path in ipairs(filesystem.list_files(maps_dir)) do
+        local m_name = path:gsub(maps_dir, '')
+        if string.endswith(m_name, '.xml')then
+            if string.contains(string.lower(m_name), query) then
+                finds[#finds + 1] = m_name
+            end
+        end
+    end
+    return finds
+end
+
+local v_search_results_action 
+local m_search_results_action
+
+function get_file_type(file_path)
+    local _, _, ext = string.match(file_path, "(.-)([^\\/]-%.?)[.]([^%.\\/]*)$")
+    return ext
+end
+
+	menu.divider(menyoos, "Vehicles")
+
+menu.action(menyoos, "Search vehicle", {"lssearchv"}, "", function(click_type)
+    menu.show_command_box("lssearchv" .. " ")
+    end, function(on_command)
+        local results = search_vehicle(on_command)
+        if #results == 0 then 
+            util.toast("No results :(")
+        else
+            menu.set_list_action_options(v_search_results_action, results)
+            menu.trigger_commands("lsvsearchresults")
+        end
+end)
+
+function load_vehicle(path)
+    local ext = get_file_type(path) 
+    pluto_switch ext do 
+        case "xml": 
+            menyoo_load_vehicle(path)
+            break 
+        case "ini":
+            ini_load_vehicle(path:gsub(vehicles_dir, ''))
+            break 
+        case "json":
+            json_load_vehicle(path)
+            break 
+        pluto_default:
+            util.toast("This is not a supported file.")
+    end
+end
+
+function load_map(path)
+    local ext = get_file_type(path) 
+    pluto_switch ext do 
+        case "xml": 
+            menyoo_load_map(path)
+            break
+        pluto_default:
+            util.toast("This is not a supported file.")
+    end
+end
+
+function favorite_vehicle(file_name)
+    local full_path = vehicles_dir .. '\\' .. file_name
+    local half_path = vehicles_dir .. '\\'
+    os.rename(full_path, half_path .. '[F] ' .. file_name)
+    util.toast(file_name .. " added to favorites!")
+    get_all_vehicles_in_dir()
+end
+
+function favorite_map(file_name)
+    local full_path = maps_dir .. '\\' .. file_name
+    local half_path = maps_dir .. '\\'
+    os.rename(full_path, half_path .. '[F] ' .. file_name)
+    util.toast(file_name .. " added to favorites!")
+    get_all_maps_in_dir()
+end
+
+local load_vehicle_action = menu.list_action(menyoos, "Load vehicle", {}, "Load a vehicle. " .. instruction_text, all_vehicles, function(index, value)
+    local path = vehicles_dir .. '\\' .. value
+    if util.is_key_down(0x10) and util.is_key_down(0x11) then
+        os.remove(path)
+        util.toast(value .. " deleted! :)")
+        get_all_vehicles_in_dir()
+    elseif util.is_key_down(0x20) then 
+        favorite_vehicle(value)
+    else
+        load_vehicle(vehicles_dir .. '\\' .. value)
+    end
+end)
+
+loaded_vehicles_root = menu.list(menyoos, "Currently loaded vehicles", {"lancespoonerloadedvehicles"}, "Vehicles you have spawned")
+
+	menu.divider(menyoos, "Maps")
+
+menu.action(menyoos, "Search map", {"lssearchmap"}, "", function(click_type)
+    menu.show_command_box("lssearchmap" .. " ")
+    end, function(on_command)
+        local results = search_map(on_command)
+        if #results == 0 then 
+            util.toast("No results :(")
+        else
+            menu.set_list_action_options(m_search_results_action, results)
+            menu.trigger_commands("lsmsearchresults")
+        end
+end)
+
+local load_map_action = menu.list_action(menyoos, "Load map", {}, "Load a map. " .. instruction_text, all_maps, function(index, value)
+    local path = maps_dir .. '\\' .. value
+    if util.is_key_down(0x10) and util.is_key_down(0x11) then
+        os.remove(path)
+        util.toast(value .. " deleted! :)")
+        get_all_maps_in_dir()
+    elseif util.is_key_down(0x20) then 
+        favorite_map(value)
+    else
+        load_map(path)
+    end
+end)
+loaded_maps_root = menu.list(menyoos, "Currently loaded maps", {"lancespoonerloadedmaps"}, "Maps you have loaded")
+
+	menu.divider(menyoos, "Favorites")
+
+local load_favorite_vehicle_action = menu.list_action(menyoos, "Favorite vehicles", {}, "Load a vehicle.", favorite_vehicles, function(index, value)
+    load_vehicle(vehicles_dir .. '\\' .. value)
+end)
+
+local load_favorite_map_action = menu.list_action(menyoos, "Favorite maps", {}, "Load a map.", favorite_maps, function(index, value)
+    load_map(maps_dir .. '\\' .. value)
+end)
+
+
+function get_all_vehicles_in_dir()
+    local temp_vehicles = {}
+    local temp_favorite_vehicles = {}
+    local temp_favorite_maps = {}
+    local supported_formats = {'.xml', '.ini', '.json'}
+    for i, path in ipairs(filesystem.list_files(vehicles_dir)) do
+        for _, fmt in pairs(supported_formats) do 
+            if string.match(path:gsub(vehicles_dir, ''), fmt) then
+                temp_vehicles[#temp_vehicles + 1] = path:gsub(vehicles_dir, '')
+                if string.startswith(path:gsub(vehicles_dir, ''), '[F]') then 
+                    temp_favorite_vehicles[#temp_favorite_vehicles+1] = path:gsub(vehicles_dir, '')
+                end
+            end
+        end
+    end
+
+    all_vehicles = temp_vehicles
+    favorite_vehicles = temp_favorite_vehicles
+    menu.set_list_action_options(load_vehicle_action, all_vehicles)
+    menu.set_list_action_options(load_favorite_vehicle_action, favorite_vehicles)
+end
+
+function get_all_maps_in_dir()
+    local temp_maps = {}
+    local temp_favorite_maps = {}
+    for i, path in ipairs(filesystem.list_files(maps_dir)) do
+        if string.match(path:gsub(maps_dir, ''), '.xml') then
+            temp_maps[#temp_maps + 1] = path:gsub(maps_dir, '')
+            if string.startswith(path:gsub(maps_dir, ''), '[F]') then 
+                temp_favorite_maps[#temp_favorite_maps+1] = path:gsub(maps_dir, '')
+            end
+        end
+    end
+
+
+    all_maps = temp_maps
+    favorite_maps = temp_favorite_maps
+    menu.set_list_action_options(load_map_action, all_maps)
+    menu.set_list_action_options(load_favorite_map_action, favorite_maps)
+end
+
+get_all_vehicles_in_dir()
+get_all_maps_in_dir()
+
+util.create_thread(function()
+    while true do
+        get_all_vehicles_in_dir()
+        get_all_maps_in_dir()
+        util.yield(5000)
+    end
+end)
+
+	menu.divider(menyoos, "Search Results")
+
+v_search_results = {}
+v_search_results_action = menu.list_action(menyoos, "Vehicle search results", {"lsvsearchresults"}, "", v_search_results, function(index, value)
+    local path = vehicles_dir .. '\\' .. value
+    load_vehicle(path)
+end)
+
+m_search_results = {}
+m_search_results_action = menu.list_action(menyoos, "Map search results", {"lsmsearchresults"}, "", m_search_results, function(index, value)
+    local path = maps_dir .. '\\' .. value
+    menyoo_load_map(path)
+end)
 
 function menyoo_preprocess_ped(ped, att_data, entity_initial_handles)
     local ped_data = {}
@@ -869,6 +1096,13 @@ function menyoo_preprocess_ped(ped, att_data, entity_initial_handles)
     end
 end
 
+function nil_handler(val, d)
+    if val == nil then
+        val = d
+    end
+    return val
+end
+
 function menyoo_preprocess_entity(entity, data)
     data['Dynamic'] = nil_handler(data['Dynamic'], true)
     data['FrozenPos'] = nil_handler(data['FrozenPos'], true)
@@ -889,7 +1123,6 @@ function menyoo_preprocess_entity(entity, data)
 end
 
 function menyoo_preprocess_car(vehicle, data)
-    log("Preprocessing vehicle " .. vehicle)
     local colors = menyoo_build_properties_table(data['Colours'].kids)
     local neons = menyoo_build_properties_table(data['Neons'].kids)
     local doorsopen = menyoo_build_properties_table(data['DoorsOpen'].kids)
@@ -904,10 +1137,17 @@ function menyoo_preprocess_car(vehicle, data)
         end
     end
     local mods = menyoo_build_properties_table(data['Mods'].kids)
+    local mod_extras = menyoo_build_properties_table(data['ModExtras'].kids)
+    if mod_extras ~= nil then 
+        for k,v in pairs(mod_extras) do
+            k = k:gsub('_', '')
+            VEHICLE.SET_VEHICLE_EXTRA(vehicle, k, not to_boolean(v))
+        end
+    end
     
     for k,v in pairs(neons) do
         local comp = {['Left']=0, ['Right']=1, ['Front']=2, ['Back']=3}
-        VEHICLE._SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, comp[k], to_boolean(v))
+        VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, comp[k], to_boolean(v))
     end
 
     VEHICLE.SET_VEHICLE_WHEEL_TYPE(vehicle, tonumber(data['WheelType']))
@@ -917,6 +1157,7 @@ function menyoo_preprocess_car(vehicle, data)
         VEHICLE.SET_VEHICLE_MOD(vehicle, tonumber(k), tonumber(v[1]), to_boolean(v[2]))
     end
 
+
     for k,v in pairs(colors) do
         colors[k] = tonumber(v)
     end
@@ -924,8 +1165,8 @@ function menyoo_preprocess_car(vehicle, data)
     VEHICLE.SET_VEHICLE_COLOURS(vehicle, colors['Primary'], colors['Secondary'])
     VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, colors['Pearl'], colors['Rim'])
     VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, colors['tyreSmoke_R'], colors['tyreSmoke_G'], colors['tyreSmoke_B'])
-    VEHICLE._SET_VEHICLE_INTERIOR_COLOR(vehicle, colors['LrInterior'])
-    VEHICLE._SET_VEHICLE_DASHBOARD_COLOR(vehicle, colors['LrDashboard'])
+    VEHICLE.SET_VEHICLE_EXTRA_COLOUR_5(vehicle, colors['LrInterior'])
+    VEHICLE.SET_VEHICLE_EXTRA_COLOUR_6(vehicle, colors['LrDashboard'])
     local livery = tonumber(data['Livery'])
     if livery == -1 then
         livery = 0
@@ -948,11 +1189,9 @@ function menyoo_preprocess_car(vehicle, data)
     if data['EngineHealth'] ~= nil then
         VEHICLE.SET_VEHICLE_ENGINE_HEALTH(vehicle, tonumber(data['EngineHealth']))
     end
-    log("Preprocessing complete for vehicle " .. vehicle)
 end
 
 function menyoo_build_properties_table(kids)
-    log("Building a menyoo properties table...")
     if kids ~= nil then
         local table = {}
         for k,v in pairs(kids) do
@@ -965,10 +1204,9 @@ function menyoo_build_properties_table(kids)
     return nil
 end
 
-local function menyoo_load_map(path)
+function menyoo_load_map(path)
     local all_entities = {}
-    util.toast("Your map is loading. This can take some time.")
-    log("Loading a map from " .. path)
+    util.toast("Your map is loading!...")
     local entity_initial_handles = {}
     local xml_tbl = parse_xml(path).root
     -- n appears to be the enum of the kid, k is the actual kid table
@@ -995,13 +1233,11 @@ local function menyoo_load_map(path)
         end
         if name == 'Placement' then
             for c,d in pairs(b.kids) do
-                log(d.name)
                 if d.name == 'PositionRotation' then
                     for e, f in pairs(d.kids) do
                         data[f.name] = get_element_text(f)
                     end
                 elseif d.name == 'VehicleProperties' then
-                    log("vprope")
                     isvehicle = true
                     for n, p in pairs(d.kids) do
                         local prop_name = p.name
@@ -1017,7 +1253,6 @@ local function menyoo_load_map(path)
                 else
                     data[d.name] = get_element_text(d)
                 end
-                log("done")
             end
             mmpos = {}
             mmpos.x = tonumber(data['X'])
@@ -1051,38 +1286,34 @@ local function menyoo_load_map(path)
             end
         end
     end
-    mm_maproot = menu.list(menyoomloaded_root, path:gsub(maps_dir, "") .. ' [' .. mmblip .. ']', {"menyooloadedmaps" .. mmblip}, "Maps you have loaded")
-    menu.action(mm_maproot, "Teleport to map", {"menyoomteleportto" .. mmblip}, "Teleport to this map.", function()
+    if mmblip == nil then 
+        util.toast("There was an issue loading this map. Make sure the XML is a Menyoo XML.")
+        return 
+    end
+    mm_maproot = menu.list(loaded_maps_root, path:gsub(maps_dir, "") .. ' [' .. mmblip .. ']', {"lancespoonerloadedmaps" .. mmblip}, "Maps you have loaded")
+    menu.action(mm_maproot, "Teleport to map", {"menyoomteleportto" .. mmblip}, "Teleport to this map.", function(on_click)
         ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), mmpos.x, mmpos.y, mmpos.z, false, false, false)
     end)
 
-    menu.action(mm_maproot, "Delete map", {"menyoomdelete" .. mmblip}, "cease it to exist.", function()
+    menu.action(mm_maproot, "Delete map", {"menyoomdelete" .. mmblip}, "", function(on_click)
         for k,v in pairs(all_entities) do
             entities.delete_by_handle(v)
         end
         menu.delete(mm_maproot)
         -- apparently remove blip is fucked, so we set sprite to invis as a failsafe
-        HUD.SET_BLIP_ALPHA(mmblip, 0)
-        --HUD.REMOVE_BLIP(mmblip)
+        util.remove_blip(mmblip)
     end)
     util.toast("Map load complete. Look for a magenta-colored L on your map.")
 end
 
-local function menyoo_load_vehicle(path, ped, doteleport, ours)
-    log("Loading vehicle for ped " .. ped)
+function menyoo_load_vehicle(path)
+    our_ped = players.user_ped()
     local all_entities = {}
-    if ours then
-        log("This is ours")
-        mvped = PLAYER.PLAYER_PED_ID()
-    else
-        log("This is theirs")
-        mvped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(ped)
-    end
-    log("Loading a vehicle from " .. path)
     local entity_initial_handles = {}
     local data = {}
     local vproperties = {}
     local xml_tbl = parse_xml(path).root
+    local initial_handle_index = 0
     -- n appears to be the enum of the kid, k is the actual kid table
     for k,v in pairs(xml_tbl.kids) do
         local name = v.name
@@ -1104,16 +1335,19 @@ local function menyoo_load_vehicle(path, ped, doteleport, ours)
             end
         end
     end
+    if data['ModelHash'] == nil then 
+        util.toast(fail_text)
+        return 
+    end
     request_model_load(data['ModelHash'])
-    local coords = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(mvped, 0.0, 5.0, 0.0)
-    local vehicle = entities.create_vehicle(data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(PLAYER.PLAYER_PED_ID()))
+    local coords = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(our_ped, 0.0, 5.0, 0.0)
+    local vehicle = entities.create_vehicle(data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(our_ped))
     table.insert(all_entities, vehicle)
     ENTITY.SET_ENTITY_INVINCIBLE(vehicle, true)
-    if doteleport then
-        PED.SET_PED_INTO_VEHICLE(PLAYER.PLAYER_PED_ID(), vehicle, -1)
-    end
+    PED.SET_PED_INTO_VEHICLE(our_ped, vehicle, -1)
     if data['InitialHandle'] == nil then
-        data['InitialHandle'] = math.random(10000, 30000)
+        initial_handle_index = initial_handle_index + 1
+        data['InitialHandle'] = initial_handle_index
     end
     entity_initial_handles[data['InitialHandle']] = vehicle
     -- apply natives that can apply to any entity
@@ -1152,19 +1386,16 @@ local function menyoo_load_vehicle(path, ped, doteleport, ours)
             local entity = nil
             local isped = false
             if att_data['Type'] == '1' then
-                local ped = entities.create_ped(0, att_data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(PLAYER.PLAYER_PED_ID()))
+                local ped = entities.create_ped(0, att_data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(ourped))
                 menyoo_preprocess_ped(ped, att_data, entity_initial_handles)
                 entity = ped
             elseif att_data['Type'] == '2' then
-                local veh = entities.create_vehicle(att_data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(PLAYER.PLAYER_PED_ID()))
+                local veh = entities.create_vehicle(att_data['ModelHash'], coords, ENTITY.GET_ENTITY_HEADING(ourped))
                 entity = veh
                 menyoo_preprocess_entity(veh, att_data)
                 menyoo_preprocess_car(veh, vproperties)
             elseif att_data['Type'] == '3' then
                 local obj = entities.create_object(att_data['ModelHash'], coords)
-                NETWORK.NETWORK_REGISTER_ENTITY_AS_NETWORKED(obj)
-                local objID = NETWORK.NETWORK_GET_NETWORK_ID_FROM_ENTITY(obj)
-                NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(objID, true)
                 entity = obj
                 menyoo_preprocess_entity(obj, att_data)
                 -- obj code
@@ -1193,113 +1424,644 @@ local function menyoo_load_vehicle(path, ped, doteleport, ours)
             ENTITY.ATTACH_ENTITY_TO_ENTITY(k, entity_initial_handles[v['attachedto']], v['bone'], v['x'], v['y'], v['z'], v['pitch'], v['roll'], v['yaw'], true, false, true, v['isped'], 2, true)
         end
     end
-    log("Vehicle has been loaded.")
     local this_blip = HUD.ADD_BLIP_FOR_ENTITY(vehicle)
     HUD.SET_BLIP_SPRITE(this_blip, 77)
     HUD.SET_BLIP_COLOUR(this_blip, 47)
-    local this_veh_root = menu.list(menyoovloaded_root, vehicle .. " [" .. VEHICLE.GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(ENTITY.GET_ENTITY_MODEL(vehicle)) .. "]", {"menyoov" .. vehicle}, "")
-    menu.action(this_veh_root, "Delete", {"deletemenyoov" .. vehicle}, "Delete this vehicle. Make it cease to exist.", function()
+    local this_veh_root = menu.list(loaded_vehicles_root, path:gsub(vehicles_dir .. '\\', ''), {"lancespoonerv" .. vehicle}, "")
+    menu.action(this_veh_root, "Delete", {"deletelancespoonerv" .. vehicle}, "Delete this vehicle. Make it cease to exist.", function(on_click)
         for k,v in pairs(all_entities) do
             entities.delete_by_handle(v)
         end
         menu.delete(this_veh_root)
-        HUD.SET_BLIP_ALPHA(this_blip, 0)
-        --HUD.REMOVE_BLIP(this_blip)
+        util.remove_blip(this_blip)
     end)
-    menu.action(this_veh_root, "Teleport inside", {"teleportemenyoov" .. vehicle}, "oh fuck yeah ride it", function()
+    menu.action(this_veh_root, "Teleport inside", {"teleportemenyoov" .. vehicle}, "", function(on_click)
         PED.SET_PED_INTO_VEHICLE(PLAYER.PLAYER_PED_ID(), vehicle, -1)
     end)
     return vehicle
 end
 
+function ini_preprocess_vehicle(vehicle, data, ini_type, veh_index) 
+    -- vehicle is a handle to an already-spawned vehicle
+    if ini_type == 1 then
+        VEHICLE.SET_VEHICLE_COLOURS(vehicle, data.Primary or 0, data.Secondary or 0)
+        VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, data.SmokeR or 0, data.SmokeG or 0, data.SmokeB or 0)
+        VEHICLE.SET_VEHICLE_NEON_COLOUR(vehicle, data.NeonR or 0, data.NeonG or 0, data.NeonB or 0)
+        VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LANCE")
+        VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, data.Dirt or 0)
+        VEHICLE.SET_VEHICLE_ENVEFF_SCALE(vehicle, data.PaintFade or 0)
+        VEHICLE.SET_VEHICLE_WHEEL_TYPE(vehicle, data.Wheels or 0)
+        VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, data.Pearl or 0, data.WheelColor or 0)
+        VEHICLE.SET_VEHICLE_WINDOW_TINT(vehicle, data.Tint or 0)
 
-
-local menyoo_root = menu.list(menu.my_root(), "Menyoo", {"menyoo"}, "Menyoo support!")
-local menyoovmain_root = menu.list(menyoo_root, "Vehicles", {"menyoovehicles"}, "Menyoo vehicle support!")
-local menyoom1_root = menu.list(menyoo_root, "Maps", {"menyoomapsroot"}, "Menyoo maps support!")
-local menyoom_root = menu.list(menyoom1_root, "Maps", {"menyooallmaps"}, "All maps in your directory")
-menyoomloaded_root = menu.list(menyoom1_root, "Currently loaded maps", {"menyooloadedmaps"}, "Maps you have loaded")
-local menyoov_root = menu.list(menyoovmain_root, "All vehicles", {"menyooloadedmaps"}, "Vehicles you have spawned")
-menyoovloaded_root = menu.list(menyoovmain_root, "Currently loaded vehicles", {"menyooloadedmaps"}, "Vehicles you have spawned")
-
-
-
-local function setup_menyoo_vehicles_list(mainroot, player, allplayers, dotp)
-    for i, path in ipairs(filesystem.list_files(vehicles_dir)) do
-        root = mainroot
-        local ours = false
-        if player == players.user() then
-            ours = true 
+        if data['BulletProofTires'] == 1 then 
+            VEHICLE.SET_VEHICLE_TYRES_CAN_BURST(vehicle, false)
         end
-        if filesystem.is_dir(path) then
-            root = menu.list(root, path:gsub(vehicles_dir, ''), {}, "")
-            for i,path in ipairs(filesystem.list_files(path)) do
-                if not allplayers then
-                    menu.action(root, path:gsub(vehicles_dir, ''), {}, "Spawn this menyoo vehicle", function(on_click)
-                        log("Click type was " .. on_click)
-                        menyoo_load_vehicle(path, player, dotp, ours)
-                    end)
-                else
-                    menu.action(root, path:gsub(vehicles_dir, ''), {}, "Spawn this menyoo vehicle for all players", function(on_click)
-                        for k,v in pairs(players.list(true, true, true)) do
-                            log("Click type was " .. on_click)
-                            menyoo_load_vehicle(path, v, dotp, false)
-                        end
-                    end)
-                end
-            end
-        else
-            if string.match(path:gsub(vehicles_dir, ''), '.xml') then
-                if not allplayers then
-                    menu.action(root, path:gsub(vehicles_dir, ''), {}, "Spawn this menyoo vehicle", function(on_click)
-                        log("Click type was " .. on_click)
-                        menyoo_load_vehicle(path, player, dotp, ours)
-                    end)
-                else
-                    menu.action(root, path:gsub(vehicles_dir, ''), {}, "Spawn this menyoo vehicle for all players", function(on_click)
-                        for k,v in pairs(players.list(true, true, true)) do
-                            log("Click type was " .. on_click)
-                            menyoo_load_vehicle(path, v, dotp, false)
-                        end
-                    end)
-                end
+        for i=1, 4 do 
+            if data['Neon' .. i] == 1 then 
+                VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, i, true)
             end
         end
+
+        for i=0, 48 do
+            if data[i] ~= nil then 
+                -- idk how we even determine if a car has custom tires in this format
+                VEHICLE.SET_VEHICLE_MOD(vehicle, i, data[i], false)
+            end
+        end
+
+        for i=1, 9 do 
+            VEHICLE.SET_VEHICLE_EXTRA(vehicle, i, if data['extra' .. i] == 0 then true else false)
+        end
+
+    elseif ini_type == 2 then
+        local v_mods = data['Vehicle Mods']
+        local v_extras = data['Vehicle Extras']
+        local v_toggles = data['Vehicle Toggles']
+        local data = data.Vehicle 
+        VEHICLE.SET_VEHICLE_COLOURS(vehicle, data['primary paint'] or 0, data['secondary paint'] or 0)
+        VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, data['tyre smoke red'] or 0, data['tyre smoke green'] or 0, data['tyre smoke blue'] or 0)
+        VEHICLE.SET_VEHICLE_NEON_COLOUR(vehicle, data['neon red'] or 0, data['neon green'] or 0, data['neon blue'] or 0)
+        VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LANCE")
+        VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, data['dirt level'] or 0)
+        --VEHICLE.SET_VEHICLE_ENVEFF_SCALE(vehicle, data.PaintFade or 0)
+        VEHICLE.SET_VEHICLE_WHEEL_TYPE(vehicle, data['wheel type'] or 0)
+        VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, data['pearlescent colour'] or 0, data['wheel colour'] or 0)
+        VEHICLE.SET_VEHICLE_WINDOW_TINT(vehicle, data['window tint'] or 0)
+        VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(vehicle, data['plate index'] or 0)
+
+        if data['bulletproof tyres'] == 1 then 
+            VEHICLE.SET_VEHICLE_TYRES_CAN_BURST(vehicle, false)
+        end
+
+        for i=1, 4 do 
+            if data['neon ' .. i] == 1 then 
+                VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, i, true)
+            end
+        end
+
+        for i= 1, 7 do 
+            if data['door ' .. i .. ' state'] == 1 then
+                VEHICLE.SET_VEHICLE_DOOR_OPEN(vehicle, i, false, true)
+            end
+        end
+
+        for i=0, 48 do
+            if v_mods[i] ~= nil then 
+                -- idk how we even determine if a car has custom tires in this format
+                VEHICLE.SET_VEHICLE_MOD(vehicle, i, v_mods[i], false)
+            end
+        end
+
+        for i=1, 9 do 
+            VEHICLE.SET_VEHICLE_EXTRA(vehicle, i, if v_extras[i] == 0 then true else false)
+        end
+
+        for i=17, 22 do 
+            VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, i, if v_toggles[i] == 1 then true else false)
+        end
+
+    elseif ini_type == 3 then
+        VEHICLE.SET_VEHICLE_COLOURS(vehicle, data.PrimaryPaint or 0, data.SecondaryPaint or 0)
+        if data.PrimaryPaint == -1 then 
+            VEHICLE.SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(vehicle, data.PrimaryR or 0, data.PrimaryG or 0, data.PrimaryB or 0)
+        end 
+        if data.SecondaryPaint == -1 then 
+            VEHICLE.SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(vehicle, data.SecondaryR, data.SecondaryG, data.SecondaryB)
+        end
+        VEHICLE.SET_VEHICLE_MOD_COLOR_1(vehicle, data.PrimaryPaintT or 0, data.PrimaryPaint or 0, data.Pearlescent or 0)
+        VEHICLE.SET_VEHICLE_MOD_COLOR_2(vehicle, data.SecondaryPaintT or 0, data.SecondaryPaint or 0)
+        VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, data.SmokeR or 0, data.SmokeG or 0, data.SmokeB or 0)
+        VEHICLE.SET_VEHICLE_NEON_COLOUR(vehicle, data.NeonR or 0, data.NeonG or 0, data.NeonB or 0)
+        VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LANCE")
+        --VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, data.Dirt or 0)
+        VEHICLE.SET_VEHICLE_ENVEFF_SCALE(vehicle, data.PaintFade or 0)
+        VEHICLE.SET_VEHICLE_WHEEL_TYPE(vehicle, data.Wheels or 0)
+        VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, data.Pearlescent or 0, data.WheelsColor or 0)
+        VEHICLE.SET_VEHICLE_WINDOW_TINT(vehicle, data.WindowTint or 0)
+        VEHICLE.SET_VEHICLE_EXTRA_COLOUR_6(vehicle, data.DashColor)
+        VEHICLE.SET_VEHICLE_EXTRA_COLOUR_5(vehicle, data.DashLightColor)
+
+        if data.BulletProof == 1 then 
+            VEHICLE.SET_VEHICLE_TYRES_CAN_BURST(vehicle, false)
+        end
+        if data.NeonEnabled == 1 then
+            for i=1, 4 do 
+                VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, i, true)
+            end
+        end
+
+        for i=0, 48 do
+            if data[i] ~= nil then 
+                VEHICLE.SET_VEHICLE_MOD(vehicle, i, data[i], data.CustomTyres)
+            end
+        end
+
+        for i=17, 22 do 
+            VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, i, if data['TOGGLE_' .. i] == 1 then true else false)
+        end
+
+        for i=1, 9 do 
+            VEHICLE.SET_VEHICLE_EXTRA(vehicle, i, if data['Extra_' .. i] == 0 then true else false)
+        end
+
+    elseif ini_type == 4 then 
+        util.toast("This INI is only partially supported. Sorry if things look weird or some things are missing.")
+        local v_root = data['Vehicle' .. veh_index]
+        local v_mods = data['Vehicle' .. veh_index .. "Mods"]
+        local v_extras = data['Vehicle' .. veh_index .. "Extras"]
+        local v_toggles = data['Vehicle' .. veh_index .. "Toggles"]
+        local v_smoke = data['Vehicle' .. veh_index .. "TireSmoke"]
+        local v_neon = data['Vehicle' .. veh_index .. "Neon"]
+        local v_neon_color = data['Vehicle' .. veh_index .. "NeonColor"]
+        local v_paintfade = data['Vehicle' .. veh_index .. "PaintFade"]
+        local v_color_main = data['Vehicle' .. veh_index .. "VehicleColors"]
+        local v_color_extra = data['Vehicle' .. veh_index .. "ExtraColors"]
+        local v_color_custom_p = data['Vehicle' .. veh_index .. "CustomPrimaryColor"]
+        local v_color_custom_s = data['Vehicle' .. veh_index .. "CustomSecondaryColor"]
+        local v_wheel_type = data['Vehicle' .. veh_index .. "WheelType"]
+        local v_plate = data['Vehicle' .. veh_index .. "Numberplate"]
+        local v_window_tint = data['Vehicle' .. veh_index .. "WindowTint"]
+        local v_is_custom_primary = data['Vehicle' .. veh_index .. "IsCustomPrimary"]
+        local v_is_custom_secondary = data['Vehicle' .. veh_index .. "IsCustomSecondary"]
+        local data = data['Vehicle' .. veh_index]
+
+        for i=0, 49 do
+            if data['M' .. tostring(i)] ~= nil then 
+                VEHICLE.SET_VEHICLE_MOD(vehicle, i, v_mods['M' .. i], false)
+            end
+        end
+
+        for i=0, 49 do 
+            VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, i, v_toggles['T' .. i])
+        end
+
+        for i=1, 13 do 
+            VEHICLE.SET_VEHICLE_EXTRA(vehicle, i, v_extras['E' .. i])
+        end
+
+        for i=1, 4 do 
+            VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, i, v_neon["Enabled" .. i])
+        end
+
+        ENTITY.SET_ENTITY_DYNAMIC(vehicle, v_root.Dynamic)
+        ENTITY.SET_ENTITY_VISIBLE(vehicle, v_root.Visible, 0)
+        VEHICLE.SET_VEHICLE_COLOURS(vehicle, v_color_main.Primary or 0, v_color_main.Secondary or 0)
+        if v_is_custom_primary['bool'] then 
+            VEHICLE.SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(v_color_custom_p.r or 0, v_color_custom_p.g or 0, v_color_custom_p.b or 0)
+        end
+
+        if v_is_custom_secondary['bool'] then 
+            VEHICLE.SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(v_color_custom_s.r or 0, v_color_custom_s.g or 0, v_color_custom_s.b or 0)
+        end
+
+        VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, v_color_extra.Pearl or 0, v_color_extra.Wheel or 0)
+
+    
+        VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, v_smoke.R or 0, v_smoke.G or 0, v_smoke.B or 0)
+        VEHICLE.SET_VEHICLE_NEON_COLOUR(vehicle, v_neon_color.R or 0, v_neon_color.G or 0, v_neon_color.B or 0)
+        VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LANCE")
+        --VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, data.Dirt or 0)
+        VEHICLE.SET_VEHICLE_ENVEFF_SCALE(vehicle, v_paintfade.PaintFade or 0)
+        VEHICLE.SET_VEHICLE_WHEEL_TYPE(vehicle, v_wheel_type or 0)
+        VEHICLE.SET_VEHICLE_WINDOW_TINT(vehicle, v_window_tint or 0)
+        ENTITY.SET_ENTITY_INVINCIBLE(vehicle, v_root.Invincible or false)
+        ENTITY.SET_ENTITY_HAS_GRAVITY(vehicle, v_root.Gravity or true)
+        ENTITY.FREEZE_ENTITY_POSITION(vehicle, v_root.Freeze or false)
+        ENTITY.SET_ENTITY_RENDER_SCORCHED(vehicle, v_root.ScorchedRender or false)
+        ENTITY.SET_ENTITY_ALPHA(vehicle, v_root.Alpha or 255, false) 
+        VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, v_root.Dirt or 0.0) 
+        VEHICLE.SET_VEHICLE_ENGINE_ON(vehicle, v_root.IsEngineOn, true, false)
+        VEHICLE.SET_VEHICLE_LIGHT_MULTIPLIER(vehicle, v_root.HeadlightMultiplier or 1.0)
     end
 end
 
-local function setup_menyoo_maps_list()
-    for i, path in ipairs(filesystem.list_files(maps_dir)) do
-        if filesystem.is_dir(path) then
-            root = menu.list(menyoom_root, path:gsub(maps_dir, ''), {}, "")
-            for i,path in ipairs(filesystem.list_files(path)) do
-                menu.action(root, path:gsub(maps_dir, ''), {}, "Spawn this menyoo map", function()
-                    menyoo_load_map(path)
-                end)
+function tprint (tbl, indent)
+    if not indent then indent = 0 end
+    for k, v in pairs(tbl) do
+      formatting = string.rep("  ", indent) .. k .. ": "
+      if type(v) == "table" then
+        print(formatting)
+        tprint(v, indent+1)
+      elseif type(v) == 'boolean' then
+        print(formatting .. tostring(v))      
+      else
+        print(formatting .. v)
+      end
+    end
+  end
+
+function ini_load_vehicle(file_name)
+    local data
+    success, data = pcall(iniparser.parse, file_name, vehicles_dir)
+    if not success then 
+        util.toast("Something bad happened when trying to load this INI! Please check the INI file and try again. ")
+    end
+    local all_entities = {}
+    local ini_type = -1
+    -- determine type of ini file 
+    -- type 1 has no spaces in it (i.e Airship.xml). 
+    -- type 2 does and has  lowercase shit (420 Hydra.ini). it's also extremely stupid
+    -- type 3 is extremely similar to type 1, but has values like PrimaryPaintT (BayWatch Blazer.xml)
+    -- type 4 has an "AllObjects", "AllPeds", "AllVehicles" section in the ini (4tire_bike.ini)
+    -- type 5 has AllObjects and AllVehicles (Boat-fsx.ini) (seems like theres an iniparser glitch in this one)
+    -- type 6 is like type 2, but some keys are different, namely the numbers for attachments are called "Attached Object x" (Tankamid.ini)
+
+    if data.Vehicle.model == nil and data.Vehicle.PrimaryPaintT == nil and data.AllVehicles.Count == nil then 
+        ini_type = 1
+    elseif data.Vehicle.model ~= nil and data['Attached Object 1'].model == nil then 
+        ini_type = 2
+    elseif data.Vehicle.model == nil and data.Vehicle.PrimaryPaintT ~= nil then 
+        ini_type = 3
+    elseif data.AllObjects.Count ~= nil and data.AllVehicles.Count ~= nil and data.AllPeds.Count ~= nil then 
+        ini_type = 4
+    elseif data.Vehicle.model ~= nil and data['Attached Object 1'].model ~= nil then 
+        ini_type = 6
+    end
+
+
+    if ini_type == -1 then
+        util.toast("This ini type is not supported (yet??)! Sorry :(")
+        return
+    end
+    -- there is also an ini type 6...
+    local initial_vehicle
+    local v_count = 1
+    local success = false
+    if ini_type == 1 then 
+        local v_hash = data['Vehicle']['Model']
+        if v_hash == nil then 
+            util.toast(fail_text)
+            return
+        end
+        local c = players.get_position(players.user())
+        request_model_load(v_hash)
+        initial_vehicle = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+        all_entities[#all_entities+1] = initial_vehicle
+        ini_preprocess_vehicle(initial_vehicle, data['Vehicle'], ini_type)
+        local attachment_index = 0
+        while true do 
+            if data[tostring(attachment_index)].Model == nil then 
+                success = true
+                break
             end
-        else
-            if string.match(path:gsub(maps_dir, ''), '.xml') then
-                menu.action(menyoom_root, path:gsub(maps_dir, ''), {}, "Spawn this menyoo map", function()
-                    menyoo_load_map(path)
-                end)
+            local here = data[tostring(attachment_index)]
+            request_model_load(here.Model)
+            local this_ent = entities.create_object(here.Model, players.get_position(players.user()))
+            all_entities[#all_entities+1] = this_ent
+            if this_ent ~= nil then
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(this_ent, initial_vehicle, here['Bone'], here['X'], here['Y'], here['Z'], here['RotX'], here['RotY'], here['RotZ'], true, if here['Collision'] == 1 then true else false, true, false, 2, true)
+                if here['Froozen'] == 1 then 
+                    ENTITY.FREEZE_ENTITY_POSITION(this_ent, true)
+                end
+
+                if here['Lit'] == 1 then 
+                    FIRE.START_ENTITY_FIRE(this_ent)
+                end
+                attachment_index = attachment_index + 1
+            end
+        end
+    elseif ini_type == 2 then
+        local v_hash = data.Vehicle.model
+        if v_hash == nil then 
+            util.toast(fail_text)
+            return
+        end
+        local c = players.get_position(players.user())
+        request_model_load(v_hash)
+        initial_vehicle = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+        all_entities[#all_entities+1] = initial_vehicle
+        ini_preprocess_vehicle(initial_vehicle, data, ini_type)
+        local attachment_index = 0
+        while true do 
+            if data[tostring(attachment_index)].model == nil then 
+                success = true
+                break
+            end
+            local here = data[tostring(attachment_index)]
+            request_model_load(here.model)
+            local this_ent = entities.create_object(here.model, players.get_position(players.user()))
+            if this_ent ~= nil then
+                all_entities[#all_entities+1] = this_ent
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(this_ent, initial_vehicle, 0, here['x'], here['y'], here['z'], here['RotX'], here['RotY'], here['RotZ'], true, false, true, false, 2, true)
+                attachment_index = attachment_index + 1
+            end
+        end
+
+    elseif ini_type == 3 then
+        local v_hash = data.Vehicle.Model
+        if v_hash == nil then 
+            util.toast(fail_text)
+            return
+        end
+        local c = players.get_position(players.user())
+        request_model_load(v_hash)
+        initial_vehicle = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+        all_entities[#all_entities+1] = initial_vehicle
+        ini_preprocess_vehicle(initial_vehicle, data.Vehicle, ini_type)
+        local attachment_index = 0
+        while true do 
+            if data[tostring(attachment_index)].Model == nil then 
+                success = true
+                break
+            end
+            local here = data[tostring(attachment_index)]
+            request_model_load(here.Model)
+            local this_ent = entities.create_object(here.Model, players.get_position(players.user()))
+            if this_ent ~= nil then
+                all_entities[#all_entities+1] = this_ent
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(this_ent, initial_vehicle, 0, here['X'], here['Y'], here['Z'], here['RotX'], here['RotY'], here['RotZ'], true, false, true, false, 2, true)
+                attachment_index = attachment_index + 1
+            end
+        end
+    
+    elseif ini_type == 4 then 
+        local numerations = {}
+        local attachments_data = {}
+        local veh_index = 0
+        local object_index = 0 
+        local ped_index = 0
+        while true do
+            if data['Vehicle' .. tostring(veh_index)].Hash == nil then 
+                success = true
+                break
+            end
+            local here = data['Vehicle' .. tostring(veh_index)]
+            if here.Hash == nil then 
+                util.toast(fail_text)
+                return
+            end
+            request_model_load(here.Hash)
+            local this_vehicle = entities.create_vehicle(here.Hash, players.get_position(players.user()), ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+            if veh_index == 0 then 
+                initial_vehicle = this_vehicle
+            end
+            numerations[here.SelfNumeration] = this_vehicle
+            if here.IsAttached then
+                attachments_data[here.SelfNumeration] = {attachee = this_vehicle, attached_to = here.AttachNumeration, x = here.OffsetX, y = here.OffsetY, z = here.OffsetZ, pitch = here.Pitch, yaw = here.Yaw, roll = here.Roll, bone = here.Bone, collision = here.Collision}
+            end
+            all_entities[#all_entities+1] = this_vehicle
+            ini_preprocess_vehicle(this_vehicle, data, ini_type, veh_index)
+            veh_index = veh_index + 1
+        end
+
+        while true do
+            if data['Object' .. tostring(object_index)].Hash == nil then 
+                success = true
+                break
+            end
+            local here = data['Object' .. tostring(object_index)]
+            request_model_load(here.Hash)
+            local this_object = entities.create_object(here.Hash, players.get_position(players.user()))
+            numerations[here.SelfNumeration] = this_object
+            if here.IsAttached then
+                attachments_data[here.SelfNumeration] = {attachee = this_object, attached_to = here.AttachNumeration, x = here.OffsetX, y = here.OffsetY, z = here.OffsetZ, pitch = here.Pitch, yaw = here.Yaw, roll = here.Roll, bone = here.Bone, collision = here.Collision}
+            end
+            all_entities[#all_entities+1] = this_object
+            ENTITY.SET_ENTITY_DYNAMIC(veh, here.Dynamic)
+            ENTITY.SET_ENTITY_VISIBLE(veh, here.Visible) 
+            ENTITY.SET_ENTITY_HAS_GRAVITY(veh, here.Gravity)
+            ENTITY.FREEZE_ENTITY_POSITION(veh, here.Freeze)
+            object_index = object_index + 1
+        end
+
+        for k,v in pairs(attachments_data) do
+            if v.attachee ~= nil and numerations[v.attached_to] ~= nil then
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(v.attachee, numerations[v.attached_to], v.Bone, v.x, v.y, v.z, v.pitch, v.roll, v.yaw, true, false, v.collision, false, 2, true)
+            end
+        end
+
+    elseif ini_type == 6 then 
+        local v_hash = data.Vehicle.model
+        local c = players.get_position(players.user())
+        if v_hash == nil then 
+            util.toast(fail_text)
+            return
+        end
+        request_model_load(v_hash)
+        initial_vehicle = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+        all_entities[#all_entities+1] = initial_vehicle
+        ini_preprocess_vehicle(initial_vehicle, data, ini_type)
+        local attachment_index = 1
+        while true do 
+            if data['Attached Object ' .. tostring(attachment_index)].model == nil then 
+                success = true
+                break
+            end
+            local here = data['Attached Object ' .. tostring(attachment_index)]
+            request_model_load(here.model)
+            local this_ent = entities.create_object(here.model, players.get_position(players.user()))
+            all_entities[#all_entities+1] = this_ent
+            if this_ent ~= nil then
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(this_ent, initial_vehicle, 0, here['x offset'], here['y offset'], here['z offset'], here['pitch'], here['roll'], here['yaw'], true, false, if here['collision'] == 1 then true else false, false, 2, true)
+                attachment_index = attachment_index + 1
             end
         end
     end
+
+    if success then
+        PED.SET_PED_INTO_VEHICLE(players.user_ped(), initial_vehicle, -1)
+        local this_veh_root = menu.list(loaded_vehicles_root, file_name, {"lancespoonerv" .. initial_vehicle}, "")
+
+        local this_blip = HUD.ADD_BLIP_FOR_ENTITY(initial_vehicle)
+        HUD.SET_BLIP_SPRITE(this_blip, 77)
+        HUD.SET_BLIP_COLOUR(this_blip, 47)
+
+        menu.action(this_veh_root, "Delete", {"deletelancespoonerv" .. initial_vehicle}, "Delete this vehicle. Make it cease to exist.", function(on_click)
+            for k,v in pairs(all_entities) do
+                entities.delete_by_handle(v)
+            end
+            menu.delete(this_veh_root)
+            util.remove_blip(this_blip)
+        end)
+
+        menu.action(this_veh_root, "Teleport inside", {"teleportemenyoov" .. initial_vehicle}, "", function(on_click)
+            PED.SET_PED_INTO_VEHICLE(PLAYER.PLAYER_PED_ID(), initial_vehicle, -1)
+        end)
+
+    else
+        util.toast(fail_text)
+    end
 end
 
-setup_menyoo_vehicles_list(menyoov_root, players.user(), false, true)
-setup_menyoo_maps_list()
+function json_preprocess_vehicle(vehicle, data, initial_vehicle)
+    local sd = data.savedata
+    local mods = sd.Mods
+    if vehicle ~= initial_vehicle then
+        if data.data ~= nil then 
+            -- for the updated edition
+            ENTITY.SET_ENTITY_VISIBLE(vehicle, data.data.visible, 0)
+            ENTITY.SET_ENTITY_INVINCIBLE(vehicle, data.data.godmode)
+        else
+            if sd.godmode ~= nil then
+                ENTITY.SET_ENTITY_INVINCIBLE(vehicle, sd.godmode)
+            end
+            ENTITY.SET_ENTITY_VISIBLE(vehicle, data.visible, 0)
+        end
+    else
+        if data.godmode ~= nil then
+            ENTITY.SET_ENTITY_INVINCIBLE(vehicle, data.godmode)
+        end
+        if data.visible ~= nil then
+            ENTITY.SET_ENTITY_VISIBLE(vehicle, data.visible, 0)
+        end
+    end
+
+    if vehicle ~= initial_vehicle then 
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle, initial_vehicle, 0, data.offset.x, data.offset.y, data.offset.z, data.rotation.x, data.rotation.y, data.rotation.z, true, false, true, false, 2, true)
+    end
+
+    -- for some reason jackz used the name of the mod instead of the mod index / mod type lol
+    -- otherwise, this code couldve taken up just 3 lines
+    -- not like i couldnt have used a table, but still, come on...
+    VEHICLE.SET_VEHICLE_TYRE_SMOKE_COLOR(vehicle, sd['Tire Smoke'].r, sd['Tire Smoke'].g, sd['Tire Smoke'].b)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 0, mods['Spoilers'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 1, mods['Ornaments'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 2, mods['Front Bumper'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 3, mods['Side Skirt'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 4, mods['Exhaust'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 5, mods['Frame'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 6, mods['Grille'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 7, mods['Hood'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 8, mods['Fender'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 9, mods['Right Fender'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 10, mods['Roof'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 11, mods['Engine'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 12, mods['Brakes'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 13, mods['Transmission'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 14, mods['Horns'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 15, mods['Suspension'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 16, mods['Armor'], false)
+    -- no front wheels in spec? lol?
+    --VEHICLE.SET_VEHICLE_MOD(vehicle, 23, mods['Front Wheels'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 24, mods["Motorcycle Back Wheel Design"], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 25, mods['Plate Holders'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 27, mods['Trim Design'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 28, mods['Ornaments'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 28, mods['Ornaments'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 30, mods['Dial Design'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 33, mods['Steering Wheel'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 34, mods['Shifter Leavers'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 35, mods['Plaques'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 36, mods['Hydraulics'], false)
+    VEHICLE.SET_VEHICLE_MOD(vehicle, 48, mods['Livery'], false)
+
+    -- toggle 
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 17, mods.Toggles.UNK17)
+    -- typo here in the jackz json spec btw, not my fault :|
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 18, mods.Toggles['Turbo Turning'])
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 19, mods.Toggles['UNK19'])
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 20, mods.Toggles['Tire Smoke'])
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 21, mods.Toggles['UNK21'])
+    VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 22, mods.Toggles['Xenon Headlights'])
+    -------
+    VEHICLE.SET_VEHICLE_TYRES_CAN_BURST(vehicle, not sd['Bulletproof Tires'])
+    VEHICLE.SET_VEHICLE_DIRT_LEVEL(vehicle, sd['Dirt Level'])
+    VEHICLE.SET_VEHICLE_WINDOW_TINT(vehicle, sd['Window Tint'])
+    VEHICLE.SET_VEHICLE_EXTRA_COLOUR_6(vehicle, sd['Dashboard Color'])
+    for i=10, 11 do 
+        VEHICLE.SET_VEHICLE_EXTRA(vehicle, i, not sd.Extras[i])
+    end
+    -- lights
+    VEHICLE.SET_VEHICLE_EXTRA_COLOUR_5(vehicle, sd['Interior Color'])
+    VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, 0, sd.Lights.Neon.Left)
+    VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, 1, sd.Lights.Neon.Right)
+    VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, 2, sd.Lights.Neon.Front)
+    VEHICLE.SET_VEHICLE_NEON_ENABLED(vehicle, 3, sd.Lights.Neon.back)
+    VEHICLE.SET_VEHICLE_NEON_COLOUR(vehicle, sd.Lights.Neon.Color.r, sd.Lights.Neon.Color.g, sd.Lights.Neon.Color.b) 
+    VEHICLE.SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(vehicle, sd.Lights['Xenon Color'])
+    VEHICLE.SET_VEHICLE_ENGINE_ON(vehicle, sd['Engine Running'], true, false) 
+    -- colors 
+    local colors = sd.Colors
+    -- why is there a custom rgb color in the "vehicle" colors but also in both primary and secondary fields? what is the point?
+    VEHICLE.SET_VEHICLE_COLOURS(vehicle, colors.Vehicle.Primary, colors.Vehicle.Secondary)
+    if colors.Primary.Custom then 
+        VEHICLE.SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(vehicle, colors.Primary['Custom Color'].r, colors.Primary['Custom Color'].g, colors.Primary['Custom Color'].b)
+    end
+    if colors.Secondary.Custom then 
+        VEHICLE.SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(vehicle, colors.Secondary['Custom Color'].r, colors.Secondary['Custom Color'].g, colors.Secondary['Custom Color'].b)
+    end
+    VEHICLE.SET_VEHICLE_EXTRA_COLOURS(vehicle, colors.Extras.pearlescent, colors.Extras.wheel)
+    VEHICLE.SET_VEHICLE_ENVEFF_SCALE(vehicle, colors['Paint Fade'])
+    VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LANCE")
+end
+
+local supported_jackz_versions = {'1.1.0', '1.3.0', '1.3.1', '1.4.0'}
+function json_load_vehicle(path)
+    local all_entities = {}
+    local success = false
+    local fp = io.open(path, "r")
+    if not fp then 
+        util.toast("Error opening " .. path)
+        return
+    end
+    local json_string = fp:read("*all")
+    local json_tbl = lunajson.decode(json_string)
+    if json_tbl.version ~= nil then 
+        local disp_version = string.gsub(json_tbl.version, 'Jackz Custom Vehicle ', '')
+        if not table.contains(supported_jackz_versions, disp_version) then 
+            util.toast("This Jackz JSON edition is not known to be supported by LanceSpooner (version " .. disp_version .. "). We'll try to load it anyways but some things may not work. If it does work, let us know so we can show this message less!")
+        end
+    else
+        util.toast("This is a very old Jackz vehicle that is probably not supported (or this isn't a Jackz vehicle at all). Things may break but we'll try to load it anyways.")
+    end
+    local base = json_tbl.base
+    if base.model == nil then 
+        util.toast(fail_text)
+        return
+    end
+    local v_hash = base.model
+    request_model_load(v_hash)
+    local c = players.get_position(players.user())
+    local initial_vehicle = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+    all_entities[#all_entities + 1] = initial_vehicle
+    json_preprocess_vehicle(initial_vehicle, base, initial_vehicle)
+
+    for k,o in pairs(json_tbl.objects) do 
+        request_model_load(o.model)
+        local this_obj = entities.create_object(o.model, c)
+        all_entities[#all_entities + 1] = this_obj
+        ENTITY.SET_ENTITY_VISIBLE(this_obj, o.visible, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(this_obj, initial_vehicle, 0, o.offset.x, o.offset.y, o.offset.z, o.rotation.x, o.rotation.y, o.rotation.z, true, false, true, false, 2, true)
+    end
+
+    if json_tbl.vehicles ~= nil then 
+        for k,veh in pairs(json_tbl.vehicles) do 
+            local v_hash = veh.model
+            request_model_load(v_hash)
+            local this_veh = entities.create_vehicle(v_hash, c, ENTITY.GET_ENTITY_HEADING(players.user_ped()))
+            all_entities[#all_entities + 1] = this_veh
+            json_preprocess_vehicle(this_veh, veh, initial_vehicle)
+        end
+    end
+
+    success = true 
+    if success then
+        PED.SET_PED_INTO_VEHICLE(players.user_ped(), initial_vehicle, -1)
+        local this_veh_root = menu.list(loaded_vehicles_root, path:gsub(vehicles_dir, ''), {"lancespoonerv" .. initial_vehicle}, "")
+        local this_blip = HUD.ADD_BLIP_FOR_ENTITY(initial_vehicle)
+        HUD.SET_BLIP_SPRITE(this_blip, 77)
+        HUD.SET_BLIP_COLOUR(this_blip, 47)
+
+        menu.action(this_veh_root, "Delete", {"deletelancespoonerv" .. initial_vehicle}, "Delete this vehicle. Make it cease to exist.", function(on_click)
+            for k,v in pairs(all_entities) do
+                entities.delete_by_handle(v)
+            end
+            menu.delete(this_veh_root)
+            util.remove_blip(this_blip)
+        end)
+
+        menu.action(this_veh_root, "Teleport inside", {"teleportejsonv" .. initial_vehicle}, "", function(on_click)
+            PED.SET_PED_INTO_VEHICLE(PLAYER.PLAYER_PED_ID(), initial_vehicle, -1)
+        end)
+
+    else
+        util.toast("Something bad happened! This JSON could not be loaded properly. Sorry :'(")
+    end
+end
 
 
-
-vehicle_uses = 0
-ped_uses = 0
-pickup_uses = 0
-player_uses = 0
-object_uses = 0
-robustmode = false
-reap = false
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	cargoloops = menu.list(menu.my_root(), "Cargo Loop", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
 
 	cargoloo = menu.list(cargoloops, "Open Musiness Banager First", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
