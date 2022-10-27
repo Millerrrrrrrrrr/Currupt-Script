@@ -706,6 +706,8 @@ players.on_join(function(player_id)
 end)
 
 players.dispatch_on_join()
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --           __  ___   ______   _   __   __  __   ____     ____          
 --          /  |/  /  / ____/  / | / /  / / / /  / __ \   / __ \ \ \ \ \   
@@ -4383,6 +4385,16 @@ menu.toggle_loop(protex, "Anti-Beast", {}, "Prevents you from being turned into 
     end
 end)
 
+	menu.toggle_loop(protex, "Clear Notifications", {"clearnotifs"}, "Clears notifs above mini map", function(on_toggle)
+		if on then
+			menu.trigger_commands("clearnotifications")
+			util.yield(1000000)
+		else
+			menu.trigger_commands("clearnotifications")
+		end
+	
+	end)
+
 
 	menu.action(protex, "Force Stop all sound events", {"stopsounds"}, "", function()
 		for i=-1,100 do
@@ -4832,6 +4844,66 @@ menu.slider(funfun, "Change seat", {"switchseat"}, "DriverSeat = -1 Passenger = 
 	local vehicle = entities.get_user_vehicle_as_handle()
 	PED.SET_PED_INTO_VEHICLE(ped, vehicle, seatnumber)
 end)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+local windows = {
+    {name = "Front Left", number = 0},
+    {name = "Front Right", number = 1},
+    {name = "Rear Left", number = 2},
+    {name = "Rear Right", number = 3},
+    {name = "Front Windscreen", number = 4},
+    {name = "Rear Windscreen", number = 5},
+    {name = "Mid Left", number = 6},
+    {name = "Mid Right", number = 7}
+}
+
+drawScriptMenu = function()
+
+local wrolls = menu.list(funfun, "Roll Windows", {}, "", function(); end)
+
+ROLL_DOWN_INDIVIDUAL = menu.list(wrolls, "Roll down individual windows")
+    for k, v in pairs(windows) do
+        menu.action(ROLL_DOWN_INDIVIDUAL, "Roll down " .. v.name .. " window", {}, "Rolls down " .. v.name .. " window", function()
+        currentVehicle = entities.get_user_vehicle_as_handle()
+        VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, v.number)
+        end)
+    end
+ROLL_UP_INDIVIDUAL = menu.list(wrolls, "Roll up individual windows")
+    for k, v in pairs(windows) do
+        menu.action(ROLL_UP_INDIVIDUAL, "Roll up " .. v.name .. " window", {}, "Rolls up " .. v.name .. " window", function()
+        currentVehicle = entities.get_user_vehicle_as_handle()
+        VEHICLE.ROLL_UP_WINDOW(currentVehicle, v.number)
+        end)
+    end
+
+menu.action(wrolls, "Roll all down", {"pwcalldown"}, "Rolls all windows of the current vehicle down", function()
+    currentVehicle = entities.get_user_vehicle_as_handle()
+    VEHICLE.ROLL_DOWN_WINDOWS(currentVehicle)
+end)
+menu.action(wrolls, "Roll all up", {"pwcallup"}, "Rolls all windows of the current vehicle up", function()
+    for k, v in pairs(windows) do
+        currentVehicle = entities.get_user_vehicle_as_handle()
+        VEHICLE.ROLL_UP_WINDOW(currentVehicle, v.number)
+    end
+end)
+
+menu.action(wrolls, "Roll down front windows", {"pwcfrontdown"}, "Rolls the front left/front right windows down. Probably the most relevant", function()
+    currentVehicle = entities.get_user_vehicle_as_handle()
+    VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 0)
+    VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 1)
+end)
+menu.action(wrolls, "Roll down rear windows", {"pwcreardown"}, "Rolls the rear left/rear right windows down", function()
+    currentVehicle = entities.get_user_vehicle_as_handle()
+    VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 2)
+    VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 3)
+end)
+
+end
+
+
+
+drawScriptMenu()
 
 	playermode = menu.list(funfun, "Player Modes", {}, "", function(); end)
 
@@ -7734,6 +7806,45 @@ end, false)
         			util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
         			util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
         			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+    			end)
+
+
+    local scrash = menu.list(crash, "Crash Event (S1)", {}, "")
+
+    	menu.action(scrash, "Crash Event (S1)", {"s1crash"}, "", function()
+    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        		local int_min = -2147483647
+        		local int_max = 2147483647
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
+            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+        			end
+        			util.yield()
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+        			end
+        	menu.trigger_commands("givesh" .. players.get_name(pid))
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+    			end)
+
+    	menu.toggle_loop(scrash, "Crash Event (S1)", {"s1crash"}, "", function(on_toggle)
+    	notification("Testing Testing 1-2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        		local int_min = -2147483647
+        		local int_max = 2147483647
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
+            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+        			end
+        			util.yield()
+        			for i = 1, 15 do
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+        			end
+        	menu.trigger_commands("givesh" .. players.get_name(pid))
+        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+    	notification("Testing Testing 1-2 " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     			end)
 
 
@@ -13259,120 +13370,7 @@ function save_favorites()
 end
 
 ----------------------------------------------------------------------------------------------------------------
-resources_dir = filesystem.resources_dir() .. '/sexlua/'
 
-attire_root = menu.list(sexscript, "Attire", {"sexluaattire"}, "")
-locations_root = menu.list(sexscript, "Sex locations", {"sexlualocations"}, "")
-anims_root = menu.list(sexscript, "Sex animations", {"sexluaanims"}, "")
-menu.action(anims_root, "Stop all anims", {"sexstopanims"}, "", function(on_click)
-    TASK.CLEAR_PED_TASKS_IMMEDIATELY(PLAYER.PLAYER_PED_ID())
-end)
-
-anims_vroot = menu.list(anims_root, "Vehicle", {"sexanimsveh"}, "")
-anims_vroot_receiver = menu.list(anims_vroot, "Receiver", {"sexanimsvehreceiver"}, "")
-anims_vroot_giver = menu.list(anims_vroot, "Giver", {"sexanimsvehgiver"}, "")
-
-anims_nroot = menu.list(anims_root, "Normal", {"sexanimsnormal"}, "")
-anims_nroot_self = menu.list(anims_nroot, "Self", {"sexanimsnormalself"}, "")
-anims_nroot_receiver = menu.list(anims_nroot, "Receiver", {"sexanimsnormalreceiver"}, "")
-anims_nroot_giver = menu.list(anims_nroot, "Giver", {"sexanimsnormalgiver"}, "")
-
-function play_anim(dict, name, duration)
-    ped = PLAYER.PLAYER_PED_ID()
-    while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
-        STREAMING.REQUEST_ANIM_DICT(dict)
-        util.yield()
-    end
-    TASK.TASK_PLAY_ANIM(ped, dict, name, 1.0, 1.0, duration, 3, 0.5, false, false, false)
-    --TASK_PLAY_ANIM(Ped ped, char* animDictionary, char* animationName, float blendInSpeed, float blendOutSpeed, int duration, int flag, float playbackRate, BOOL lockX, BOOL lockY, BOOL lockZ)
-end
-
-function request_model_load(hash)
-    request_time = os.time()
-    if not STREAMING.IS_MODEL_VALID(hash) then
-        return
-    end
-    STREAMING.REQUEST_MODEL(hash)
-    while not STREAMING.HAS_MODEL_LOADED(hash) do
-        if os.time() - request_time >= 10 then
-            break
-        end
-        util.yield()
-    end
-end
-
-function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh)
-    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local bone = PED.GET_PED_BONE_INDEX(ped, bone)
-    local coords = ENTITY.GET_ENTITY_COORDS(ped, true)
-    coords.x = coords['x']
-    coords.y = coords['y']
-    coords.z = coords['z']
-    if isnpc then
-        obj = entities.create_ped(1, hash, coords, 90.0)
-    elseif isveh then
-        obj = entities.create_vehicle(hash, coords, 90.0)
-    else
-        obj = OBJECT.CREATE_OBJECT_NO_OFFSET(hash, coords['x'], coords['y'], coords['z'], true, false, false)
-    end
-    ENTITY.SET_ENTITY_INVINCIBLE(obj, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, bone, offx, offy, offz, angx, angy, angz, false, false, true, false, 0, true)
-    ENTITY.SET_ENTITY_COMPLETELY_DISABLE_COLLISION(obj, false, true)
-end
-
-menu.action(attire_root, "Topless female", {"sextoplessf"}, "", function(on_click)
-    menu.trigger_commands("toplessfemale")
-end)
-
-menu.action(attire_root, "Attach strap-on", {"sexstrapon"}, "", function(on_click)
-    request_model_load(-422877666)
-    attachto(0.15, 0.15, 0.0, players.user(), -90.0, 0.0, 0.0, -422877666, 11816, false, false)
-end)
-
-menu.action(locations_root, "Motel room", {"sexinmotel"}, "", function(on_click)
-    menu.trigger_commands("tpmotelroom")
-end)
-
-menu.action(locations_root, "Bahama mamas", {"sexinbahamasmamas"}, "", function(on_click)
-    menu.trigger_commands("tpbahamamamas")
-end)
-
-menu.action(locations_root, "Floyd\'s house", {"sexinfloydhouse"}, "", function(on_click)
-    menu.trigger_commands("tpfloyd")
-end)
-
-menu.action(anims_vroot_receiver, "Car blowjob", {"sexanimcarblowjobr"}, "", function(on_click)
-    play_anim("mini@prostitutes@sexlow_veh", "low_car_bj_loop_player", -1)
-end)
-
-menu.action(anims_vroot_giver, "Car blowjob", {"sexanimcarblowjobg"}, "", function(on_click)
-    play_anim("mini@prostitutes@sexlow_veh", "low_car_bj_loop_female", -1)
-end)
-
-menu.action(anims_vroot_receiver, "Car sex", {"sexanimcarsexr"}, "", function(on_click)
-    play_anim("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player", -1)
-end)
-
-menu.action(anims_vroot_giver, "Car sex", {"sexanimcarsexg"}, "", function(on_click)
-    play_anim("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female", -1)
-end)
-
-menu.action(anims_nroot_self, "Masturbation", {"sexanimmasturbation"}, "", function(on_click)
-    play_anim("switch@trevor@jerking_off", "trev_jerking_off_loop", -1)
-end)
-
-menu.action(anims_nroot_giver, "Anal", {"sexanimnanalg"}, "", function(on_click)
-    play_anim("rcmpaparazzo_2", "shag_loop_a", -1)
-end)
-
-menu.action(anims_nroot_receiver, "Anal", {"sexanimnanalr"}, "", function(on_click)
-    play_anim("rcmpaparazzo_2", "shag_loop_poppy", -1)
-end)
-
-while true do
-    util.yield()
-end
-----------------------------------------------------------------------------------------------------------------
 
 	menu.toggle(misc, "Rank 420", {"rank"}, "Note: If you save the profile with it toggled it will give you pemanant 420 rank", function(on_toggle)
 			notification("Setting Rank 420...", colors.red)
