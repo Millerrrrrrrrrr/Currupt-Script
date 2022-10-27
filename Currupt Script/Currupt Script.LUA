@@ -4315,6 +4315,7 @@ local chaos, gravity, speed = false, true, 100
 	
 	end)
 
+
 local anti_bounty = menu.list(protex, "Anti-Bounty's")
 
 menu.action(anti_bounty, "Anti-Bounty", {"bountyoff"}, "Turns off bounty's.", function()
@@ -12587,9 +12588,6 @@ function try_require(name, isOptional)
 end
 -- END TEMPLATE --
 
-
-
-
 if metaList then
     menu.divider(metaList, "-- Credits --")
     menu.hyperlink(metaList, "dpemotes", "https://github.com/andristum/dpemotes/", "For the special animations section, code was modified from repository")
@@ -12991,151 +12989,7 @@ local selfSpeechPed = {
     lastUsed = os.millis(),
     model = util.joaat("a_f_m_bevhills_01")
 }
--- Messy globals again
-local speechParam = "Speech_Params_Force"
-local activeSpeech = "GENERIC_HI"
-local ambientSpeechDuration = 1
-local speechDelay = 1000
-local repeatEnabled = false
-local ambientSpeechMenu = menu.list(sexscript, "Ambient Speech", {}, "Allow you to play ambient speeches on yourself or other peds")
-local speechMenu = menu.list(ambientSpeechMenu, "Speech Lines", {"speechlines"}, "List of Speeches peds can say.\nSome lines may not work on some NPCs")
-for _, pair in ipairs(SPEECHES) do
-    local desc = pair[2]
-    if pair[3] then
-        desc = desc .. "\n" .. pair[3]
-    end
-    menu.action(speechMenu, pair[1], {"speak" .. string.lower(pair[1])}, desc, function(a)
-        -- Play single duration for peds
-        if affectType > 0 then
-            if ambientSpeechDuration > 0 then
-                for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-                    if not PED.IS_PED_A_PLAYER(ped) then
-                        if ambientSpeechDuration > 1 then
-                            util.create_thread(function()
-                                NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ped)
-                                for x = 1,ambientSpeechDuration do
-                                    AUDIO.PLAY_PED_AMBIENT_SPEECH_NATIVE(ped, pair[2], speechParam)
-                                    util.yield(speechDelay)
-                                end
-                            end)
-                        else
-                            NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ped)
-                            AUDIO.PLAY_PED_AMBIENT_SPEECH_NATIVE(ped, pair[2], speechParam)
-                        end
-                    end
-                end
-            else
-                
-            end
-        end
-        -- Play single duration for self
-        if affectType == 0 or affectType == 2 then
-            if selfSpeechPed.entity == 0 then
-                create_self_speech_ped()
-            end
-            util.create_thread(function()
-                for _ = 1,ambientSpeechDuration do
-                    AUDIO.PLAY_PED_AMBIENT_SPEECH_NATIVE(selfSpeechPed.entity, pair[2], speechParam)
-                    util.yield(speechDelay)
-                end
-            end)
-            selfSpeechPed.lastUsed = os.millis()
-            --TODO: implement
-        end
-        -- Play repeated for self or peds
-        if ambientSpeechDuration == 0 then
-            activeSpeech = pair[2]
-            if not repeatEnabled then
-                repeatEnabled = true
-                if selfSpeechPed.entity == 0 and affectType ~= 1 then
-                    create_self_speech_ped()
-                end
-                util.create_tick_handler(function(a)
-                    if affectType > 0 then
-                        for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-                            NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ped)
-                            AUDIO.PLAY_PED_AMBIENT_SPEECH_NATIVE(ped, activeSpeech, speechParam)
-                        end
-                    end
-                    if selfSpeechPed.entity > 0 and affectType == 0 or affectType == 2 then
-                        AUDIO.PLAY_PED_AMBIENT_SPEECH_NATIVE(selfSpeechPed.entity, activeSpeech, speechParam)
-                        selfSpeechPed.lastUsed = os.millis()
-                    end
-                    util.yield(speechDelay)
-                    return repeatEnabled
-                end)
-            end
-        end
-    end)
-end
-local speechType = menu.list(ambientSpeechMenu, "Speech Method", {"speechmethods", "How is the line said"})
-for _, pair in ipairs(SPEECH_PARAMS) do
-    menu.action(speechType, pair[1], {}, pair[2], function(a)
-        speechParam = pair[2]
-    end)
-end
-local selfModelVoice = menu.list(ambientSpeechMenu, "Self Model Voice", {"selfvoice", "What model to use when playing a self-ambient speech\nOnly used if your current model is MP (Fe)male"})
-menu.divider(selfModelVoice, "Female Peds")
-for _, model in ipairs(VOICE_MODELS.FEMALE) do
-    menu.action(selfModelVoice, model, {"voice" .. model}, "Uses \"" .. model .. "\" model as your ambient speech voice", function(a)
-        if ENTITY.DOES_ENTITY_EXIST(selfSpeechPed.entity) then
-            entities.delete(selfSpeechPed.entity)
-            selfSpeechPed.entity = 0
-        end
-        selfSpeechPed.model = util.joaat(model)
-    end)
-end
-menu.divider(selfModelVoice, "Male Peds")
-for _, model in ipairs(VOICE_MODELS.MALE) do
-    menu.action(selfModelVoice, model, {"voice" .. model}, "Uses \"" .. model .. "\" model as your ambient speech voice", function(a)
-        if ENTITY.DOES_ENTITY_EXIST(selfSpeechPed.entity) then
-            entities.delete(selfSpeechPed.entity)
-            selfSpeechPed.entity = 0
-        end
-        selfSpeechPed.model = util.joaat(model)
-    end)
-end
 
-menu.slider(ambientSpeechMenu, "Duration", {"speechduration"}, "How many times should the speech be played?\n 0 to play forever, use 'Stop Active Speech' to end.", 0, 100, ambientSpeechDuration, 1, function(value)
-    ambientSpeechDuration = value
-end)
-menu.slider(ambientSpeechMenu, "Speech Interval", {"speechinterval"}, "How many milliseconds per repeat of line?", 100, 30000, speechDelay, 100, function(value)
-    speechDelay = value
-end)
-menu.action(ambientSpeechMenu, "Stop Active Speech", {"stopspeeches"}, "Stops any active ambient speeches", function(a)
-    for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-        AUDIO.STOP_CURRENT_PLAYING_AMBIENT_SPEECH(ped)
-    end
-    -- reuse code cause why not its 11:57 pm I don't care now
-    if ENTITY.DOES_ENTITY_EXIST(selfSpeechPed.entity) then
-        entities.delete(selfSpeechPed.entity)
-    end
-    selfSpeechPed.entity = 0
-    repeatEnabled = false
-end)
-
-function create_self_speech_ped()
-    local my_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user())
-    local model = ENTITY.GET_ENTITY_MODEL(my_ped)
-    -- Freemode models cant do ambient speeches, so we need to change the model to something else:
-    if model == util.joaat("mp_f_freemode_01") or model == util.joaat("mp_m_freemode_01") then
-        model = selfSpeechPed.model
-    end
-    -- Load model in
-    STREAMING.REQUEST_MODEL(model)
-    while not STREAMING.HAS_MODEL_LOADED(model) do
-        util.yield()
-    end
-    -- Finally, spawn it & attach
-    local pos = ENTITY.GET_ENTITY_COORDS(my_ped)
-    local ped = entities.create_ped(1, model, pos, 0)
-    ENTITY._ATTACH_ENTITY_BONE_TO_ENTITY_BONE(ped, my_ped, 0, 0, 0, 0)
-    ENTITY.SET_ENTITY_VISIBLE(ped, false, 0)
-    NETWORK._NETWORK_SET_ENTITY_INVISIBLE_TO_NETWORK(ped, true)
-    selfSpeechPed.entity = ped
-    selfSpeechPed.lastUsed = os.millis()
-    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(model)
-end
 -----------------------
 -- Animation Functions
 ----------------------
@@ -13404,6 +13258,122 @@ function save_favorites()
     file:close()
 end
 
+----------------------------------------------------------------------------------------------------------------
+resources_dir = filesystem.resources_dir() .. '/sexlua/'
+
+attire_root = menu.list(sexscript, "Attire", {"sexluaattire"}, "")
+locations_root = menu.list(sexscript, "Sex locations", {"sexlualocations"}, "")
+anims_root = menu.list(sexscript, "Sex animations", {"sexluaanims"}, "")
+menu.action(anims_root, "Stop all anims", {"sexstopanims"}, "", function(on_click)
+    TASK.CLEAR_PED_TASKS_IMMEDIATELY(PLAYER.PLAYER_PED_ID())
+end)
+
+anims_vroot = menu.list(anims_root, "Vehicle", {"sexanimsveh"}, "")
+anims_vroot_receiver = menu.list(anims_vroot, "Receiver", {"sexanimsvehreceiver"}, "")
+anims_vroot_giver = menu.list(anims_vroot, "Giver", {"sexanimsvehgiver"}, "")
+
+anims_nroot = menu.list(anims_root, "Normal", {"sexanimsnormal"}, "")
+anims_nroot_self = menu.list(anims_nroot, "Self", {"sexanimsnormalself"}, "")
+anims_nroot_receiver = menu.list(anims_nroot, "Receiver", {"sexanimsnormalreceiver"}, "")
+anims_nroot_giver = menu.list(anims_nroot, "Giver", {"sexanimsnormalgiver"}, "")
+
+function play_anim(dict, name, duration)
+    ped = PLAYER.PLAYER_PED_ID()
+    while not STREAMING.HAS_ANIM_DICT_LOADED(dict) do
+        STREAMING.REQUEST_ANIM_DICT(dict)
+        util.yield()
+    end
+    TASK.TASK_PLAY_ANIM(ped, dict, name, 1.0, 1.0, duration, 3, 0.5, false, false, false)
+    --TASK_PLAY_ANIM(Ped ped, char* animDictionary, char* animationName, float blendInSpeed, float blendOutSpeed, int duration, int flag, float playbackRate, BOOL lockX, BOOL lockY, BOOL lockZ)
+end
+
+function request_model_load(hash)
+    request_time = os.time()
+    if not STREAMING.IS_MODEL_VALID(hash) then
+        return
+    end
+    STREAMING.REQUEST_MODEL(hash)
+    while not STREAMING.HAS_MODEL_LOADED(hash) do
+        if os.time() - request_time >= 10 then
+            break
+        end
+        util.yield()
+    end
+end
+
+function attachto(offx, offy, offz, pid, angx, angy, angz, hash, bone, isnpc, isveh)
+    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local bone = PED.GET_PED_BONE_INDEX(ped, bone)
+    local coords = ENTITY.GET_ENTITY_COORDS(ped, true)
+    coords.x = coords['x']
+    coords.y = coords['y']
+    coords.z = coords['z']
+    if isnpc then
+        obj = entities.create_ped(1, hash, coords, 90.0)
+    elseif isveh then
+        obj = entities.create_vehicle(hash, coords, 90.0)
+    else
+        obj = OBJECT.CREATE_OBJECT_NO_OFFSET(hash, coords['x'], coords['y'], coords['z'], true, false, false)
+    end
+    ENTITY.SET_ENTITY_INVINCIBLE(obj, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(obj, ped, bone, offx, offy, offz, angx, angy, angz, false, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_COMPLETELY_DISABLE_COLLISION(obj, false, true)
+end
+
+menu.action(attire_root, "Topless female", {"sextoplessf"}, "", function(on_click)
+    menu.trigger_commands("toplessfemale")
+end)
+
+menu.action(attire_root, "Attach strap-on", {"sexstrapon"}, "", function(on_click)
+    request_model_load(-422877666)
+    attachto(0.15, 0.15, 0.0, players.user(), -90.0, 0.0, 0.0, -422877666, 11816, false, false)
+end)
+
+menu.action(locations_root, "Motel room", {"sexinmotel"}, "", function(on_click)
+    menu.trigger_commands("tpmotelroom")
+end)
+
+menu.action(locations_root, "Bahama mamas", {"sexinbahamasmamas"}, "", function(on_click)
+    menu.trigger_commands("tpbahamamamas")
+end)
+
+menu.action(locations_root, "Floyd\'s house", {"sexinfloydhouse"}, "", function(on_click)
+    menu.trigger_commands("tpfloyd")
+end)
+
+menu.action(anims_vroot_receiver, "Car blowjob", {"sexanimcarblowjobr"}, "", function(on_click)
+    play_anim("mini@prostitutes@sexlow_veh", "low_car_bj_loop_player", -1)
+end)
+
+menu.action(anims_vroot_giver, "Car blowjob", {"sexanimcarblowjobg"}, "", function(on_click)
+    play_anim("mini@prostitutes@sexlow_veh", "low_car_bj_loop_female", -1)
+end)
+
+menu.action(anims_vroot_receiver, "Car sex", {"sexanimcarsexr"}, "", function(on_click)
+    play_anim("mini@prostitutes@sexlow_veh", "low_car_sex_loop_player", -1)
+end)
+
+menu.action(anims_vroot_giver, "Car sex", {"sexanimcarsexg"}, "", function(on_click)
+    play_anim("mini@prostitutes@sexlow_veh", "low_car_sex_loop_female", -1)
+end)
+
+menu.action(anims_nroot_self, "Masturbation", {"sexanimmasturbation"}, "", function(on_click)
+    play_anim("switch@trevor@jerking_off", "trev_jerking_off_loop", -1)
+end)
+
+menu.action(anims_nroot_giver, "Anal", {"sexanimnanalg"}, "", function(on_click)
+    play_anim("rcmpaparazzo_2", "shag_loop_a", -1)
+end)
+
+menu.action(anims_nroot_receiver, "Anal", {"sexanimnanalr"}, "", function(on_click)
+    play_anim("rcmpaparazzo_2", "shag_loop_poppy", -1)
+end)
+
+while true do
+    util.yield()
+end
+----------------------------------------------------------------------------------------------------------------
+
 	menu.toggle(misc, "Rank 420", {"rank"}, "Note: If you save the profile with it toggled it will give you pemanant 420 rank", function(on_toggle)
 			notification("Setting Rank 420...", colors.red)
 			menu.trigger_commands("setrank" .. " 420")
@@ -13444,6 +13414,7 @@ function random_pay()
 	end
 	return randomamount 
 end
+
 menu.toggle(bountyloop, "Random payout¿", {}, "Set random pay bounty loops\n\nActive = random", function(d)
 	if d then
 		random_pay()
@@ -13452,7 +13423,7 @@ menu.toggle(bountyloop, "Random payout¿", {}, "Set random pay bounty loops\n\nA
 	end
 end)
 
-menu.toggle(bountyloop, "Notifications", {}, "By default notifications are turned OFF", function(on)
+menu.toggle(bountyloop, "Notifications Off", {}, "By default notifications are turned OFF", function(on)
 	if on then
 		notify = true
 		util.show_corner_help("~p~Notifications ~g~On")
@@ -13464,7 +13435,7 @@ end)
 
 
 --Bounty Toggle
-menu.toggle_loop(bountyloop, "Start", {}, "Will get a random players and give them bounty on set time", function()
+menu.toggle_loop(bountyloop, "Start Loops", {}, "Will get a random players and give them bounty on set time", function()
 	if #playerList > 0 then
 		randomPlayer = players.get_name(playerList[math.random(1, #playerList)])
 		menu.trigger_commands("bounty" .. randomPlayer .. " " .. randomamount)
