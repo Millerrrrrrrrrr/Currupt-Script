@@ -2302,7 +2302,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 5.3\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 5.4\n" .. "\n" .. "Official Discord: https://discord.gg/KHOS\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
@@ -4860,6 +4860,7 @@ local windows = {
 
 drawScriptMenu = function()
 
+
 local wrolls = menu.list(funfun, "Roll Windows", {}, "", function(); end)
 
 ROLL_DOWN_INDIVIDUAL = menu.list(wrolls, "Roll down individual windows")
@@ -4953,6 +4954,7 @@ util.toast("Candy Mode On")
     end 
 end)
 
+
 	trevs = menu.list(playermode, "Trevor Mode", {}, "", function(); end)
 
 menu.toggle(trevs, "Trevor Mode 1", {"trevormode"}, "Activates pervy Trev off radar then to Candy's outfit on radar.", function(on)
@@ -4987,6 +4989,7 @@ end)
 			notification("Hahahah look at meeee xD", colors.red)
 			menu.trigger_commands("2ndperson")
 	end)
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	worldchaos = menu.list(menu.my_root(), "Chaos Shit", {}, "", function(); end)
@@ -5628,18 +5631,12 @@ GenerateFeatures = function(pid)
 	
 	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
 
-
-	menu.toggle(griefing, "Kill Godmoded Player V1", {"killgod"}, "", function(on_toggle)
-	if on then
+	menu.action(griefing, "Kill Godmode Player V1", {"killgod"}, "", function()
 		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
 		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
-	else
-		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
-		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
-		end
-	end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(griefing, "Kill Godmode Player V2", {"killgodmode"}, "Note: this will not work if they have no ragdoll on", function(on_toggle)
+menu.action(griefing, "Kill Godmode Player V2", {"killgodv2"}, "Note: this will not work if they have no ragdoll on", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -5666,7 +5663,7 @@ menu.toggle_loop(griefing, "Kill Godmode Player V2", {"killgodmode"}, "Note: thi
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, false)
     util.yield(1200)
     entities.delete_by_handle(vehicle1)
-end)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.toggle_loop(griefing, "TP On Ped Loop", {"tploopon"}, "", function(on_toggle)
     menu.trigger_commands("tp" .. players.get_name(pid))
@@ -6176,6 +6173,8 @@ for i = 1, #SoundAnnoy do
         aud = tostring(SoundAnnoy[i][2])
         AudioAnnoyance(snd, aud)
     end)
+
+
     menu.toggle_loop(soundsList, SoundAnnoy[i][1], {}, "", function ()
         local snd, aud
         snd = tostring(SoundAnnoy[i][1])
@@ -6183,7 +6182,6 @@ for i = 1, #SoundAnnoy do
         AudioAnnoyance(snd, aud)
     end)
 end
-
 
 
 	menu.action(cage_options, "Simple", {"cage"}, "", function()
@@ -6762,8 +6760,9 @@ end
 	end)
 
 	orbliterate = menu.list(griefing, "Orbliterate", {"orbliterate"}, "")
+
 	menu.action(orbliterate, "Orbliterate", {}, "Press once to target, twice to fire. Stop spectating to cancel :)", function(on_click)
-        if pid ~= players.user() then
+        	if pid ~= players.user() then
 			if waiting then
 				do_fade_in(pid)
 				notification("Click again to fire!", colors.red)
@@ -6779,7 +6778,8 @@ end
 			do_fade_out(pid)
 		end
 			
-    end)
+    	end)
+
 	menu.action(orbliterate, "Unfuck Orbliterate", {"unfuckorbliterate"}, "If you somehow get it stuck, try this to undo it", function(on_click)
 		do_fade_out(pid)
 	end)
@@ -6802,7 +6802,7 @@ end
 			entities.create_ped(28, hash, MonkeCoords, 0)
 			util.yield(50)
 		end
-	end)
+	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(griefing,"Volatol Spam Player", {}, "spams volatols on target player, huge AOE", function() -- cpu burn simulator v2
 		while not STREAMING.HAS_MODEL_LOADED(447548909) do
@@ -7182,38 +7182,32 @@ end
 	crash = menu.list(menu.player_root(pid), "Crashes", {}, "Currupt Crash", function(); end)
 	kick = menu.list(menu.player_root(pid), "Kicks", {}, "Network Bail", function(); end)
 
-    if menu.get_edition() >= 2 then 
+
         menu.action(kick, "Blast Kick", {"blast"}, "Blocks the player join reaction then uses breakup kick", function()
         notification("Blast kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("historyblock " .. players.get_name(pid))
             menu.trigger_commands("breakup" .. players.get_name(pid))
-        end)
-    end
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    if menu.get_edition() >= 2 then 
         menu.action(kick, "Boop Kick", {"boop"}, "Kicks the player using a SE kick like breakup kick but uses 3 types of SE kicks then 3 more new ones if they don't work", function()
             util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
             util.trigger_script_event(1 << pid, {0x6A16C7F, pid, memory.script_global(0x2908D3 + 1 + (pid * 0x1C5) + 0x13E + 0x7)})
             util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
             menu.trigger_commands("breakup" .. players.get_name(pid))
-        end)
-    else
-        menu.action(kick, "Boop Kick", {}, "", function()
             util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
             util.trigger_script_event(1 << pid, {0x6A16C7F, pid, memory.script_global(0x2908D3 + 1 + (pid * 0x1C5) + 0x13E + 0x7)})
             util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
-        end)
-    end
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "Desync Kick", {"desynckick"}, "Desyncs the player from the session", function()
     notification("Desycn kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "Storymode Kick", {"storymode"}, "Sends them to storymode", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {111242367, pid, memory.script_global(2689235 + 1 + (pid * 453) + 318 + 7)})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
         util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
@@ -7222,27 +7216,27 @@ end
     menu.action(kick, "SE kick v1", {"kickv1"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {111242367, pid, -210634234})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "SE kick v2", {"kickv2"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {421832664, pid, 0, 1951261, 829})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "SE kick v3", {"kickv3"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {0xB9BA4D30, PlayerID, 0x4, -1, 1, 1, 1})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "SE kick v4", {"kickv4"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {603406648, 0, 380565701, -1443464333, 1, 115, 954851592, -768074745, 1278027916})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "SE kick v5", {"kickv5"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {603406648, 0, 1279476345, 655005918, 1, 115, 1997628673, 6299376, -302416007})
-    end)
+    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.divider(kick, "Stand Kicks")
 
@@ -7340,21 +7334,16 @@ end
 
     		local frienm = menu.list(menu.player_root(pid), 'Friendly', {}, '')
 
-
-	menu.toggle(frienm, "Protect Player", {"max"}, "Turns on auto heal, never wanted, gives all weapons, ammo and parachute all at once", function(on_toggle)
+	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, never wanted, gives all weapons, ammo and parachute all at once", function ()
     	notification("Protecting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-	if on_toggle then
         		menu.trigger_commands("bail".. players.get_name(pid))
         		menu.trigger_commands("autoheal".. players.get_name(pid))
         		menu.trigger_commands("arm".. players.get_name(pid))
         		menu.trigger_commands("ammo".. players.get_name(pid))
         		menu.trigger_commands("paragive".. players.get_name(pid))
-		notification("PROTECTED!!! GANG SHIT!!!", colors.red)
-	else
-        		menu.trigger_commands("bail".. players.get_name(pid))
-        		menu.trigger_commands("autoheal".. players.get_name(pid))
-		end
-	end)
+	notification("PROTECTED!!! GANG SHIT!!!", colors.red)
+    	end, nil, nil, COMMANDPERM_FRIENDLY)
+
 
             local player_torque = 1000
             menu.slider(frienm, 'Set Torque', {'torque'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1000, function(value)
@@ -7366,8 +7355,9 @@ end
                         VEHICLE.SET_VEHICLE_CHEAT_POWER_INCREASE(playerVehicle, player_torque/1000)
                     end
                     return (player_torque != 1000)
-                end)
+                end, nil, nil, COMMANDPERM_FRIENDLY)
             end)
+
 
 	menu.action(frienm,"Boost", {"boost"}, "Sets max speed of vehicle to 100 better for cars",function()
        	notification("100x vehicle speed boost for  " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -7375,28 +7365,28 @@ end
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 100)
 		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm,"Currupt boost", {"Currupt boost"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 9999999) 
 		end
-	end)
-
-	menu.action(frienm,"Repair", {"repair"}, "Repairs player's vehicle. Note: It will lag them a bit if you hold the toggle on", function()
-		local vehicle = get_player_veh(pid,true)
-		if vehicle then
-			VEHICLE.SET_VEHICLE_FIXED(vehicle)
-		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm,"Reset Speed", {"resetacc"}, "Resets max speed of vehicle",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 1) 
 		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+	menu.action(frienm,"Repair", {"repair"}, "Repairs player's vehicle. Note: It will lag them a bit if you hold the toggle on", function()
+		local vehicle = get_player_veh(pid,true)
+		if vehicle then
+			VEHICLE.SET_VEHICLE_FIXED(vehicle)
+		end
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm,"GodVeh On", {"invon"}, "Gives invincibility to player's vehicle",function()
 		local vehicle = get_player_veh(pid,true)
@@ -7416,9 +7406,9 @@ end
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, true)
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, true)
 		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-	menu.action(frienm,"GodVeh Off", {"removeinv"}, "Removes invincibility from player's vehicle",function()
+	menu.action(frienm,"GodVeh Off", {"invoff"}, "Removes invincibility from player's vehicle",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then	
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, false)
@@ -7435,9 +7425,8 @@ end
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, false)
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, false)
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, false)
-
 		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
     local friendly = menu.list(frienm, "Jinx Drops", {}, "")
 
@@ -7461,7 +7450,7 @@ end
             util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x9, i, 1, 1, 1})
             util.yield()
         end
-    end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
     local halloween_loop = menu.list(friendly, "Halloween Collectible Loop", {}, "")
     local halloween_delay = 500
@@ -7489,15 +7478,7 @@ end
 
     local drops = menu.list(frienm, "Currupt Drops", {}, "")
 
-    local carddrops = menu.list(drops, "Card Drops", {}, "")
-
-    cardDropDelay = 1500
-
-    menu.slider(carddrops, "Card drop delay", {}, "Delay for the Card drop", 100, 10000, 1500, 100, function(cardDelay)
-        cardDropDelay = cardDelay
-    end)
-
-    menu.toggle_loop(carddrops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note this hasn't been tested for bans but it should be safe", function()
+    menu.toggle_loop(drops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note this hasn't been tested for bans but it should be safe", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
         local card = MISC.GET_HASH_KEY("vw_prop_vw_lux_card_01a")
@@ -7506,11 +7487,9 @@ end
             STREAMING.REQUEST_MODEL(card)
         end
         OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
-        util.yield(cardDropDelay)
     end)
 
-	menu.toggle(drops, "Crazy Drops", {"cd"}, "Turns on rp drops, ceopay, snacks and cash all 1 then changes to just ceo pay and cash 3600 after 5 seconds. Then gives them ~175k RP. Can boost a lvl 1 ~25 levels.", function(on_toggle)
-	if on_toggle then
+	menu.action(drops, "Crazy Drops", {"crazydrop"}, "Turns on rp drops, ceopay, snacks and cash all 1 then changes to just ceo pay and cash 3600 after 5 seconds. Then gives them ~175k RP. Can boost a lvl 1 ~25 levels.", function()
 		notification("Currupt Drop :)", colors.pink)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
         		menu.trigger_commands("snack".. players.get_name(pid) .. " on")
@@ -7529,24 +7508,13 @@ end
         		menu.trigger_commands("halloweenloop".. players.get_name(pid) .. " on")
 		util.yield(1000)
         		menu.trigger_commands("halloweenloop".. players.get_name(pid) .. " off")
-	else
-		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
-        		menu.trigger_commands("ceopay".. players.get_name(pid) .. " off")
-        		menu.trigger_commands("rp".. players.get_name(pid) .. " off")
-		end
-	end)
+    	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-	menu.toggle(drops, "Cash 3600 Timer", {"cash3600"}, "Turns on and off ceopay and cash 3600.", function(on_toggle)
-	if on_toggle then
+	menu.action(drops, "Cash 3600 Timer", {"cash"}, "Turns on and off ceopay and cash 3600.", function()
 		notification("Currupt Drop On :)", colors.green)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 3600")
-	else
-		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
-        		menu.trigger_commands("ceopay".. players.get_name(pid) .. " off")
-		notification("Currupt Drop Off :P", colors.green)
-		end
-	end)
+	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm, "Spectate", {"spec"}, "", function()
     	notification("Spectating " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -12172,6 +12140,13 @@ menu.action(misc, "Fix Casino Heist", {}, "If you've bricked your casino heist b
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_ACCESSPOINTS"), 0, true)
 end)
 
+menu.toggle_loop(misc, 'Increase Kosatka Missile Range', {'krange'}, 'You can use it anywhere in the map now', function ()
+    if util.is_session_started() then
+    memory.write_float(memory.script_global(262145 + 30176), 200000.0)
+    end
+end)
+
+
 menu.toggle(misc,"Alternate 'Godmode'", {"godmode2"}, "Sets your max health really high and turns on autoheal. May bypass some menu's godmode detection due to your entity not being truly invincible.", function(on)  
 	local me = players.user()   
 	local PlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(me)
@@ -13373,8 +13348,48 @@ end
 
 
 	menu.toggle(misc, "Rank 420", {"rank"}, "Note: If you save the profile with it toggled it will give you pemanant 420 rank", function(on_toggle)
-			notification("Setting Rank 420...", colors.red)
-			menu.trigger_commands("setrank" .. " 420")
+		notification("Setting Rank 420...", colors.red)
+		menu.trigger_commands("setrank" .. " 420")
+	end)
+
+	menu.toggle(misc, "Halloween FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
+	if on_toggle then
+		notification("Setting FPS...", colors.green)
+		menu.trigger_commands("weather" .. " extrasunny")
+		menu.trigger_commands("clouds" .. " clear01")
+		menu.trigger_commands("time" .. " 6")
+		menu.trigger_commands("superc")
+    		menu.trigger_commands("noidlekick ")
+    		menu.trigger_commands("noidlecam ")
+	else
+		notification("Resetting FPS...", colors.red)
+		menu.trigger_commands("weather" .. " normal")
+		menu.trigger_commands("clouds" .. " normal")
+    		menu.trigger_commands("noidlekick ")
+    		menu.trigger_commands("noidlecam ")
+		end
+	end)
+
+	menu.toggle(misc, "Halloween FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
+	if on_toggle then
+		notification("Setting FPS...", colors.green)
+		menu.trigger_commands("weather" .. " extrasunny")
+		menu.trigger_commands("clouds" .. " clear01")
+		menu.trigger_commands("time" .. " 6")
+		menu.trigger_commands("superc")
+    		menu.trigger_commands("potatomode ")
+    		menu.trigger_commands("nosky ")
+    		menu.trigger_commands("noidlekick ")
+    		menu.trigger_commands("noidlecam ")
+	else
+		notification("Resetting FPS...", colors.red)
+		menu.trigger_commands("weather" .. " normal")
+		menu.trigger_commands("clouds" .. " normal")
+    		menu.trigger_commands("potatomode ")
+    		menu.trigger_commands("nosky ")
+    		menu.trigger_commands("noidlekick ")
+    		menu.trigger_commands("noidlecam ")
+		end
 	end)
 
 bountyloop = menu.list(misc, "Bounty Loops", {}, "", function(); end)
