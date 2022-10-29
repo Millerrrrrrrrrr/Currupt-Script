@@ -4644,6 +4644,16 @@ end)
 	spams = menu.list(menu.my_root(), "Chat Spammers", {}, "", function(); end)
 	menu.divider(spams, "Chat Spammers")
 
+menu.action(spams, "Join Kwengz Discord", {"khos"}, "", function()
+    chat.send_message(
+        "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
 menu.toggle_loop(spams, "Join Kwengz Discord", {"khoslink"}, "", function(on_toggle)
     chat.send_message(
         "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
@@ -4727,6 +4737,26 @@ end)
 menu.toggle_loop(spams, "Commands B", {""}, "", function(on_toggle)
     chat.send_message(
         "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+menu.toggle_loop(spams, "Commands C", {""}, "", function(on_toggle)
+    chat.send_message(
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeydrop NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+menu.toggle_loop(spams, "Commands D", {""}, "", function(on_toggle)
+    chat.send_message(
+        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
