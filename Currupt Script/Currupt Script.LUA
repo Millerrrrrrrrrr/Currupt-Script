@@ -7510,10 +7510,16 @@ end
         		menu.trigger_commands("halloweenloop".. players.get_name(pid) .. " off")
     	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-	menu.action(drops, "Cash 3600 Timer", {"cash"}, "Turns on and off ceopay and cash 3600.", function()
+	menu.action(drops, "Cash 3600 Timer", {"cashon"}, "Turns on ceopay and cash 3600.", function()
 		notification("Currupt Drop On :)", colors.green)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 3600")
+	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+	menu.action(drops, "Cash Off", {"cashoff"}, "Turns off ceopay and cash 0.", function()
+		notification("Currupt Drop On :)", colors.green)
+        		menu.trigger_commands("ceopay".. players.get_name(pid))
+		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm, "Spectate", {"spec"}, "", function()
