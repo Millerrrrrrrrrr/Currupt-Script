@@ -4726,7 +4726,7 @@ end)
 
 menu.toggle_loop(spams, "Commands A", {""}, "", function(on_toggle)
     chat.send_message(
-        "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeydrop NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4736,7 +4736,7 @@ end)
 
 menu.toggle_loop(spams, "Commands B", {""}, "", function(on_toggle)
     chat.send_message(
-        "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4746,7 +4746,7 @@ end)
 
 menu.toggle_loop(spams, "Commands C", {""}, "", function(on_toggle)
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeydrop NAME",
+        "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4755,6 +4755,17 @@ menu.toggle_loop(spams, "Commands C", {""}, "", function(on_toggle)
 end)
 
 menu.toggle_loop(spams, "Commands D", {""}, "", function(on_toggle)
+    chat.send_message(
+        "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+
+menu.toggle_loop(spams, "Commands E", {""}, "", function(on_toggle)
     chat.send_message(
         "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
         false, -- in team chat
