@@ -4978,8 +4978,8 @@ save_loadout = root:action("Save Loadout", {}, "Save all currently equipped weap
         end
 )
 
-load_loadout = root:action("Load Loadout", {"loadloadout"}, "Equip every weapon of the last save",
-        function()
+load_loadout = root:toggle("Load Loadout", {"loadloadout"}, "Equip every weapon of the last save",
+        function(on_toggle)
             if filesystem.exists(STOREDIR .. "loadout.lua") then
                 player = players.user_ped()
                 WEAPON.REMOVE_ALL_PED_WEAPONS(player, false)
@@ -5012,6 +5012,7 @@ auto_load = root:toggle("Auto-Load", {}, "Automatically equips every weapon of y
             do_autoload = on
         end
 )
+
 
 from_scratch = root:action("Start From Scratch", {}, "Delete your current weapons, so that you can build your loadout exactly how you want it to be",
         function()
@@ -5247,6 +5248,11 @@ for _, weapon in weapons_table do
     end
 end
 regen_menu()
+
+util.yield(1000)--testing has shown: needs a small delay.. ok then, but that should finally work for people directly loading into online
+if do_autoload then
+    load_loadout:trigger()
+end
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 local windows = {
     {name = "Front Left", number = 0},
