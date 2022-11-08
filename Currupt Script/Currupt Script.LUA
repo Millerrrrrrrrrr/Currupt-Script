@@ -2264,7 +2264,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 0.6.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.6.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
@@ -4644,7 +4644,41 @@ end)
 	spams = menu.list(menu.my_root(), "Chat Spammers", {}, "", function(); end)
 	menu.divider(spams, "Chat Spammers")
 
-menu.action(spams, "Join Kwengz Discord", {"khos"}, "", function()
+	helpcommands = menu.list(spams, "Help Commands", {}, "Command: helpcommands", function(); end)
+
+menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
+    chat.send_message(
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /casinohel1 /casinohelp2 /whatmenu /khos",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
+    chat.send_message(
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /casinohel1 /casinohelp2 /whatmenu /khos",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+menu.toggle_loop(helpcommands, "Type Help Commands", {"typehelpcommand"}, "", function(on_toggle)
+    chat.send_message(
+        "Type /helpcommands for help",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+	khosspams = menu.list(spams, "Join Kwengz Discord", {}, "Command: khos", function(); end)
+
+menu.action(khosspams, "Join Kwengz Discord", {"khos"}, "", function()
     chat.send_message(
         "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
         false, -- in team chat
@@ -4654,7 +4688,7 @@ menu.action(spams, "Join Kwengz Discord", {"khos"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(spams, "Join Kwengz Discord", {"khoslink"}, "", function(on_toggle)
+menu.toggle_loop(khosspams, "Join Kwengz Discord", {"khos"}, "", function(on_toggle)
     chat.send_message(
         "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
         false, -- in team chat
@@ -4664,7 +4698,9 @@ menu.toggle_loop(spams, "Join Kwengz Discord", {"khoslink"}, "", function(on_tog
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", function(on_toggle)
+	kwengzlinkspams = menu.list(spams, "Join Kwengz Discord Candy's Link", {}, "Command: kwengzlink", function(); end)
+
+menu.action(kwengzlinkspams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", function()
     chat.send_message(
         "Please Join Our Discord > discord.gg/CMxfrbvdm7 < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
         false, -- in team chat
@@ -4672,9 +4708,31 @@ menu.toggle_loop(spams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", 
         true  -- networked
         )
     util.yield(150000)
-end)
+end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(spams, "Join Currupt Script Discord Link", {"curruptlink"}, "", function(on_toggle)
+menu.toggle_loop(kwengzlinkspams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", function(on_toggle)
+    chat.send_message(
+        "Please Join Our Discord > discord.gg/CMxfrbvdm7 < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+	curruptlink = menu.list(spams, "Join Currupt Discord Link", {}, "Command: curruptlink", function(); end)
+
+menu.action(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function()
+    chat.send_message(
+        "Please Join Currupt Script Discord > discord.gg/d6ZnaQakpY < Open discord hit the + to join server and type my link!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function(on_toggle)
     chat.send_message(
         "Please Join Currupt Script Discord > discord.gg/d6ZnaQakpY < Open discord hit the + to join server and type my link!",
         false, -- in team chat
@@ -4684,7 +4742,19 @@ menu.toggle_loop(spams, "Join Currupt Script Discord Link", {"curruptlink"}, "",
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Join CandyPie Mods Discord Link", {"candylink"}, "", function(on_toggle)
+	candylinkspams = menu.list(spams, "Join CandyPie Mods Discord Link", {}, "Command: candylink", function(); end)
+
+menu.action(candylinkspams, "Join CandyPie Mods Discord Link", {"candylink"}, "", function()
+    chat.send_message(
+        "Please Join Currupt Script Discord > discord.gg/XHhqfbaqTN < Open discord hit the + to join server and type my link!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(candylinkspams, "Join CandyPie Mods Discord Link", {"candylink"}, "", function(on_toggle)
     chat.send_message(
         "Please Join Currupt Script Discord > discord.gg/XHhqfbaqTN < Open discord hit the + to join server and type my link!",
         false, -- in team chat
@@ -4694,7 +4764,19 @@ menu.toggle_loop(spams, "Join CandyPie Mods Discord Link", {"candylink"}, "", fu
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Gift Car A", {""}, "", function(on_toggle)
+	carhelpa = menu.list(spams, "Gift Car A", {}, "Command: carhelpa", function(); end)
+
+menu.action(carhelpa, "Gift Car A", {"carhelpa"}, "", function()
+    chat.send_message(
+        "Fill a garage with LOW END/FREE cars in a 2 car garage order 2 free or cars steal them!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(carhelpa, "Gift Car A", {"carhelpa"}, "", function(on_toggle)
     chat.send_message(
         "Fill a garage with LOW END/FREE cars in a 2 car garage order 2 free or cars steal them!",
         false, -- in team chat
@@ -4704,7 +4786,19 @@ menu.toggle_loop(spams, "Gift Car A", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Gift Car B", {""}, "", function(on_toggle)
+	carhelpb = menu.list(spams, "Gift Car B", {}, "Command: carhelpb", function(); end)
+
+menu.action(carhelpb, "Gift Car B", {"carhelpb"}, "", function()
+    chat.send_message(
+        "Put away all your personal vehicles! Type: /spawn NAME then go to garage and type /gift YOURNAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(carhelpb, "Gift Car B", {"carhelpb"}, "", function(on_toggle)
     chat.send_message(
         "Put away all your personal vehicles! Type: /spawn NAME then go to garage and type /gift YOURNAME",
         false, -- in team chat
@@ -4714,7 +4808,19 @@ menu.toggle_loop(spams, "Gift Car B", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Gift Car C", {""}, "", function(on_toggle)
+	carhelpc = menu.list(spams, "Gift Car C", {}, "Command: carhelpc", function(); end)
+
+menu.action(carhelpc, "Gift Car C", {"carhelpc"}, "", function()
+    chat.send_message(
+        "Repete first steps to do it again",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(carhelpc, "Gift Car C", {"carhelpc"}, "", function(on_toggle)
     chat.send_message(
         "Repete first steps to do it again",
         false, -- in team chat
@@ -4724,7 +4830,19 @@ menu.toggle_loop(spams, "Gift Car C", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Commands A", {""}, "", function(on_toggle)
+	help1 = menu.list(spams, "Commands A", {}, "Command: help1", function(); end)
+
+menu.action(help1, "Commands A", {"help1"}, "", function()
+    chat.send_message(
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeytroll NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(help1, "Commands A", {"help1"}, "", function(on_toggle)
     chat.send_message(
         "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeytroll NAME",
         false, -- in team chat
@@ -4734,7 +4852,19 @@ menu.toggle_loop(spams, "Commands A", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Commands B", {""}, "", function(on_toggle)
+	help2 = menu.list(spams, "Commands B", {}, "Command: help2", function(); end)
+
+menu.action(help2, "Commands B", {"help2"}, "", function()
+    chat.send_message(
+        "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(help2, "Commands B", {"help2"}, "", function(on_toggle)
     chat.send_message(
         "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
         false, -- in team chat
@@ -4744,7 +4874,19 @@ menu.toggle_loop(spams, "Commands B", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Commands C", {""}, "", function(on_toggle)
+	help3 = menu.list(spams, "Commands C", {}, "Command: help3", function(); end)
+
+menu.action(help3, "Commands C", {"help3"}, "", function()
+    chat.send_message(
+        "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(help3, "Commands C", {"help3"}, "", function(on_toggle)
     chat.send_message(
         "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
         false, -- in team chat
@@ -4754,7 +4896,19 @@ menu.toggle_loop(spams, "Commands C", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Commands D", {""}, "", function(on_toggle)
+	help4 = menu.list(spams, "Commands D", {}, "Command: help4", function(); end)
+
+menu.action(help4, "Commands D", {"help4"}, "", function()
+    chat.send_message(
+        "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(help4, "Commands D", {"help4"}, "", function(on_toggle)
     chat.send_message(
         "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
         false, -- in team chat
@@ -4764,8 +4918,19 @@ menu.toggle_loop(spams, "Commands D", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
+	help5 = menu.list(spams, "Commands E", {}, "Command: help5", function(); end)
 
-menu.toggle_loop(spams, "Commands E", {""}, "", function(on_toggle)
+menu.action(help5, "Commands E", {"help5"}, "", function()
+    chat.send_message(
+        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(help5, "Commands E", {"help5"}, "", function(on_toggle)
     chat.send_message(
         "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
         false, -- in team chat
@@ -4775,7 +4940,19 @@ menu.toggle_loop(spams, "Commands E", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Money Drop Method", {""}, "", function(on_toggle)
+	moneyhelp = menu.list(spams, "Money Drop Method", {}, "Command: moneyhelp", function(); end)
+
+menu.action(moneyhelp, "Money Drop Method", {"moneyhelp"}, "", function()
+    chat.send_message(
+        "If you want new safe money method type /cashNAME 3600 its a timer not ammount if faster than 3600 you just get errors /cashNAME 0 to stop",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(moneyhelp, "Money Drop Method", {"moneyhelp"}, "", function(on_toggle)
     chat.send_message(
         "If you want new safe money method type /cashNAME 3600 its a timer not ammount if faster than 3600 you just get errors /cashNAME 0 to stop",
         false, -- in team chat
@@ -4785,7 +4962,19 @@ menu.toggle_loop(spams, "Money Drop Method", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Roulette Method", {""}, "", function(on_toggle)
+	casinohelp1 = menu.list(spams, "Roulette Method", {}, "Command: casinohelp1", function(); end)
+
+menu.action(casinohelp1, "Roulette Method", {"casinohelp1"}, "", function()
+    chat.send_message(
+        "If u wunna make money come to casino play roulette and bet max on 1st 12(50k) and Red 1(5k), win 3 loose 1 550k a minute",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(casinohelp1, "Roulette Method", {"casinohelp1"}, "", function(on_toggle)
     chat.send_message(
         "If u wunna make money come to casino play roulette and bet max on 1st 12(50k) and Red 1(5k), win 3 loose 1 550k a minute",
         false, -- in team chat
@@ -4795,7 +4984,19 @@ menu.toggle_loop(spams, "Roulette Method", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "Blackjack Method", {""}, "", function(on_toggle)
+	casinohelp2 = menu.list(spams, "Blackjack Method", {}, "Command: casinohelp2", function(); end)
+
+menu.action(casinohelp2, "Blackjack Method", {"casinohelp2"}, "", function()
+    chat.send_message(
+        "If u wunna make money come to casino play blackjack! Click max bet then hit stand and win 2x your bet!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(casinohelp2, "Blackjack Method", {"casinohelp2"}, "", function(on_toggle)
     chat.send_message(
         "If u wunna make money come to casino play blackjack! Click max bet then hit stand and win 2x your bet!",
         false, -- in team chat
@@ -4805,7 +5006,19 @@ menu.toggle_loop(spams, "Blackjack Method", {""}, "", function(on_toggle)
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "What Menu Do I Use?", {"lolmenu"}, "", function(on_toggle)
+	whatmenu = menu.list(spams, "What Menu Do I Use?", {}, "Command: whatmenu", function(); end)
+
+menu.action(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function()
+    chat.send_message(
+        "I use Stand Ultimate, 2take1 VIP, Midnight, Nightfall, Cherax all co loaded and I'm waiting for North update... :) ",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function(on_toggle)
     chat.send_message(
         "I use Stand Ultimate, 2take1 VIP, Midnight, Nightfall, Cherax all co loaded and I'm waiting for North update... :) ",
         false, -- in team chat
@@ -4815,7 +5028,19 @@ menu.toggle_loop(spams, "What Menu Do I Use?", {"lolmenu"}, "", function(on_togg
     util.yield(150000)
 end)
 
-menu.toggle_loop(spams, "I'm Fucking God", {""}, "", function(on_toggle)
+	imfuckinggod = menu.list(spams, "I'm Fucking God", {}, "Command: imfuckinggod", function(); end)
+
+menu.action(imfuckinggod, "I'm Fucking God", {"imfuckinggod"}, "", function()
+    chat.send_message(
+        "I'M FUCKING GOD!!!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(50)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(imfuckinggod, "I'm Fucking God", {"imfuckinggod"}, "", function(on_toggle)
     chat.send_message(
         "I'M FUCKING GOD!!!",
         false, -- in team chat
@@ -4825,7 +5050,19 @@ menu.toggle_loop(spams, "I'm Fucking God", {""}, "", function(on_toggle)
     util.yield(50)
 end)
 
-menu.toggle_loop(spams, "Report Me", {""}, "", function(on_toggle)
+	reportme = menu.list(spams, "Report Me", {}, "Command: reportme", function(); end)
+
+menu.action(reportme, "Report Me", {"reportme"}, "", function()
+    chat.send_message(
+        "REPORT ME!!!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(50)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(reportme, "Report Me", {"reportme"}, "", function(on_toggle)
     chat.send_message(
         "REPORT ME!!!",
         false, -- in team chat
@@ -4835,7 +5072,20 @@ menu.toggle_loop(spams, "Report Me", {""}, "", function(on_toggle)
     util.yield(50)
 end)
 
-menu.toggle_loop(spams, "I <3 VOLOD", {""}, "Russians hate this ;)", function(on_toggle)
+
+	ilovezelensky = menu.list(spams, "I <3 ZELEN", {}, "Command: ilovezelensky", function(); end)
+
+menu.action(ilovezelensky, "I <3 ZELEN", {"ilovezelensky"}, "Russians hate this ;)", function()
+    chat.send_message(
+        "I <3 PRESIDENT VOLODYMYR ZELENSKYY",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(50)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(ilovezelensky, "I <3 ZELEN", {"ilovezelensky"}, "Russians hate this ;)", function(on_toggle)
     chat.send_message(
         "I <3 PRESIDENT VOLODYMYR ZELENSKYY",
         false, -- in team chat
@@ -4845,7 +5095,19 @@ menu.toggle_loop(spams, "I <3 VOLOD", {""}, "Russians hate this ;)", function(on
     util.yield(50)
 end)
 
-menu.toggle_loop(spams, "I <3 PUTIN", {""}, "Ukranians hate this ;)", function(on_toggle)
+	iloveputin = menu.list(spams, "I <3 PUTIN", {}, "Command: iloveputin", function(); end)
+
+menu.action(iloveputin, "I <3 PUTIN", {"iloveputin"}, "Ukranians hate this ;)", function()
+    chat.send_message(
+        "I <3 PRESIDENT VOLODYMYR PUTIN",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(50)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(iloveputin, "I <3 PUTIN", {"iloveputin"}, "Ukranians hate this ;)", function(on_toggle)
     chat.send_message(
         "I <3 PRESIDENT VOLODYMYR PUTIN",
         false, -- in team chat
@@ -4855,7 +5117,19 @@ menu.toggle_loop(spams, "I <3 PUTIN", {""}, "Ukranians hate this ;)", function(o
     util.yield(50)
 end)
 
-menu.toggle_loop(spams, "Yumin Woman", {""}, "AUUUUUUUUUGGHH", function(on_toggle)
+	yuminwoman = menu.list(spams, "Yumin Woman", {}, "Command: yuminwoman", function(); end)
+
+menu.action(yuminwoman, "Yumin Woman", {"yuminwoman"}, "AUUUUUUUUUGGHH", function()
+    chat.send_message(
+        "Yumin woman! AUUUUUUUUUGGHH!!!",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(50)
+end, nil, nil, COMMANDPERM_FRIENDLY)
+
+menu.toggle_loop(yuminwoman, "Yumin Woman", {"yuminwoman"}, "AUUUUUUUUUGGHH", function(on_toggle)
     chat.send_message(
         "Yumin woman! AUUUUUUUUUGGHH!!!",
         false, -- in team chat
@@ -6131,6 +6405,68 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	lagwiths = menu.list(griefing, "Lag With Shit", {}, "", function(); end)
 
+
+menu.toggle_loop(lagwiths, "Lag With Tug's", {"lagwithtugs"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("tug")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(lagwiths, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("tug")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end)
+
 menu.toggle_loop(lagwiths, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
@@ -6166,8 +6502,6 @@ menu.toggle_loop(lagwiths, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", fu
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("cargobob")
@@ -6176,41 +6510,30 @@ menu.toggle_loop(lagwiths, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", fu
         util.yield()
     end
 
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
+end)
 
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
-
-menu.toggle_loop(lagwiths, "Lag With Sub's", {"lagwithkosatka"}, "", function()
+menu.toggle_loop(lagwiths, "Lag With Sub's", {"lagwithsubs"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6239,12 +6562,9 @@ menu.toggle_loop(lagwiths, "Lag With Sub's", {"lagwithkosatka"}, "", function()
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwiths, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
-
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("kosatka")
@@ -6253,39 +6573,28 @@ menu.toggle_loop(lagwiths, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function(
         util.yield()
     end
 
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
-
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
+end)
 
 menu.toggle_loop(lagwiths, "Lag With Khanjali's", {"lagwithkhanjali"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -6316,12 +6625,9 @@ menu.toggle_loop(lagwiths, "Lag With Khanjali's", {"lagwithkhanjali"}, "", funct
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwiths, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
-
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("khanjali")
@@ -6330,39 +6636,28 @@ menu.toggle_loop(lagwiths, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
         util.yield()
     end
 
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
-
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
+end)
 
 
 	seizures = menu.list(griefing, "Seizure Shit", {}, "", function(); end)
@@ -8278,6 +8573,18 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
     local drops = menu.list(frienm, "Currupt Drops", {}, "")
 
+    menu.toggle_loop(drops, "Drop RP", {"rp"}, "", function()
+        local coords = players.get_position(pid)
+        coords.z = coords.z + 1.5
+        local card = MISC.GET_HASH_KEY("vw_prop_vw_colle_prbubble")
+        STREAMING.REQUEST_MODEL(card)
+        if STREAMING.HAS_MODEL_LOADED(card) == false then  
+            STREAMING.REQUEST_MODEL(card)
+        end
+        OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
+                util.yield(300)
+    end)
+
     menu.toggle_loop(drops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note this hasn't been tested for bans but it should be safe", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
@@ -8398,31 +8705,35 @@ end
                   util.toast("Get Ready... ;)")
 	menu.trigger_commands("panic")
 	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("keramisdump" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
 	menu.trigger_commands("badnet" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
+	menu.trigger_commands("keramisdump" .. players.get_name(pid))
+                	util.yield(100)
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
 	menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("lagwithkosatka" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
+	menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
+                	util.yield(100)
 	menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
+	menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
+                	util.yield(100)
+	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+                	util.yield(100)
+	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
+                	util.yield(100)
+	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+                	util.yield(100)
+	menu.trigger_commands("lagwithtugsv2" .. players.get_name(pid))
+                	util.yield(100)
 	menu.trigger_commands("laughter" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
 	menu.trigger_commands("seizurev3" .. players.get_name(pid))
-                	util.yield(1000)
+                	util.yield(100)
 	menu.trigger_commands("ptfxelectric" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("ptfxsmoke" .. players.get_name(pid))
@@ -8432,24 +8743,47 @@ end
 	menu.trigger_commands("ptfxextinguisher" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("ptfxwatermist" .. players.get_name(pid))
-                	util.yield(1000)
-	menu.trigger_commands("clothescrash" .. players.get_name(pid))
-                	util.yield(10000)
+                	util.yield(100)
         	menu.trigger_commands("chaosyeet" .. players.get_name(pid))
         	menu.trigger_commands("blackholeoffset" .. players.get_name(pid) .. " 10")
-        else
+    local player_ped = PLAYER.PLAYER_PED_ID()    
+    local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+    local pld = PLAYER.GET_PLAYER_PED(pid)
+    local pos = ENTITY.GET_ENTITY_COORDS(pld)
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -75.2188, -818.582, 2699.9976)
+    util.yield(1000)
+    for i=1,4  do
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -75.2188, -818.582, 2699.9976)
+        util.yield(1000)
+    end
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
+else
+        util.toast("Please hold whilst I recover your menu :)")
+                	util.yield(15000)
+    local player_ped = PLAYER.PLAYER_PED_ID()    
+    local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+    local pld = PLAYER.GET_PLAYER_PED(pid)
+    local pos = ENTITY.GET_ENTITY_COORDS(pld)
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1336.5051, -3044.8555, 2698.6846)
+    util.yield(1000)
+    for i=1,4  do
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1336.5051, -3044.8555, 2698.6846)
+        util.yield(1000)
+    end
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
 	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
-	menu.trigger_commands("keramisdump" .. players.get_name(pid))
 	menu.trigger_commands("badnet" .. players.get_name(pid))
-	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
-	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
-	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
+        	menu.trigger_commands("chaosyeet" .. players.get_name(pid))
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
-	menu.trigger_commands("clothescrash" .. players.get_name(pid))
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
 	menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
-	menu.trigger_commands("lagwithkosatka" .. players.get_name(pid))
+	menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
+	menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
 	menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
+	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
+	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+	menu.trigger_commands("lagwithtugsv2" .. players.get_name(pid))
 	menu.trigger_commands("laughter" .. players.get_name(pid))
 	menu.trigger_commands("seizurev3" .. players.get_name(pid))
 	menu.trigger_commands("ptfxelectric" .. players.get_name(pid))
@@ -8457,7 +8791,6 @@ end
 	menu.trigger_commands("ptfxclown" .. players.get_name(pid))
 	menu.trigger_commands("ptfxextinguisher" .. players.get_name(pid))
 	menu.trigger_commands("ptfxwatermist" .. players.get_name(pid))
-        	menu.trigger_commands("chaosyeet" .. players.get_name(pid))
         	menu.trigger_commands("clean")
         	menu.trigger_commands("superc")
         	menu.trigger_commands("noentities")
@@ -8467,9 +8800,69 @@ end
                 	util.toast("Fatal Error Crash Stopped & Cleaned...")
 	end
           end)
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	lagwithss = menu.list(newcrash, "Lag With Shit", {}, "", function(); end)
+
+menu.toggle_loop(lagwithss, "Lag With Tug's", {"lagwithtugs"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("tug")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(lagwithss, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("tug")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end)
 
 menu.toggle_loop(lagwithss, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -8502,12 +8895,9 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 menu.toggle_loop(lagwithss, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", function()
-
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("cargobob")
@@ -8516,41 +8906,30 @@ menu.toggle_loop(lagwithss, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", f
         util.yield()
     end
 
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
+end)
 
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
-
-menu.toggle_loop(lagwithss, "Lag With Sub's", {"lagwithkosatka"}, "", function()
+menu.toggle_loop(lagwithss, "Lag With Sub's", {"lagwithsubs"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -8579,12 +8958,9 @@ menu.toggle_loop(lagwithss, "Lag With Sub's", {"lagwithkosatka"}, "", function()
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwithss, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
-
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("kosatka")
@@ -8593,39 +8969,28 @@ menu.toggle_loop(lagwithss, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function
         util.yield()
     end
 
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
-
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
+end)
 
 menu.toggle_loop(lagwithss, "Lag With Khanjali's", {"lagwithkhanjali"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -8656,12 +9021,9 @@ menu.toggle_loop(lagwithss, "Lag With Khanjali's", {"lagwithkhanjali"}, "", func
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
-
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
-    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
     local khanjali = util.joaat("khanjali")
@@ -8669,45 +9031,32 @@ menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "",
     while not STREAMING.HAS_MODEL_LOADED(khanjali) do
         util.yield()
     end
-
-    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
 		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
-    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
-    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
-    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
-        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
-		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
-
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
-
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
-    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
     util.yield(0)
-
-        for i = 0, 100 do
-            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
-            util.yield(10 * math.random())
-    	end
-    end)
+end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	menu.toggle_loop(newcrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
-	if on_toggle then
+	menu.action(newcrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(click_type)
 			menu.trigger_commands("luasneakyexplodesstandprivate")
                     		util.yield(500)
         			menu.trigger_commands("dumppeds" .. players.get_name(pid))
@@ -8715,14 +9064,12 @@ menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "",
         			menu.trigger_commands("dumpobjs" .. players.get_name(pid))
                     		util.yield(100)
         			menu.trigger_commands("dumppickups" .. players.get_name(pid))
-                    		util.yield(1000)
-		end
-
-	end)
+                    		util.yield(500)
+			menu.trigger_commands("stopluasneakyexplodesstandprivate")
+	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.toggle(newcrash, "Lance Auto Entites", {"lanceautoentities"}, "Note: You need Lance Reloaded Script. Raining peds/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
 	if on_toggle then
-
         			menu.trigger_commands("togglecentipede" .. players.get_name(pid))
 			menu.trigger_commands("lualancescriptreloaded")
                     		util.yield(500)
@@ -8740,6 +9087,37 @@ menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "",
         			menu.trigger_commands("clean")
 		end
 
+	end)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	local dont_stop = false
+	menu.toggle_loop(newcrash,"Vehicle Chaos", {"chaosyeet"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
+		for k, veh in pairs(entities.get_all_vehicles_as_handles()) do
+			local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(veh, -1, false)
+			local locspeed2 = speed
+        			local holecoords = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+			if not PED.IS_PED_A_PLAYER(PedInSeat) then
+				NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(veh)
+	      ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(bh_target), true)
+                        vcoords = ENTITY.GET_ENTITY_COORDS(veh, true)
+                        speed = 100
+                        local x_vec = (holecoords['x']-vcoords['x'])*speed
+                        local y_vec = (holecoords['y']-vcoords['y'])*speed
+                        local z_vec = ((holecoords['z']+hole_zoff)-vcoords['z'])*speed
+                        ENTITY.SET_ENTITY_INVINCIBLE(veh, true)
+                        VEHICLE.START_VEHICLE_HORN(veh, 200, util.joaat("HELDDOWN"), true)
+                        FIRE.ADD_EXPLOSION(vcoords['x'], vcoords['y'], vcoords['z'], 7, 100.0, true, false, 1.0)
+                        ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(veh, 1, x_vec, y_vec, z_vec, true, false, true, true)
+                        VEHICLE.SET_VEHICLE_DAMAGE(veh, math.random(-5.0, 5.0), math.random(-5.0, 5.0), math.random(-5.0,5.0), 200.0, 10000.0, true)
+				if not dont_stop and not PAD.IS_CONTROL_PRESSED(2, 71) and not PAD.IS_CONTROL_PRESSED(2, 72) then
+					VEHICLE.SET_VEHICLE_FORWARD_SPEED(veh, 0.0);
+				end
+			end
+		end
+	end)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	hole_zoff = 50
+    	menu.slider(newcrash, "Blackhole Z-offset", {"blackholeoffset"}, "", 0, 100, 50, 10, function(s)
+    	hole_zoff = s
 	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -8774,38 +9152,19 @@ menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "",
 		end
 	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	local dont_stop = false
-	menu.toggle_loop(newcrash,"Vehicle Chaos", {"chaosyeet"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
-		for k, veh in pairs(entities.get_all_vehicles_as_handles()) do
-			local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(veh, -1, false)
-			local locspeed2 = speed
-        			local holecoords = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
-			if not PED.IS_PED_A_PLAYER(PedInSeat) then
-				NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(veh)
-	      ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(bh_target), true)
-                        vcoords = ENTITY.GET_ENTITY_COORDS(veh, true)
-                        speed = 100
-                        local x_vec = (holecoords['x']-vcoords['x'])*speed
-                        local y_vec = (holecoords['y']-vcoords['y'])*speed
-                        local z_vec = ((holecoords['z']+hole_zoff)-vcoords['z'])*speed
-                        ENTITY.SET_ENTITY_INVINCIBLE(veh, true)
-                        VEHICLE.START_VEHICLE_HORN(veh, 200, util.joaat("HELDDOWN"), true)
-                        FIRE.ADD_EXPLOSION(vcoords['x'], vcoords['y'], vcoords['z'], 7, 100.0, true, false, 1.0)
-                        ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(veh, 1, x_vec, y_vec, z_vec, true, false, true, true)
-                        VEHICLE.SET_VEHICLE_DAMAGE(veh, math.random(-5.0, 5.0), math.random(-5.0, 5.0), math.random(-5.0,5.0), 200.0, 10000.0, true)
-				if not dont_stop and not PAD.IS_CONTROL_PRESSED(2, 71) and not PAD.IS_CONTROL_PRESSED(2, 72) then
-					VEHICLE.SET_VEHICLE_FORWARD_SPEED(veh, 0.0);
-				end
-			end
-		end
-	end)
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	hole_zoff = 50
-    	menu.slider(newcrash, "Blackhole Z-offset", {"blackholeoffset"}, "", 0, 100, 50, 10, function(s)
-    	hole_zoff = s
-	end)
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     	local keramicrash = menu.list(crash, "Kerami Crashes", {}, "")
+
+	menu.action(keramicrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(click_type)
+			menu.trigger_commands("luasneakyexplodesstandprivate")
+                    		util.yield(500)
+        			menu.trigger_commands("dumppeds" .. players.get_name(pid))
+        			menu.trigger_commands("dumpvehs" .. players.get_name(pid))
+        			menu.trigger_commands("dumpobjs" .. players.get_name(pid))
+                    		util.yield(100)
+        			menu.trigger_commands("dumppickups" .. players.get_name(pid))
+                    		util.yield(500)
+			menu.trigger_commands("stopluasneakyexplodesstandprivate")
+	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami script.", function(on_toggle)
     local hashes = {1492612435, 3517794615, 3889340782, 3253274834}
@@ -8897,25 +9256,6 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
     PHYSICS.DELETE_CHILD_ROPE(rope)
     PHYSICS.ROPE_UNLOAD_TEXTURES()
     end)
-
-
-	menu.toggle(keramicrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on)
-	if on_toggle then
-			menu.trigger_commands("luasneakyexplodesstandprivate")
-                    		util.yield(500)
-        			menu.trigger_commands("dumppeds" .. players.get_name(pid))
-        			menu.trigger_commands("dumpvehs" .. players.get_name(pid))
-        			menu.trigger_commands("dumpobjs" .. players.get_name(pid))
-                    		util.yield(100)
-        			menu.trigger_commands("dumppickups" .. players.get_name(pid))
-                    		util.yield(1000)
-	else
-			menu.trigger_commands("stopluasneakyexplodesstandprivate")
-                    		util.yield(100)
-        			menu.trigger_commands("clean")
-		end
-
-	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local mathcrash = menu.list(crash, "Math Crash", {}, "")
 
