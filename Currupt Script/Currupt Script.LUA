@@ -6093,13 +6093,14 @@ menu.toggle_loop(centipedegriefing, "Human Centipede", {"togglecentipede"}, "", 
     end
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+	killgods = menu.list(griefing, "Kill Godmode Shit", {}, "", function(); end)
 
-	menu.action(griefing, "Kill Godmode Player V1", {"killgod"}, "", function()
+	menu.action(killgods, "Kill Godmode Player V1", {"killgod"}, "", function()
 		menu.trigger_commands("confuse" .. PLAYER.GET_PLAYER_NAME(pid))
 		menu.trigger_commands("explodeloop" .. PLAYER.GET_PLAYER_NAME(pid))
     	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.action(griefing, "Kill Godmode Player V2", {"killgodv2"}, "Note: this will not work if they have no ragdoll on", function()
+menu.action(killgods, "Kill Godmode Player V2", {"killgodv2"}, "Note: this will not work if they have no ragdoll on", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6128,7 +6129,9 @@ menu.action(griefing, "Kill Godmode Player V2", {"killgodv2"}, "Note: this will 
     entities.delete_by_handle(vehicle1)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(griefing, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
+	lagwiths = menu.list(griefing, "Lag With Shit", {}, "", function(); end)
+
+menu.toggle_loop(lagwiths, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6156,7 +6159,58 @@ menu.toggle_loop(griefing, "Lag With Cargobob's", {"lagwithcargos"}, "", functio
     util.yield(0)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(griefing, "Lag With Sub's", {"lagwithkosatka"}, "", function()
+
+
+menu.toggle_loop(lagwiths, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", function()
+
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
+    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("cargobob")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+
+        for i = 0, 100 do
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+    	end
+    end)
+
+menu.toggle_loop(lagwiths, "Lag With Sub's", {"lagwithkosatka"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6184,7 +6238,56 @@ menu.toggle_loop(griefing, "Lag With Sub's", {"lagwithkosatka"}, "", function()
     util.yield(0)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(griefing, "Lag With Khanjali's", {"lagwithkhanjali"}, "", function(on_toggle)
+menu.toggle_loop(lagwiths, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
+
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
+    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("kosatka")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+
+        for i = 0, 100 do
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+    	end
+    end)
+
+menu.toggle_loop(lagwiths, "Lag With Khanjali's", {"lagwithkhanjali"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6212,7 +6315,59 @@ menu.toggle_loop(griefing, "Lag With Khanjali's", {"lagwithkhanjali"}, "", funct
     util.yield(0)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(griefing, "Seizure V1", {"seizurev1"}, "", function()
+menu.toggle_loop(lagwiths, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
+
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
+    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("khanjali")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+
+        for i = 0, 100 do
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+    	end
+    end)
+
+
+	seizures = menu.list(griefing, "Seizure Shit", {}, "", function(); end)
+
+menu.toggle_loop(seizures, "Seizure V1", {"seizurev1"}, "", function()
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6265,7 +6420,7 @@ menu.toggle_loop(griefing, "Seizure V1", {"seizurev1"}, "", function()
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
-menu.toggle_loop(griefing, "Seizure V2", {"seizurev2"}, "", function(on_toggle)
+menu.toggle_loop(seizures, "Seizure V2", {"seizurev2"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -6367,7 +6522,8 @@ menu.toggle_loop(griefing, "Seizure V2", {"seizurev2"}, "", function(on_toggle)
     entities.delete_by_handle(vehicle1)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-	menu.toggle(griefing, "Seizure V3", {"seizurev3"}, "", function(on_toggle)
+
+	menu.toggle(seizures, "Seizure V3", {"seizurev3"}, "", function(on_toggle)
 	if on_toggle then
 			menu.trigger_commands("seizurev1" .. players.get_name(pid))
 			menu.trigger_commands("seizurev2" .. players.get_name(pid))
@@ -8313,8 +8469,39 @@ end
           end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	lagwithss = menu.list(newcrash, "Lag With Shit", {}, "", function(); end)
 
-menu.toggle_loop(newcrash, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", function()
+menu.toggle_loop(lagwithss, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("cargobob")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+
+
+menu.toggle_loop(lagwithss, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", function()
 
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
@@ -8363,8 +8550,35 @@ menu.toggle_loop(newcrash, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", fu
     	end
     end)
 
+menu.toggle_loop(lagwithss, "Lag With Sub's", {"lagwithkosatka"}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
 
-menu.toggle_loop(newcrash, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
+    local khanjali = util.joaat("kosatka")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(lagwithss, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
 
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
@@ -8413,7 +8627,35 @@ menu.toggle_loop(newcrash, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function(
     	end
     end)
 
-menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
+menu.toggle_loop(lagwithss, "Lag With Khanjali's", {"lagwithkhanjali"}, "", function(on_toggle)
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("khanjali")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(lagwithss, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
 
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
@@ -8461,6 +8703,7 @@ menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
             util.yield(10 * math.random())
     	end
     end)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	menu.toggle_loop(newcrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
@@ -8473,9 +8716,6 @@ menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
                     		util.yield(100)
         			menu.trigger_commands("dumppickups" .. players.get_name(pid))
                     		util.yield(1000)
-	else
-			menu.trigger_commands("stopluasneakyexplodesstandprivate")
-                    		util.yield(100)
 		end
 
 	end)
@@ -8564,86 +8804,6 @@ menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
     	menu.slider(newcrash, "Blackhole Z-offset", {"blackholeoffset"}, "", 0, 100, 50, 10, function(s)
     	hole_zoff = s
 	end)
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   menu.toggle_loop(newcrash, "Lamar Spam", {"togglelamar"}, "Send's a ton of Lamar's only works on others, not yourself. Can crash a legit player (If you loose your hair, type U command : gostory). Note: Doesn't work on yourself.", function(on_toggle)
-            if pid ~= players.user() and players.exists(pid) and not aU then
-                aU = true
-                pedhash = 0x45463A0D
-                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
-                    STREAMING.REQUEST_MODEL(pedhash)
-                    util.yield(10)
-                end
-                notification("Lamar Spam has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true)
-                local bh = PLAYER.GET_PLAYER_PED(pid)
-                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
-                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
-                local bk = {}
-                local bf = bi
-                bf.x = bf.x
-                bf.y = bf.y
-                bf.z = bf.z
-                for U = 1, 175 do
-                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
-                    util.yield(25)
-                end
-                notification("Done sending", true, true)
-                util.yield(3000)
-                notification("Cleaning up", true, true)
-                for U = 1, 175 do
-                    entities.delete_by_handle(bk[U])
-                    util.yield(10)
-                end
-                util.yield(10)
-                if not players.exists(pid) then
-                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
-                    notification("Player left", true, false)
-                end
-                util.yield(10)
-                aU = false
-            end
-            if aU then
-            end
-        end)
-
-
-   menu.toggle_loop(newcrash, "Wade Spam", {"togglewade"}, "Send's a ton of wades only works on others, not yourself. Can crash a legit player (If you loose your hair, type U command : gostory). Note: Doesn't work on yourself.", function(on_toggle)
-            if pid ~= players.user() and players.exists(pid) then
-                pedhash = 0xD266D9D6
-                while not STREAMING.HAS_MODEL_LOADED(pedhash) do
-                    STREAMING.REQUEST_MODEL(pedhash)
-                    util.yield(10)
-                end
-                notification("Wade Crash has been sent to " .. PLAYER.GET_PLAYER_NAME(pid), true, true, colors.red)
-                local bh = PLAYER.GET_PLAYER_PED(pid)
-                local bi = ENTITY.GET_ENTITY_COORDS(bh, true)
-                local bj = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
-                local bk = {}
-                local bf = bi
-                bf.x = bf.x
-                bf.y = bf.y
-                bf.z = bf.z
-                for U = 1, 150 do
-                    bk[U] = entities.create_ped(28, pedhash, bf, bj)
-                    util.yield(25)
-                end
-                    util.toast("Done sending")
-                util.yield(3000)
-                    util.toast("Cleaning up")
-                for U = 1, 150 do
-                    entities.delete_by_handle(bk[U])
-                    util.yield(10)
-                end
-                util.yield(10)
-                if not players.exists(pid) then
-                    util.toast(a0[math.random(1, 13)], TOAST_ABOVE_MAP)
-                    util.toast("Player left")
-                end
-                util.yield(10)
-                aU = false
-            end
-            if aU then
-            end
-        end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     	local keramicrash = menu.list(crash, "Kerami Crashes", {}, "")
 
@@ -8739,7 +8899,7 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
     end)
 
 
-	menu.toggle_loop(keramicrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
+	menu.toggle(keramicrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on)
 	if on_toggle then
 			menu.trigger_commands("luasneakyexplodesstandprivate")
                     		util.yield(500)
