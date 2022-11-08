@@ -2264,7 +2264,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 0.6.1\n" .. "\n" .. "60th Update :D\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.6.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
@@ -8243,7 +8243,13 @@ end
 	menu.trigger_commands("panic")
 	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
                 	util.yield(1000)
+	menu.trigger_commands("keramisdump" .. players.get_name(pid))
+                	util.yield(1000)
 	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+                	util.yield(1000)
+	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+                	util.yield(1000)
+	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
                 	util.yield(1000)
 	menu.trigger_commands("badnet" .. players.get_name(pid))
                 	util.yield(1000)
@@ -8277,8 +8283,11 @@ end
         	menu.trigger_commands("blackholeoffset" .. players.get_name(pid) .. " 10")
         else
 	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
+	menu.trigger_commands("keramisdump" .. players.get_name(pid))
 	menu.trigger_commands("badnet" .. players.get_name(pid))
 	menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
 	menu.trigger_commands("clothescrash" .. players.get_name(pid))
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
@@ -8304,6 +8313,105 @@ end
           end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+menu.toggle_loop(newcrash, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", function()
+
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
+    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("cargobob")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+
+        for i = 0, 100 do
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+    	end
+    end)
+
+
+menu.toggle_loop(newcrash, "Lag With Sub's V2", {"lagwithsubsv2"}, "", function()
+
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+    local SelfPlayerPed = PLAYER.PLAYER_PED_ID()
+    local SelfPlayerPos = ENTITY.GET_ENTITY_COORDS(SelfPlayerPed, true)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("kosatka")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle2, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle3, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, SelfPlayerPed, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle4, true, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, vehicle4, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle3, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle2, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(0)
+
+        for i = 0, 100 do
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+            ENTITY.SET_ENTITY_COORDS(SelfPlayerPed, SelfPlayerPos.x, SelfPlayerPos.y, SelfPlayerPos.z, true, false, false)
+            util.yield(10 * math.random())
+    	end
+    end)
 
 menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", function(on_toggle)
 
@@ -8354,6 +8462,25 @@ menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
     	end
     end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	menu.toggle_loop(newcrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
+	if on_toggle then
+			menu.trigger_commands("luasneakyexplodesstandprivate")
+                    		util.yield(500)
+        			menu.trigger_commands("dumppeds" .. players.get_name(pid))
+        			menu.trigger_commands("dumpvehs" .. players.get_name(pid))
+        			menu.trigger_commands("dumpobjs" .. players.get_name(pid))
+                    		util.yield(100)
+        			menu.trigger_commands("dumppickups" .. players.get_name(pid))
+                    		util.yield(1000)
+	else
+			menu.trigger_commands("stopluasneakyexplodesstandprivate")
+                    		util.yield(100)
+        			menu.trigger_commands("clean")
+		end
+
+	end)
+
 	menu.toggle(newcrash, "Lance Auto Entites", {"lanceautoentities"}, "Note: You need Lance Reloaded Script. Raining peds/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
 	if on_toggle then
 
@@ -8611,6 +8738,25 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
     PHYSICS.DELETE_CHILD_ROPE(rope)
     PHYSICS.ROPE_UNLOAD_TEXTURES()
     end)
+
+
+	menu.toggle_loop(keramicrash, "Keramis Auto Dump Entites", {"keramisdump"}, "Note: You need Sneaky Explodes Kerami Script. Dumping peds/objects/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
+	if on_toggle then
+			menu.trigger_commands("luasneakyexplodesstandprivate")
+                    		util.yield(500)
+        			menu.trigger_commands("dumppeds" .. players.get_name(pid))
+        			menu.trigger_commands("dumpvehs" .. players.get_name(pid))
+        			menu.trigger_commands("dumpobjs" .. players.get_name(pid))
+                    		util.yield(100)
+        			menu.trigger_commands("dumppickups" .. players.get_name(pid))
+                    		util.yield(1000)
+	else
+			menu.trigger_commands("stopluasneakyexplodesstandprivate")
+                    		util.yield(100)
+        			menu.trigger_commands("clean")
+		end
+
+	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     local mathcrash = menu.list(crash, "Math Crash", {}, "")
 
