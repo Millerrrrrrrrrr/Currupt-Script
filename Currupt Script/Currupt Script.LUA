@@ -8476,7 +8476,6 @@ menu.toggle_loop(newcrash, "Lag With Khanjali's V2", {"lagwithkhanjaliv2"}, "", 
 	else
 			menu.trigger_commands("stopluasneakyexplodesstandprivate")
                     		util.yield(100)
-        			menu.trigger_commands("clean")
 		end
 
 	end)
