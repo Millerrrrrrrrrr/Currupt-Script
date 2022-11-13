@@ -4392,11 +4392,10 @@ end)
 			menu.trigger_commands("clearstandnotifys")
 	end)
 
+
+
 	menu.toggle_loop(protexx, "Clear All Notifications Toggled", {"toggleclearnotifs"}, "Clears stand notifs and above mini map", function(on_toggle)
 		if on then
-			menu.trigger_commands("clearnotifications")
-			menu.trigger_commands("clearstandnotifys")
-			util.yield(1000)
 			menu.trigger_commands("clearnotifications")
 			menu.trigger_commands("clearstandnotifys")
 			util.yield(1000)
@@ -4406,6 +4405,36 @@ end)
 		end
 	
 	end)
+
+menu.toggle_loop(protex, "Block Transaction Error 'Test'", {}, "Likely to lead to errors, use under responsibility", function(on_toggle)
+    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
+    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
+    if on_toggle then
+        menu.trigger_command(TransactionError, "on")
+        menu.trigger_command(TransactionErrorV, "on")
+        for i = 1, 100 do
+            menu.trigger_commands("removeloader")
+        end
+        util.toast("It's not my fault the log error, wait for Stand to fix it")
+    end
+end)
+
+menu.toggle_loop(protexx, "Clear All Notifications & Transaction Errors", {"toggleclearallnotifs"}, "Clears stand notifs and above mini map & Transaction Errors.", function(on_toggle)
+    local clearnotifts = menu.ref_by_path("Game > Remove Notifications Above Minimap")
+    local clearstandnotifs = menu.ref_by_path("Stand > Clear Notifications")
+    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
+    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
+    if on_toggle then
+        menu.trigger_commands("clearnotifts")
+        menu.trigger_commands("clearstandnotifs")
+        menu.trigger_command(TransactionError, "on")
+        menu.trigger_command(TransactionErrorV, "on")
+        for i = 1, 100 do
+            menu.trigger_commands("removeloader")
+        end
+        util.toast("It's not my fault the log error if prompted, wait for Stand to fix it")
+    end
+end)
 
 
 	menu.action(protex, "Force Stop all sound events", {"stopsounds"}, "", function()
@@ -13615,18 +13644,6 @@ if bailOnAdminJoin then
     end
 end
 
-menu.toggle_loop(self, "Block Transaction Error 'Test'", {}, "Likely to lead to errors, use under responsibility", function(on_toggle)
-    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
-    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
-    if on_toggle then
-        menu.trigger_command(TransactionError, "on")
-        menu.trigger_command(TransactionErrorV, "on")
-        for i = 1, 100 do
-            menu.trigger_commands("removeloader")
-        end
-        --util.toast("It's not my fault the log error, wait for Stand to fix it")
-    end
-end)
 
 menu.toggle_loop(self, "Block PFTX/Particulate Lag", {}, "", function()
     local coords = ENTITY.GET_ENTITY_COORDS(players.user_ped() , false);
