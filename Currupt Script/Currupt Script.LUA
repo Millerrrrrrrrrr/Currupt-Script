@@ -4378,13 +4378,6 @@ menu.toggle_loop(anti_mugger, "Someone Else", {}, "Prevents others from being mu
     end
 end)
 
-
-menu.toggle_loop(protex, "Anti-Beast", {}, "Prevents you from being turned into the beast but will also stop the event for others.", function()
-    if util.spoof_script("am_hunt_the_beast", SCRIPT.TERMINATE_THIS_THREAD) then
-        util.toast("Hunt the beast script detected. Terminating script...")
-    end
-end)
-
 	protexx = menu.list(protex, "Clear All Notifications", {}, "", function(); end)
 
 	menu.action(protexx, "Clear All Notifications", {"clearnotifs"}, "Clears stand notifs and above mini map", function()
@@ -4406,16 +4399,63 @@ end)
 	
 	end)
 
-menu.toggle_loop(protex, "Block Transaction Error 'Test'", {}, "Likely to lead to errors, use under responsibility", function(on_toggle)
-    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
-    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
-    if on_toggle then
-        menu.trigger_command(TransactionError, "on")
-        menu.trigger_command(TransactionErrorV, "on")
-        for i = 1, 100 do
-            menu.trigger_commands("removeloader")
+local pool_limiter = menu.list(protex, "Limit Pool", {}, "")
+local ped_limit = 175
+menu.slider(pool_limiter, "Limitador pool/Peds", {"pedlimit"}, "", 0, 256, 175, 1, function(amount)
+    ped_limit = amount
+end)
+
+local veh_limit = 200
+menu.slider(pool_limiter, "Limitador pool/Vehicles", {"vehlimit"}, "", 0, 300, 150, 1, function(amount)
+    veh_limit = amount
+end)
+
+local obj_limit = 750
+menu.slider(pool_limiter, "Limitador pool/objects", {"objlimit"}, "", 0, 2300, 750, 1, function(amount)
+    obj_limit = amount
+end)
+
+local projectile_limit = 25
+menu.slider(pool_limiter, "Limitador pool/Projectiles", {"projlimit"}, "", 0, 50, 25, 1, function(amount)
+    projectile_limit = amount
+end)
+
+menu.toggle_loop(pool_limiter, "Enable pool limiter", {}, "", function()
+    local ped_count = 0
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        util.yield()
+        if ped ~= players.user_ped() then
+            ped_count += 1
         end
-        util.toast("It's not my fault the log error, wait for Stand to fix it")
+        if ped_count >= ped_limit then
+            for _, ped in pairs(entities.get_all_peds_as_handles()) do
+                util.yield()
+                entities.delete_by_handle(ped)
+            end
+            util.toast("Cleaning bools of peds...")
+        end
+    end
+    local veh__count = 0
+    for _, veh in ipairs(entities.get_all_vehicles_as_handles()) do
+        util.yield()
+        veh__count += 1
+        if veh__count >= veh_limit then
+            for _, veh in ipairs(entities.get_all_vehicles_as_handles()) do
+                entities.delete_by_handle(veh)
+            end
+            util.toast("Cleaning bools of vehicles...")
+        end
+    end
+    local obj_count = 0
+    for _, obj in pairs(entities.get_all_objects_as_handles()) do
+        util.yield()
+        obj_count += 1
+        if obj_count >= obj_limit then
+            for _, obj in pairs(entities.get_all_objects_as_handles()) do
+                entities.delete_by_handle(obj)
+            end
+            util.toast("Cleaning bools of objects...")
+        end
     end
 end)
 
@@ -4581,6 +4621,25 @@ end)
 		end
 	end)
 
+menu.toggle_loop(protex, "Anti-Beast", {}, "Prevents you from being turned into the beast but will also stop the event for others.", function()
+    if util.spoof_script("am_hunt_the_beast", SCRIPT.TERMINATE_THIS_THREAD) then
+        util.toast("Hunt the beast script detected. Terminating script...")
+    end
+end)
+
+menu.toggle_loop(protex, "Block Transaction Error 'Test'", {}, "Likely to lead to errors, use under responsibility", function(on_toggle)
+    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
+    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
+    if on_toggle then
+        menu.trigger_command(TransactionError, "on")
+        menu.trigger_command(TransactionErrorV, "on")
+        for i = 1, 100 do
+            menu.trigger_commands("removeloader")
+        end
+        util.toast("It's not my fault the log error, wait for Stand to fix it")
+    end
+end)
+
 	menu.toggle_loop(protex, "No Entity Spawn", {"noentities"}, "De spawns all entites.", function(on_loop)
 		local ct = 0
 		for k,ent in pairs(entities.get_all_vehicles_as_handles()) do
@@ -4613,7 +4672,7 @@ end)
 	end)
 
 	menu.divider(protex, "Currupt Protections")
-	
+
 	
 	menu.toggle(protex, "Toggle Block all Network Events", {}, "This breaks the game, so only leave it on if you are worried about an incoming modder attack", function(on_toggle)
 		local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
