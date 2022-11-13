@@ -13125,13 +13125,13 @@ end
 	menu.divider(standcrash, "Stand Crash Loops")
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Elegant", {"crash"}, "Blocked by most menus.", function(on_loop)
+        menu.toggle_loop(standcrash, "Elegant", {"crash"}, "Blocked by most menus.", function()
             menu.trigger_commands("crash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"smash"}, "", function(on_loop)
+        menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"smash"}, "Note: Use Panic Mode.", function(on_loop)
             menu.trigger_commands("smash" .. players.get_name(pid))
         end)
     end
@@ -13559,124 +13559,6 @@ menu.toggle(bypasskick, "Method V4", {}, "Probably break the game, use at your o
     end
     end)
 
-
-menu.toggle_loop(detections, "Weapon In Interior", {}, "detects if you use a gun indoors", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
-            util.draw_debug_text(players.get_name(player_id) .. " Has a gun indoors")
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(detections, "It's a hacker", {}, "Detects if the player is about to ban", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
-        if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
-            util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(detections, "Running Fast", {}, "Detect if you run faster", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        local ped_speed = (ENTITY.GET_ENTITY_SPEED(ped)* 2.236936)
-        if not util.is_session_transition_active() and get_interior_player_is_in(player_id) == 0 and get_transition_state(player_id) ~= 0 and not PED.IS_PED_DEAD_OR_DYING(ped) 
-        and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_IN_ANY_VEHICLE(ped, false)
-        and not TASK.IS_PED_STILL(ped) and not PED.IS_PED_JUMPING(ped) and not ENTITY.IS_ENTITY_IN_AIR(ped) and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped)
-        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) <= 300.0 and ped_speed > 30 then -- fastest run speed is about 18ish mph but using 25 to give it some headroom to prevent false positives
-            util.toast(players.get_name(player_id) .. " Is Using Super Run")
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(detections, "Noclip", {}, "Detects if the player is levitating/noclip", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        local ped_ptr = entities.handle_to_pointer(ped)
-        local vehicle = PED.GET_VEHICLE_PED_IS_USING(ped)
-        local oldpos = players.get_position(player_id)
-        util.yield()
-        local currentpos = players.get_position(player_id)
-        local vel = ENTITY.GET_ENTITY_VELOCITY(ped)
-        if not util.is_session_transition_active() and players.exists(player_id)
-        and get_interior_player_is_in(player_id) == 0 and get_transition_state(player_id) ~= 0
-        and not PED.IS_PED_IN_ANY_VEHICLE(ped, false) -- too many false positives occured when players where driving. so fuck them. lol.
-        and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped)
-        and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped) and not PED.IS_PED_USING_SCENARIO(ped)
-        and not TASK.GET_IS_TASK_ACTIVE(ped, 160) and not TASK.GET_IS_TASK_ACTIVE(ped, 2)
-        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) <= 395.0 -- 400 was causing false positives
-        and ENTITY.GET_ENTITY_HEIGHT_ABOVE_GROUND(ped) > 5.0 and not ENTITY.IS_ENTITY_IN_AIR(ped) and entities.player_info_get_game_state(ped_ptr) == 0
-        and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
-        and vel.x == 0.0 and vel.y == 0.0 and vel.z == 0.0 then
-            util.toast(players.get_name(player_id) .. " Is Using Noclip")
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(detections, "Spectating", {}, "Detect if you or someone else is spectating", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        for i, interior in ipairs(interior_stuff) do
-            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-            if not util.is_session_transition_active() and get_transition_state(player_id) ~= 0 and get_interior_player_is_in(player_id) == interior
-            and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped) then
-                if v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_cam_pos(player_id)) < 15.0 and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) > 20.0 then
-                    util.toast(players.get_name(player_id) .. " Is watching you")
-                    break
-                end
-            end
-        end
-    end
-end)
-
-menu.toggle_loop(detections, "Teleport", {}, "Detect if the player teleports", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        if not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped) then
-            local oldpos = players.get_position(player_id)
-            util.yield(1000)
-            local currentpos = players.get_position(player_id)
-            for i, interior in ipairs(interior_stuff) do
-                if v3.distance(oldpos, currentpos) > 500 and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
-                and get_transition_state(player_id) ~= 0 and get_interior_player_is_in(player_id) == interior and PLAYER.IS_PLAYER_PLAYING(player_id) and player.exists(player_id) then
-                    util.toast(players.get_name(player_id) .. "  He just teleported")
-                end
-            end
-        end
-    end
-end)
-
-local votekicks = menu.list(detections, "Vote To Kick", {}, "")
-menu.toggle_loop(votekicks, "Vote To Kick", {}, "It detects if they vote to expel someone from the session very quickly and warns.", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local kickowner = NETWORK.NETWORK_SESSION_GET_KICK_VOTE(player_id)
-        local kicked = NETWORK.NETWORK_SESSION_KICK_PLAYER(player_id)
-        if kicked then
-            util.draw_debug_text(players.get_name(player_id) .. " The player", kicked, "has been kicked by:", kickowner)
-            break
-        end
-    end
-end)
-
-menu.toggle_loop(votekicks, "Vote To Kick Auto Kick", {}, "It detects if they vote to expel someone from the session very quickly and warns.  Then auto blocks joins and uses breakup kick.", function()
-    for _, player_id in ipairs(players.list(false, true, true)) do
-        local kickowner = NETWORK.NETWORK_SESSION_GET_KICK_VOTE(player_id)
-        local kicked = NETWORK.NETWORK_SESSION_KICK_PLAYER(player_id)
-        if kicked then
-            util.draw_debug_text(players.get_name(player_id) .. " The player", kicked, "has been kicked by:", kickowner)
-                menu.trigger_commands("blast" .. players.get_name(pid))
-            break
-        end
-    end
-end)
-
-
 local proofsList = menu.list(self, "Godmode Editor", {}, "")
 local immortalityCmd = menu.ref_by_path("Self>Immortality")
 for _,data in pairs(proofs) do
@@ -13756,7 +13638,6 @@ menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for
     ENTITY.SET_ENTITY_PROOFS(entities.get_user_vehicle_as_handle(), false, false, false, false, false, 0, 0, false)
     end, function() ENTITY.SET_ENTITY_PROOFS(PED.GET_VEHICLE_PED_IS_IN(players.user(), true), true, true, true, true, true, 0, 0, true)
 end)
-
 
 local gdmedits = menu.list(detections, "Godmode", {}, "")
 menu.toggle_loop(gdmedits, "Godmode", {}, "Detects if someone is using godmode.", function()
@@ -13908,6 +13789,83 @@ menu.toggle_loop(unrelveh, "Unreleased Car Auto Kick Them Out", {}, "Detects if 
         end
     end
 end)
+
+
+local modhack = menu.list(detections, "It's a hacker", {}, "")
+menu.toggle_loop(modhack, "It's a hacker", {}, "Detects if the player is about to ban", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
+        if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
+            util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
+                util.toast(players.get_name(pid) .. " Is a hacker!" .. "(" .. name .. ")")
+            break
+        end
+    end
+end)
+
+menu.toggle_loop(modhack, "It's a hacker Auto Kick", {}, "Detects if the player is about to ban, blocks there joins and breakup kicks them.", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
+        if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
+                menu.trigger_commands("blast" .. players.get_name(pid))
+            util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
+                util.toast(players.get_name(pid) .. " Is a hacker is being kicked now!" .. "(" .. name .. ")")
+            break
+        end
+    end
+end)
+
+menu.toggle_loop(modhack, "It's a hacker Auto Crash", {}, "Detects if the player is about to ban, then blocks there joins and sends Fatal Crash to annoy them :).", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
+        if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
+                menu.trigger_commands("fatal" .. players.get_name(pid))
+            util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
+                util.toast(players.get_name(pid) .. " Is a hacker and is being Fatal Crashed!" .. "(" .. name .. ")")
+            break
+        end
+    end
+end)
+
+
+local modweps = menu.list(detections, "Weapon In Interior", {}, "")
+menu.toggle_loop(modweps, "Weapon In Interior", {}, "Detects if you use a gun indoors", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
+            util.draw_debug_text(players.get_name(player_id) .. " Has a gun indoors")
+            break
+        end
+    end
+end)
+
+menu.toggle_loop(modweps, "Weapon In Interior Auto Kick", {}, "Detects if you use a gun indoors, then blocks there joins and breakup kicks them.", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
+                menu.trigger_commands("blast" .. players.get_name(pid))
+            util.draw_debug_text(players.get_name(player_id) .. " Has a gun indoors")
+                util.toast(players.get_name(pid) .. " Weapon In Interior Auto Kicking..." .. "(" .. name .. ")")
+            break
+        end
+    end
+end)
+
+menu.toggle_loop(modweps, "Weapon In Interior Auto Disarm", {}, "Detects if you use a gun indoors, then disarms them.", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
+                menu.trigger_commands("disarm" .. players.get_name(pid))
+            util.draw_debug_text(players.get_name(player_id) .. " Has a gun indoors")
+                util.toast(players.get_name(pid) .. " Weapon In Interior Auto Kicking..." .. "(" .. name .. ")")
+            break
+        end
+    end
+end)
+
 
 local modwep = menu.list(detections, "Modded Weapon", {}, "")
 menu.toggle_loop(modwep, "Modded Weapon", {}, "Detects if someone is using a weapon that can not be obtained in online.", function()
