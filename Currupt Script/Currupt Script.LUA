@@ -13297,110 +13297,297 @@ local self = menu.list(menu.my_root(), "Protections", {}, "")
 
 local detections = menu.list(menu.my_root(), "Modder Detections", {}, "")
 
+local values = {
+    [0] = 0,
+    [1] = 50,
+    [2] = 88,
+    [3] = 160,
+    [4] = 208,
+}
 
-local player_last_positions = {}
-function start_teleport_detection_thread(pid)
-    local last_pos = players.get_position(pid)
-    util.create_thread(function()
-        if not players.exists(pid)  or players.user() == pid then 
-            util.stop_thread()
+local anticage = menu.list(self, "Anti-cage protection", {}, "")
+local alpha = 160
+menu.slider(anticage, "Cage Alpha", {"cagealpha"}, "Cage transparency. If it is at 0 you will not see it", 0, #values, 3, 1, function(amount)
+    alpha = values[amount]
+end)
+
+menu.toggle_loop(anticage, "Anti Cage", {"anticage"}, "", function()
+    local user = players.user_ped()
+    local veh = PED.GET_VEHICLE_PED_IS_USING(user)
+    local my_ents = {user, veh}
+    for i, obj_ptr in ipairs(entities.get_all_objects_as_pointers()) do
+        local net_obj = memory.read_long(obj_ptr + 0xd0)
+        if net_obj == 0 or memory.read_byte(net_obj + 0x49) == players.user() then
+            continue
         end
-        while true do
-            if not util.is_session_transition_active() then
-                if detection_teleports then
-                    local cur_pos =  players.get_position(pid)
-                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-                    if v3.distance(last_pos, cur_pos) >= 500 then
-                        if PLAYER.IS_PLAYER_PLAYING(pid) and not players.is_in_interior(pid) and not NETWORK.NETWORK_IS_PLAYER_FADING(pid) and not PLAYER.IS_PLAYER_DEAD(pid) and cur_pos.z > 0 and ENTITY.IS_ENTITY_VISIBLE(ped) then
-                	          util.toast("Teleport detection from " .. players.get_name(memory.read_int(sender)))
-                        end
-                    end
-                end
+        local obj_handle = entities.pointer_to_handle(obj_ptr)
+        CAM._DISABLE_CAM_COLLISION_FOR_ENTITY(obj_handle)
+        for i, data in ipairs(my_ents) do
+            if data ~= 0 and ENTITY.IS_ENTITY_TOUCHING_ENTITY(data, obj_handle) and alpha > 0 then
+                ENTITY.SET_ENTITY_NO_COLLISION_ENTITY(obj_handle, data, false)
+                ENTITY.SET_ENTITY_NO_COLLISION_ENTITY(data, obj_handle, false)
+                ENTITY.SET_ENTITY_ALPHA(obj_handle, alpha, false)
             end
-            last_pos = players.get_position(pid)
-            util.yield(1000)
+            if data ~= 0 and ENTITY.IS_ENTITY_TOUCHING_ENTITY(data, obj_handle) and alpha == 0 then
+                entities.delete_by_handle(obj_handle)
+            end
         end
-    end)
-end
-local function set_up_player_actions(pid)
-    local childlock
-    local atkgun = 0
-end
+        SHAPETEST.RELEASE_SCRIPT_GUID_FROM_ENTITY(obj_handle)
+    end
+end)
 
-local known_players_this_game_session = {}
-players.on_join(function(pid)
-    set_up_player_actions(pid)
-    if players.user() == pid then 
-        if not players.is_using_vpn(pid) and do_vpn_warn then 
-            util.toast("No VPN Alert From " .. players.get_name(memory.read_int(sender)))
-        end
+
+local bypasskick = menu.list(self, "Bypass Kick", {}, "Options that allow you to use methods to n enter the session if you are being blocked.")
+
+menu.divider(bypasskick, "Normal Methods")
+
+menu.toggle(bypasskick, "Method V1", {}, "It gives you a limited time for you to expel the one who blocks you", function(on_toggle)
+    local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+    local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+    if on_toggle then
+        menu.trigger_commands("nobgscript on")
+        menu.trigger_command(BlockIncSyncs)
+        menu.trigger_command(BlockNetEvents)
+        util.toast("Activated, now enter your session and prepare the kick")
     else
-        -- detections
-        if players.get_name(pid) == "UndiscoveredPlayer" then 
-            util.yield()
+        menu.trigger_commands("nobgscript off")
+        menu.trigger_command(UnblockIncSyncs)
+        menu.trigger_command(UnblockNetEvents)
+        util.toast("Done, all off")
+    end
+end)
+
+menu.toggle(bypasskick, "Method V2", {}, "A little more functional but also with more network errors", function(on_toggle)
+    local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+    local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+    local BlockBailing = menu.ref_by_path("Online>Protections>Block Bailing>Player No Longer In Session")
+    local BlockBailing2 = menu.ref_by_path("Online>Protections>Block Bailing>Switching Primary Crew")
+    local BlockBailing3 = menu.ref_by_path("Online>Protections>Block Bailing>Spectating Related")
+    local BlockBailing4 = menu.ref_by_path("Online>Protections>Block Bailing>Other Reasons")
+    if on_toggle then
+        menu.trigger_commands("nobgscript on")
+        menu.trigger_command(BlockIncSyncs)
+        menu.trigger_command(BlockNetEvents)
+        menu.trigger_command(BlockBailing, "on")
+        menu.trigger_command(BlockBailing2, "on")
+        menu.trigger_command(BlockBailing3, "on")
+        menu.trigger_command(BlockBailing4, "on")
+        util.toast("Activated, now enter your session and prepare the kick")
+    else
+        menu.trigger_commands("nobgscript off")
+        menu.trigger_command(UnblockIncSyncs)
+        menu.trigger_command(UnblockNetEvents)
+        menu.trigger_command(BlockBailing3, "off")
+        util.toast("Done, all off")
+    end
+end)
+
+menu.toggle(bypasskick, "Method V3", {}, "More functional method, but for developers, you will receive notification of all network events", function(on_toggle)
+local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+local BlockBailing = menu.ref_by_path("Online>Protections>Block Bailing>Player No Longer In Session")
+local BlockBailing2 = menu.ref_by_path("Online>Protections>Block Bailing>Switching Primary Crew")
+local BlockBailing3 = menu.ref_by_path("Online>Protections>Block Bailing>Spectating Related")
+local BlockBailing4 = menu.ref_by_path("Online>Protections>Block Bailing>Other Reasons")
+local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+local BlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+local UnBlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+if on_toggle then
+    menu.trigger_commands("nobgscript on")
+    menu.trigger_command(BlockIncSyncs)
+    menu.trigger_command(BlockNetEvents)
+    menu.trigger_command(BlockBailing, "on")
+    menu.trigger_command(BlockBailing2, "on")
+    menu.trigger_command(BlockBailing3, "on")
+    menu.trigger_command(BlockBailing4, "on")
+    menu.trigger_command(ShowNotis)
+    menu.trigger_command(BlockRaw)
+    util.toast("Activated, now enter your session and prepare the kick")
+else
+    menu.trigger_commands("nobgscript off")
+    menu.trigger_command(UnblockIncSyncs)
+    menu.trigger_command(UnblockNetEvents)
+    menu.trigger_command(BlockBailing3, "off")
+    menu.trigger_command(UnShowNotis)
+    menu.trigger_command(UnBlockRaw)
+    util.toast("Done, all off")
+end
+end)
+
+menu.toggle(bypasskick, "Method V4", {}, "Probably break the game, use at your own risk", function(on_toggle)
+    local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+    local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+    local BlockBailing = menu.ref_by_path("Online>Protections>Block Bailing>Player No Longer In Session")
+    local BlockBailing2 = menu.ref_by_path("Online>Protections>Block Bailing>Switching Primary Crew")
+    local BlockBailing3 = menu.ref_by_path("Online>Protections>Block Bailing>Spectating Related")
+    local BlockBailing4 = menu.ref_by_path("Online>Protections>Block Bailing>Other Reasons")
+    local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+    local BlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+    local UnBlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local DontAsk = menu.ref_by_path("Online>Transitions>Speed Up>Don't Ask For Permission To Spawn")
+    if on_toggle then
+        menu.trigger_commands("nobgscript on")
+		menu.trigger_commands("skipbroadcast on")
+        menu.trigger_commands("speedupspawn on")
+        menu.trigger_commands("speedupfmmc on")
+        menu.trigger_commands("skipswoopdown on")
+        menu.trigger_command(BlockIncSyncs)
+        menu.trigger_command(BlockNetEvents)
+        menu.trigger_command(BlockBailing, "on")
+        menu.trigger_command(BlockBailing2, "on")
+        menu.trigger_command(BlockBailing3, "on")
+        menu.trigger_command(BlockBailing4, "on")
+        menu.trigger_command(ShowNotis)
+        menu.trigger_command(BlockRaw)
+        menu.trigger_commands("skipbroadcast on")
+        menu.trigger_command(DontAsk, "on")
+        menu.trigger_commands("skipswoopdown on")
+        util.toast("Activated, now enter your session and prepare the kick")
+    else
+        menu.trigger_commands("nobgscript off")
+		menu.trigger_commands("skipbroadcast off")
+        menu.trigger_commands("speedupspawn off")
+        menu.trigger_commands("speedupfmmc off")
+        menu.trigger_commands("skipswoopdown off")
+        menu.trigger_command(UnblockIncSyncs)
+        menu.trigger_command(UnblockNetEvents)
+        menu.trigger_command(BlockBailing3, "off")
+        menu.trigger_command(UnShowNotis)
+        menu.trigger_command(UnBlockRaw)
+        menu.trigger_commands("skipbroadcast off")
+        menu.trigger_command(DontAsk, "off")
+        menu.trigger_commands("skipswoopdown off")
+        util.toast("Done, all off")
+    end
+    end)
+
+
+menu.toggle_loop(detections, "Weapon In Interior", {}, "detects if you use a gun indoors", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
+            util.draw_debug_text(players.get_name(player_id) .. " Has a gun indoors")
+            break
         end
+    end
+end)
 
-        start_teleport_detection_thread(pid)
-
-        -- hiii 2take1 people! if you're looking for an RID, you can surely look in the old commits; but thats my old account!
-        -- no more creepy tracking 4 u! go outside :))
-        if detection_lance then
-            if players.get_rank(pid) == 11892 then
-                util.toast("Lance Detection From " .. players.get_name(memory.read_int(sender)))
-            end
+menu.toggle_loop(detections, "It's a hacker", {}, "Detects if the player is about to ban", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
+        if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
+            util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
+            break
         end
+    end
+end)
 
-        if detection_bslevel then
-            if players.get_rp(pid) > util.get_rp_required_for_rank(1000) then
-                	          util.toast("Bullshit Level Detection From " .. players.get_name(memory.read_int(sender)))
-            end
+menu.toggle_loop(detections, "Running Fast", {}, "Detect if you run faster", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local ped_speed = (ENTITY.GET_ENTITY_SPEED(ped)* 2.236936)
+        if not util.is_session_transition_active() and get_interior_player_is_in(player_id) == 0 and get_transition_state(player_id) ~= 0 and not PED.IS_PED_DEAD_OR_DYING(ped) 
+        and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_IN_ANY_VEHICLE(ped, false)
+        and not TASK.IS_PED_STILL(ped) and not PED.IS_PED_JUMPING(ped) and not ENTITY.IS_ENTITY_IN_AIR(ped) and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped)
+        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) <= 300.0 and ped_speed > 30 then -- fastest run speed is about 18ish mph but using 25 to give it some headroom to prevent false positives
+            util.toast(players.get_name(player_id) .. " Is Using Super Run")
+            break
         end
+    end
+end)
 
-        if detection_money then
-            if players.get_money(pid) > 1000000000 then
-                notify(translations.detection_notice_prefix .. players.get_name(pid) .. translations.money_detection_notice)
-            end
+menu.toggle_loop(detections, "Noclip", {}, "Detects if the player is levitating/noclip", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local ped_ptr = entities.handle_to_pointer(ped)
+        local vehicle = PED.GET_VEHICLE_PED_IS_USING(ped)
+        local oldpos = players.get_position(player_id)
+        util.yield()
+        local currentpos = players.get_position(player_id)
+        local vel = ENTITY.GET_ENTITY_VELOCITY(ped)
+        if not util.is_session_transition_active() and players.exists(player_id)
+        and get_interior_player_is_in(player_id) == 0 and get_transition_state(player_id) ~= 0
+        and not PED.IS_PED_IN_ANY_VEHICLE(ped, false) -- too many false positives occured when players where driving. so fuck them. lol.
+        and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped)
+        and not PED.IS_PED_CLIMBING(ped) and not PED.IS_PED_VAULTING(ped) and not PED.IS_PED_USING_SCENARIO(ped)
+        and not TASK.GET_IS_TASK_ACTIVE(ped, 160) and not TASK.GET_IS_TASK_ACTIVE(ped, 2)
+        and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) <= 395.0 -- 400 was causing false positives
+        and ENTITY.GET_ENTITY_HEIGHT_ABOVE_GROUND(ped) > 5.0 and not ENTITY.IS_ENTITY_IN_AIR(ped) and entities.player_info_get_game_state(ped_ptr) == 0
+        and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
+        and vel.x == 0.0 and vel.y == 0.0 and vel.z == 0.0 then
+            util.toast(players.get_name(player_id) .. " Is Using Noclip")
+            break
         end
+    end
+end)
 
-        local ip = players.get_connect_ip(pid)
-        if detection_follow then
-            if table.contains(known_players_this_game_session, ip) then
-                util.toast("Follow Detection From " .. players.get_name(memory.read_int(sender)))
-            else
-                known_players_this_game_session[#known_players_this_game_session + 1 ] = ip
+menu.toggle_loop(detections, "Spectating", {}, "Detect if you or someone else is spectating", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        for i, interior in ipairs(interior_stuff) do
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+            if not util.is_session_transition_active() and get_transition_state(player_id) ~= 0 and get_interior_player_is_in(player_id) == interior
+            and not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped) then
+                if v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_cam_pos(player_id)) < 15.0 and v3.distance(ENTITY.GET_ENTITY_COORDS(players.user_ped(), false), players.get_position(player_id)) > 20.0 then
+                    util.toast(players.get_name(player_id) .. " Is watching you")
+                    break
+                end
             end
         end
     end
-
 end)
 
--- detections
-detection_lance = true
-menu.toggle(detections, "Lance Detection", {}, "", function()
-    detection_lance = on
-end, true)
-
-detection_teleports = false
-menu.toggle(detections, "Teleport/Moded Speed Detection", {}, "", function()
-    detection_teleports = on
+menu.toggle_loop(detections, "Teleport", {}, "Detect if the player teleports", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        if not NETWORK.NETWORK_IS_PLAYER_FADING(player_id) and ENTITY.IS_ENTITY_VISIBLE(ped) and not PED.IS_PED_DEAD_OR_DYING(ped) then
+            local oldpos = players.get_position(player_id)
+            util.yield(1000)
+            local currentpos = players.get_position(player_id)
+            for i, interior in ipairs(interior_stuff) do
+                if v3.distance(oldpos, currentpos) > 500 and oldpos.x ~= currentpos.x and oldpos.y ~= currentpos.y and oldpos.z ~= currentpos.z 
+                and get_transition_state(player_id) ~= 0 and get_interior_player_is_in(player_id) == interior and PLAYER.IS_PLAYER_PLAYING(player_id) and player.exists(player_id) then
+                    util.toast(players.get_name(player_id) .. "  He just teleported")
+                end
+            end
+        end
+    end
 end)
 
-detection_follow = false
-menu.toggle(detections, "Follow Detection", {}, "", function()
-    detection_follow = on
+local votekicks = menu.list(detections, "Vote To Kick", {}, "")
+menu.toggle_loop(votekicks, "Vote To Kick", {}, "It detects if they vote to expel someone from the session very quickly and warns.", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local kickowner = NETWORK.NETWORK_SESSION_GET_KICK_VOTE(player_id)
+        local kicked = NETWORK.NETWORK_SESSION_KICK_PLAYER(player_id)
+        if kicked then
+            util.draw_debug_text(players.get_name(player_id) .. " The player", kicked, "has been kicked by:", kickowner)
+            break
+        end
+    end
 end)
 
+menu.toggle_loop(votekicks, "Vote To Kick Auto Kick", {}, "It detects if they vote to expel someone from the session very quickly and warns.  Then auto blocks joins and uses breakup kick.", function()
+    for _, player_id in ipairs(players.list(false, true, true)) do
+        local kickowner = NETWORK.NETWORK_SESSION_GET_KICK_VOTE(player_id)
+        local kicked = NETWORK.NETWORK_SESSION_KICK_PLAYER(player_id)
+        if kicked then
+            util.draw_debug_text(players.get_name(player_id) .. " The player", kicked, "has been kicked by:", kickowner)
+                menu.trigger_commands("blast" .. players.get_name(pid))
+            break
+        end
+    end
+end)
 
-detection_bslevel = false
-menu.toggle(detections, "Level Detection", {}, "", function()
-    detection_bslevel = on
-end, false)
-
-
-detection_money = false
-menu.toggle(detections, "Money Detection", {}, "", function()
-    detection_money = on
-end, false)
 
 local proofsList = menu.list(self, "Godmode Editor", {}, "")
 local immortalityCmd = menu.ref_by_path("Self>Immortality")
@@ -13414,6 +13601,37 @@ util.create_tick_handler(function()
     if not menu.get_value(immortalityCmd) then
         ENTITY.SET_ENTITY_PROOFS(player, proofs.bullet.on, proofs.fire.on, proofs.explosion.on, proofs.collision.on, proofs.melee.on, proofs.steam.on, false, proofs.drown.on)
     end
+end)
+
+menu.toggle_loop(self, "Admin Bail", {}, "If it detects an R* admin it changes your session.", function(on)
+    bailOnAdminJoin = on
+end)
+
+if bailOnAdminJoin then
+    if players.is_marked_as_admin(player_id) then
+        util.toast(players.get_name(player_id) .. " If there is an admin, for another session.")
+        menu.trigger_commands("quickbail")
+        return
+    end
+end
+
+menu.toggle_loop(self, "Block Transaction Error 'Test'", {}, "Likely to lead to errors, use under responsibility", function(on_toggle)
+    local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
+    local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
+    if on_toggle then
+        menu.trigger_command(TransactionError, "on")
+        menu.trigger_command(TransactionErrorV, "on")
+        for i = 1, 100 do
+            menu.trigger_commands("removeloader")
+        end
+        --util.toast("It's not my fault the log error, wait for Stand to fix it")
+    end
+end)
+
+menu.toggle_loop(self, "Block PFTX/Particulate Lag", {}, "", function()
+    local coords = ENTITY.GET_ENTITY_COORDS(players.user_ped() , false);
+    GRAPHICS.REMOVE_PARTICLE_FX_IN_RANGE(coords.x, coords.y, coords.z, 400)
+    GRAPHICS.REMOVE_PARTICLE_FX_FROM_ENTITY(players.user_ped())
 end)
 
 menu.toggle_loop(self, "Ghost PvP Players", {}, "", function()
@@ -13915,7 +14133,6 @@ menu.slider(maxpl, "Max Spectators", {"maxSpectators"}, "Set the maximum number 
         util.toast("Slots are now free :)")
     end
 end)
-
 
 local chat_trans = menu.list(misc, "Chat Translator")
 
@@ -14533,6 +14750,14 @@ end)
 menu.action(misc, "Fix Casino Heist", {}, "If you've bricked your casino heist by not doing the scoping mission, give this a try :)", function()
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_POI"), 0, true)
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_ACCESSPOINTS"), 0, true)
+end)
+
+menu.toggle_loop(misc, "Accept Joins", {}, "Automatically accept join screens", function() -- credits to jinx for letting me steal this
+    local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
+    if message_hash == 15890625 or message_hash == -398982408 or message_hash == -587688989 then
+        PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
+        util.yield(200)
+    end
 end)
 
 menu.toggle_loop(misc, 'Increase Kosatka Missile Range', {'krange'}, 'You can use it anywhere in the map now', function ()
