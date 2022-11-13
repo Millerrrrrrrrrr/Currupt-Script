@@ -2264,7 +2264,7 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
 end
 
 
-util.toast("Welcome To Currupt Script 0.6.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.6.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
 
@@ -4385,12 +4385,24 @@ menu.toggle_loop(protex, "Anti-Beast", {}, "Prevents you from being turned into 
     end
 end)
 
-	menu.toggle_loop(protex, "Clear Notifications", {"clearnotifs"}, "Clears notifs above mini map", function(on_toggle)
+	protexx = menu.list(protex, "Clear All Notifications", {}, "", function(); end)
+
+	menu.action(protexx, "Clear All Notifications", {"clearnotifs"}, "Clears stand notifs and above mini map", function()
+			menu.trigger_commands("clearnotifications")
+			menu.trigger_commands("clearstandnotifys")
+	end)
+
+	menu.toggle_loop(protexx, "Clear All Notifications Toggled", {"toggleclearnotifs"}, "Clears stand notifs and above mini map", function(on_toggle)
 		if on then
 			menu.trigger_commands("clearnotifications")
-			util.yield(1000000)
+			menu.trigger_commands("clearstandnotifys")
+			util.yield(1000)
+			menu.trigger_commands("clearnotifications")
+			menu.trigger_commands("clearstandnotifys")
+			util.yield(1000)
 		else
 			menu.trigger_commands("clearnotifications")
+			menu.trigger_commands("clearstandnotifys")
 		end
 	
 	end)
@@ -6103,8 +6115,38 @@ GenerateFeatures = function(pid)
 		end
 	end)
 
-	
 	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
+
+
+menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+
+    local khanjali = util.joaat("prop_ld_ferris_wheel")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+
+    local vehicle1 = entities.create_object(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+    local vehicle2 = entities.create_object(khanjali, playerpos, 0)
+    local vehicle3 = entities.create_object(khanjali, playerpos, 0)
+    local vehicle4 = entities.create_object(khanjali, playerpos, 0)
+
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, false)
+    util.yield(1200)
+    entities.delete_by_handle(vehicle1)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
 
 menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
     local player_ped = PLAYER.PLAYER_PED_ID()    
@@ -6431,7 +6473,7 @@ menu.toggle_loop(lagwiths, "Lag With Tug's", {"lagwithtugs"}, "", function()
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
-    util.yield(0)
+    util.yield(10000)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwiths, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function()
@@ -6464,7 +6506,7 @@ menu.toggle_loop(lagwiths, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function(
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
-    util.yield(0)
+    util.yield(10000)
 end)
 
 menu.toggle_loop(lagwiths, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
@@ -8325,6 +8367,10 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	menu.trigger_commands("kick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
+    	menu.action(kick, "Buttplug", {"buttplug"}, "Unblockable when you are the host.", function()
+	menu.trigger_commands("buttplug"..PLAYER.GET_PLAYER_NAME(pid))
+    			end)
+
     	menu.action(kick, "Breakup", {"breakup"}, "A discrete kick that won't tell the target who did it.", function()
 	menu.trigger_commands("breakup"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
@@ -8379,7 +8425,6 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		end
 	end)
         
-
 	passivemode = menu.list(griefing, "Passive Mode", {}, "", function(); end)
 
 	menu.action(passivemode,"Block", {}, "", function()
@@ -8704,8 +8749,6 @@ end
 	if on then
                   util.toast("Get Ready... ;)")
 	menu.trigger_commands("panic")
-	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
-                	util.yield(100)
 	menu.trigger_commands("badnet" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("keramisdump" .. players.get_name(pid))
@@ -8714,13 +8757,13 @@ end
                 	util.yield(100)
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
                 	util.yield(100)
+	menu.trigger_commands("glitchphysics" .. players.get_name(pid))
+                	util.yield(100)
 	menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
-                	util.yield(100)
-	menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
                 	util.yield(100)
@@ -8759,26 +8802,26 @@ end
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
 else
         util.toast("Please hold whilst I recover your menu :)")
-                	util.yield(15000)
+                	util.yield(1500)
     local player_ped = PLAYER.PLAYER_PED_ID()    
     local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
     local pld = PLAYER.GET_PLAYER_PED(pid)
     local pos = ENTITY.GET_ENTITY_COORDS(pld)
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1336.5051, -3044.8555, 2698.6846)
     util.yield(1000)
+    util.toast("Standy... :)")
     for i=1,4  do
         ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1336.5051, -3044.8555, 2698.6846)
         util.yield(1000)
     end
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
-	menu.trigger_commands("lanceautoentities" .. players.get_name(pid))
 	menu.trigger_commands("badnet" .. players.get_name(pid))
         	menu.trigger_commands("chaosyeet" .. players.get_name(pid))
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
+	menu.trigger_commands("glitchphysics" .. players.get_name(pid))
 	menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
 	menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
-	menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
 	menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
 	menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
 	menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
@@ -8828,7 +8871,7 @@ menu.toggle_loop(lagwithss, "Lag With Tug's", {"lagwithtugs"}, "", function()
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
-    util.yield(0)
+    util.yield(10000)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 menu.toggle_loop(lagwithss, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function()
@@ -8861,7 +8904,7 @@ menu.toggle_loop(lagwithss, "Lag With Tug's V2", {"lagwithtugsv2"}, "", function
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
     ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
     ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
-    util.yield(0)
+    util.yield(10000)
 end)
 
 menu.toggle_loop(lagwithss, "Lag With Cargobob's", {"lagwithcargos"}, "", function()
@@ -9068,26 +9111,7 @@ end)
 			menu.trigger_commands("stopluasneakyexplodesstandprivate")
 	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-	menu.toggle(newcrash, "Lance Auto Entites", {"lanceautoentities"}, "Note: You need Lance Reloaded Script. Raining peds/cars and stacking peds/cars is great for crashing people if your spamming alot other stuff.", function(on_toggle)
-	if on_toggle then
-        			menu.trigger_commands("togglecentipede" .. players.get_name(pid))
-			menu.trigger_commands("lualancescriptreloaded")
-                    		util.yield(500)
-			menu.trigger_commands("lancescriptentities")
-        			menu.trigger_commands("sexlines" .. " On")
-        			menu.trigger_commands("npcroasts" .. " On")
-        			menu.trigger_commands("screamall" .. " On")
-        			menu.trigger_commands("stackallpeds")
-        			menu.trigger_commands("rainpeds" .. " On")
-        			menu.trigger_commands("rainvehicles" .. " On")
-	else
-			menu.trigger_commands("stoplualancescriptreloaded")
-                    		util.yield(100)
-        			menu.trigger_commands("togglecentipede" .. players.get_name(pid))
-        			menu.trigger_commands("clean")
-		end
 
-	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	local dont_stop = false
 	menu.toggle_loop(newcrash,"Vehicle Chaos", {"chaosyeet"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
@@ -13015,6 +13039,12 @@ end
     if menu.get_edition() >= 2 then 
         menu.toggle_loop(standcrash, "Elegant", {"crash"}, "Blocked by most menus.", function(on_loop)
             menu.trigger_commands("crash" .. players.get_name(pid))
+        end)
+    end
+
+    if menu.get_edition() >= 2 then 
+        menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"smash"}, "", function(on_loop)
+            menu.trigger_commands("smash" .. players.get_name(pid))
         end)
     end
 
