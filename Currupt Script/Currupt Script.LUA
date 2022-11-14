@@ -4873,6 +4873,10 @@ menu.toggle_loop(ptfxloop, "Water Mist", {"ptfxwatermist"}, "", function(on_togg
                 "ent_anim_bm_water_mist", pos.x, pos.y, pos.z, 0, 0, 0, 2.5, false, false, false)
 	end)
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function request_model_load(hash)
+    util.request_model(hash, 2000)
+end
+
 
 menu.toggle_loop(griefing, "Laughter Torment", {"laughter"}, "Only works when they are on foot.", function(on_toggle)
         local target_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -7916,7 +7920,7 @@ end)
 
 local clothescrash = menu.list(crash, "Component Crash", {}, "")
 
-menu.action(clothescrash, "Component Crash", {"clothescrash"}, "Crash clothes", function()
+menu.action(clothescrash, "Component Crash", {"clothescrash"}, "Warning! Toggle Panic Mode First!", function()
         if pid ~= players.user() then
             util.toast("Wait 20 Seconds...")
             local math_random = math.random
@@ -9015,7 +9019,7 @@ end)
 
 
 
-menu.toggle_loop(clothescrash, "Component Crash", {"toggleclothescrash"}, "Crash clothes", function()
+menu.toggle_loop(clothescrash, "Component Crash", {"toggleclothescrash"}, "Warning! Toggle Panic Mode First!", function()
     local math_random = math.random
     local joaat = util.joaat
     util.yield(100)
