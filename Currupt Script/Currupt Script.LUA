@@ -26,15 +26,49 @@ WE HAVE TAKEN OVER░ \☻/\☻/
 ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 util.keep_running()
+
+--AUTO UPDATER
+
+
+local response = false
+local localVer = "0.7.0"
+async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
+    currentVer = tonumber(output)
+    response = true
+    if localVer ~= currentVer then
+        util.toast("This version of Currupt Script is outdated but functional. Please update to a more stable version.")
+        menu.action(menu.my_root(), "Update Lua", {}, "", function()
+            async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
+                local err = select(2,load(a))
+                if err then
+                    util.toast("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
+                return end
+                local f = io.open(filesystem.scripts_dir()..SCRIPT_RELPATH, "wb")
+                f:write(a)
+                f:close()
+                util.toast("Script updated :3")
+                util.restart_script()
+            end)
+            async_http.dispatch()
+        end)
+    end
+end, function() response = true end)
+async_http.dispatch()
+repeat 
+    util.yield()
+until response
+
 util.require_natives("natives-1660775568")
 util.require_natives("natives-1651208000")
 util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
 
-util.toast("Welcome To Currupt Script 0.6.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.6.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 
 --------------------------------------------------------------------------------------
+
+
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
 
@@ -4717,15 +4751,50 @@ GenerateFeatures = function(pid)
     menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
         TpAllPeds(pid)
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.toggle_loop(pteleportEntities, "TP Peds on Player", {"toggletppeds"}, "", function (on_toggle)
+            if on_toggle then
+                TpAllPeds(pid)
+            else
+                TpAllPeds(pid)
+            end
+    end)
+
     menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
         TpAllVehs(pid)
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.toggle_loop(pteleportEntities, "TP All Vehicles on Player", {"toggletppedstpvehs"}, "", function (on_toggle)
+            if on_toggle then
+                TpAllVehs(pid)
+            else
+                TpAllVehs(pid)
+            end
+    end)
+
     menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
         TpAllObjects(pid)
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.toggle_loop(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function (on_toggle)
+            if on_toggle then
+                TpAllObjects(pid)
+            else
+                TpAllObjects(pid)
+            end
+    end)
+
     menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
         TpAllPickups(pid)
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.toggle_loop(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function (on_toggle)
+            if on_toggle then
+                TpAllPickups(pid)
+            else
+                TpAllPickups(pid)
+            end
+    end)
 
 
 menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
@@ -4757,6 +4826,77 @@ menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_
     entities.delete_by_handle(vehicle1)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+
+
+menu.toggle_loop(griefing, "Rain Peds on Player", {"rainpeds"}, "", function(on_toggle)
+    local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+    local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+        all_peds = entities.get_all_peds_as_handles()
+    for k,ped in pairs(all_peds) do
+        if not PED.IS_PED_A_PLAYER(ped) then
+            if PED.IS_PED_IN_ANY_VEHICLE(ped, true) then
+                TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
+                TASK.TASK_LEAVE_ANY_VEHICLE(ped, 0, 16)
+            end
+            ENTITY.IS_ENTITY_IN_AIR(ped)
+            ENTITY.SET_ENTITY_COORDS(ped, ped_c.x, ped_c.y, ped_c.z)
+            ped_c.x = ped_c.x + math.random(-5, 5)
+            ped_c.y = ped_c.y + math.random(-5, 5)
+            ped_c.z = ped_c.z + math.random(5, 10)
+            ENTITY.SET_ENTITY_VELOCITY(ped, 0.0, 0.0, -1.0)
+            util.yield(100)
+        end
+    end
+end)
+
+
+menu.toggle_loop(griefing, "Rain Vehicles on Player", {"rainveh"}, "", function(on_toggle)
+    local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+    local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+        all_peds = entities.get_all_vehicles_as_handles()
+    for k,ped in pairs(all_peds) do
+        if not PED.IS_PED_A_PLAYER(ped) then
+            if PED.IS_PED_IN_ANY_VEHICLE(ped, true) then
+                TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
+                TASK.TASK_LEAVE_ANY_VEHICLE(ped, 0, 16)
+            end
+            ENTITY.IS_ENTITY_IN_AIR(ped)
+            ENTITY.SET_ENTITY_COORDS(ped, ped_c.x, ped_c.y, ped_c.z)
+            ped_c.x = ped_c.x + math.random(-5, 5)
+            ped_c.y = ped_c.y + math.random(-5, 5)
+            ped_c.z = ped_c.z + math.random(5, 10)
+            ENTITY.SET_ENTITY_VELOCITY(ped, 0.0, 0.0, -1.0)
+            util.yield(100)
+        end
+    end
+end)
+
+menu.toggle_loop(griefing, "Bend There Knees", {"bendknees"}, "Forces them down making them bend there knees.", function(on_toggle)
+    for k, ped in pairs(entities.get_all_peds_as_handles()) do
+        local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(ped, -1, false)
+        local locspeed2 = speed
+                local holecoords = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+        if not PED.IS_PED_A_PLAYER(PedInSeat) then
+            NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ped)
+      ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(bh_target), true)
+                    vcoords = ENTITY.GET_ENTITY_COORDS(ped, true)
+                    speed = 100
+                    local x_vec = (holecoords['x']-vcoords['x'])*speed
+                    local y_vec = (holecoords['y']-vcoords['y'])*speed
+                    local z_vec = ((holecoords['z']+hole_zoff)-vcoords['z'])*speed
+                    ENTITY.SET_ENTITY_INVINCIBLE(ped, true)
+                    ENTITY.IS_ENTITY_IN_AIR(ped)
+                    local ped_c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+                    ped_c.x = ped_c.x + math.random(-50, 50)
+                    ped_c.y = ped_c.y + math.random(-50, 50)
+                    ped_c.z = ped_c.z + math.random(100, 120)
+                    ENTITY.SET_ENTITY_VELOCITY(ped, 0.0, 0.0, -1.0)
+                    if not dont_stop and not PAD.IS_CONTROL_PRESSED(2, 71) and not PAD.IS_CONTROL_PRESSED(2, 72) then
+                VEHICLE.SET_VEHICLE_FORWARD_SPEED(ped, 0.0);
+            end
+        end
+    end
+end)
 
 menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
     local player_ped = PLAYER.PLAYER_PED_ID()    
@@ -4962,7 +5102,7 @@ menu.toggle_loop(griefing, "Laughter Torment", {"laughter"}, "Only works when th
         ENTITY.SET_ENTITY_VISIBLE(voice_ped, false, 0)
         ENTITY.FREEZE_ENTITY_POSITION(voice_ped, true)
         ENTITY.SET_ENTITY_INVINCIBLE(voice_ped, true)
-        AUDIO.PLAY_PED_AMBIENT_SPEECH_WITH_VOICE_NATIVE(voice_ped, speech, voice, "SPEECH_PARAMS_FORCE", 0)
+        AUDIO.PLAY_PED_AMBIENT_SPEECH_WITH_VOICE_NATIVE(voice_ped, speech, voice, "SPEECH_PARAMS_FORCE_SHOUTED", 0)
         util.yield(3000)
         entities.delete_by_handle(voice_ped)
     end)
@@ -5022,6 +5162,7 @@ menu.toggle_loop(centipedegriefing, "Human Centipede", {"togglecentipede"}, "", 
         end
     end
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
 
 	killgods = menu.list(griefing, "Kill Godmode Shit", {}, "", function(); end)
 
@@ -7019,22 +7160,23 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		end
 	end)
 
-	menu.toggle(griefing,"Report Spam", {}, "May lag your game when in progress", function(on)
+	menu.toggle(griefing,"Report Spam", {}, "Sends all types of reports, may lag your game when in progress.", function(on)
 		spam = on
 		while spam do
 			if pid ~= players.user() then
+                menu.trigger_commands("reportgriefing " .. PLAYER.GET_PLAYER_NAME(pid))
+                menu.trigger_commands("reportexploits " .. PLAYER.GET_PLAYER_NAME(pid))
+                menu.trigger_commands("reportbugabuse " .. PLAYER.GET_PLAYER_NAME(pid))
+                menu.trigger_commands("reportannoying " .. PLAYER.GET_PLAYER_NAME(pid))
+                menu.trigger_commands("reporthate " .. PLAYER.GET_PLAYER_NAME(pid))
 				menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pid))
 				menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportannoying " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reporthate " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportexploits " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportbugabuse " .. PLAYER.GET_PLAYER_NAME(pid))
 			end
 			util.yield()
 		end
 	end)
 
-	menu.toggle(griefing,"Commend Spam", {}, "May lag your game when in progress", function(on)
+	menu.toggle(griefing,"Commend Spam", {}, "Sends all types of commends its good for a player if they have been reported alot, may lag your game when in progress.", function(on)
 		spam = on
 		while spam do
 			if pid ~= players.user() then
@@ -7313,6 +7455,17 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		end
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
+    menu.toggle(frienm,"Commend Spam", {}, "Sends all types of commends its good for a player if they have been reported alot, may lag your game when in progress.", function(on)
+		spam = on
+		while spam do
+			if pid ~= players.user() then
+				menu.trigger_commands("commendfriendly " .. PLAYER.GET_PLAYER_NAME(pid))
+				menu.trigger_commands("commendhelpful " .. PLAYER.GET_PLAYER_NAME(pid))
+			end
+			util.yield()
+		end
+	end)
+
     local friendly = menu.list(frienm, "Jinx Drops", {}, "")
 
 
@@ -7490,7 +7643,7 @@ end
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     	local newcrash = menu.list(crash, "Annoy Modders", {}, "")
 
-        menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash. Hit Stop Fatal Crash, or just restart the script.", function(on)
+        menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE!.", function(on)
 	if on then
     	local player_ped = PLAYER.PLAYER_PED_ID()    
     	local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
@@ -7506,19 +7659,23 @@ end
 	menu.trigger_commands("panic")
 	menu.trigger_commands("badnet" .. players.get_name(pid))
                 	util.yield(100)
-	menu.trigger_commands("tppeds" .. players.get_name(pid))
+	menu.trigger_commands("toggletppeds" .. players.get_name(pid))
                     util.yield(100)
-    menu.trigger_commands("tpvehs" .. players.get_name(pid))
+    menu.trigger_commands("toggletpvehs" .. players.get_name(pid))
                     util.yield(100)
-    menu.trigger_commands("tpobjs" .. players.get_name(pid))
+    menu.trigger_commands("toggletpobjs" .. players.get_name(pid))
                     util.yield(100)
-    menu.trigger_commands("tppickups" .. players.get_name(pid))
+    menu.trigger_commands("toggletppickups" .. players.get_name(pid))
                     util.yield(100)
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
                 	util.yield(100)
 	menu.trigger_commands("glitchphysics" .. players.get_name(pid))
+                	util.yield(100)
+    menu.trigger_commands("rainpeds" .. players.get_name(pid))
+                	util.yield(100)
+    menu.trigger_commands("rainveh" .. players.get_name(pid))
                 	util.yield(100)
     menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
                 	util.yield(100)
@@ -7576,19 +7733,23 @@ else
     util.yield(1)
     menu.trigger_commands("chaosyeet" .. players.get_name(pid))
     util.yield(1)
-	menu.trigger_commands("tppeds" .. players.get_name(pid))
+	menu.trigger_commands("toggletppeds" .. players.get_name(pid))
     util.yield(1)
-    menu.trigger_commands("tpvehs" .. players.get_name(pid))
+    menu.trigger_commands("toggletpvehs" .. players.get_name(pid))
     util.yield(1)
-    menu.trigger_commands("tpobjs" .. players.get_name(pid))
+    menu.trigger_commands("toggletpobjs" .. players.get_name(pid))
     util.yield(1)
-    menu.trigger_commands("tppickups" .. players.get_name(pid))
+    menu.trigger_commands("toggletppickups" .. players.get_name(pid))
     util.yield(1)
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
     util.yield(1)
 	menu.trigger_commands("togglefragv1" .. players.get_name(pid))
     util.yield(1)
 	menu.trigger_commands("glitchphysics" .. players.get_name(pid))
+    util.yield(1)
+    menu.trigger_commands("rainpeds" .. players.get_name(pid))
+    util.yield(1)
+    menu.trigger_commands("rainveh" .. players.get_name(pid))
     util.yield(1)
     menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
     util.yield(1)
@@ -8101,18 +8262,52 @@ end)
 menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
     TpAllPeds(pid)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(pteleportEntities, "TP Peds on Player", {"toggletppeds"}, "", function (on_toggle)
+        if on_toggle then
+            TpAllPeds(pid)
+        else
+            TpAllPeds(pid)
+        end
+end)
+
 menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
     TpAllVehs(pid)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(pteleportEntities, "TP All Vehicles on Player", {"toggletppedstpvehs"}, "", function (on_toggle)
+        if on_toggle then
+            TpAllVehs(pid)
+        else
+            TpAllVehs(pid)
+        end
+end)
+
 menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
     TpAllObjects(pid)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function (on_toggle)
+        if on_toggle then
+            TpAllObjects(pid)
+        else
+            TpAllObjects(pid)
+        end
+end)
+
 menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
     TpAllPickups(pid)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+menu.toggle_loop(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function (on_toggle)
+        if on_toggle then
+            TpAllPickups(pid)
+        else
+            TpAllPickups(pid)
+        end
+end)
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	local dont_stop = false
 	menu.toggle_loop(newcrash,"Vehicle Chaos", {"chaosyeet"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
 		for k, veh in pairs(entities.get_all_vehicles_as_handles()) do
