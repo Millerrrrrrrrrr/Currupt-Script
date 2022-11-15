@@ -33,33 +33,7 @@ util.require_natives("natives-1640181023")
 
 util.toast("Welcome To Currupt Script 0.6.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
-local response = false
-local localVer = "0.6.8"
-async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
-    currentVer = tonumber(output)
-    response = true
-    if localVer ~= currentVer then
-        util.toast("This version of Currupt Script is outdated but functional. Please update to a more stable version.")
-        menu.action(menu.my_root(), "Update Lua", {}, "", function()
-            async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
-                local err = select(2,load(a))
-                if err then
-                    util.toast("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
-                return end
-                local f = io.open(filesystem.scripts_dir()..SCRIPT_RELPATH, "wb")
-                f:write(a)
-                f:close()
-                util.toast("Script updated :3")
-                util.restart_script()
-            end)
-            async_http.dispatch()
-        end)
-    end
-end, function() response = true end)
-async_http.dispatch()
-repeat 
-    util.yield()
-until response
+
 --------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -7262,23 +7236,6 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                 end, nil, nil, COMMANDPERM_FRIENDLY)
             end)
 
-            menu.action(frienm, "Private SmS", {"sms"}, "It sends messages to anyone message appears private.", function(cl)
-                menu.show_command_box_click_based(cl, "pmuser "..players.get_name(pid):lower().." ") end, function(input)
-            end, function(message)
-                if #message == 0 then 
-                    util.toast("message_blank")
-                    return 
-                end
-                local from_msg = "[To you] " .. message
-                local to_msg = "[To " .. players.get_name(pid) .. '] ' .. message
-                if string.len(from_msg) > 254 or string.len(to_msg) > 254 then 
-                    util.toast("Message too long")
-                else
-                    chat.send_targeted_message(pid, players.user(), from_msg, true)
-                    chat.send_message(to_msg, true, true, false)
-                end
-            end)
-
 	menu.action(frienm,"Drift Mode", {"driftmode"}, "",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
@@ -7547,11 +7504,15 @@ end
     			end
     			ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
 	menu.trigger_commands("panic")
-	menu.trigger_commands("oxallcrash" .. players.get_name(pid))
-                	util.yield(100)
 	menu.trigger_commands("badnet" .. players.get_name(pid))
                 	util.yield(100)
-	menu.trigger_commands("tpallentities" .. players.get_name(pid))
+	menu.trigger_commands("tppeds" .. players.get_name(pid))
+                    util.yield(100)
+    menu.trigger_commands("tpvehs" .. players.get_name(pid))
+                    util.yield(100)
+    menu.trigger_commands("tpobjs" .. players.get_name(pid))
+                    util.yield(100)
+    menu.trigger_commands("tppickups" .. players.get_name(pid))
                     util.yield(100)
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
                 	util.yield(100)
@@ -7613,11 +7574,15 @@ else
                 	util.yield(1500)
 	menu.trigger_commands("badnet" .. players.get_name(pid))
     util.yield(1)
-	menu.trigger_commands("oxallcrash" .. players.get_name(pid))
-    util.yield(1)
     menu.trigger_commands("chaosyeet" .. players.get_name(pid))
     util.yield(1)
-    menu.trigger_commands("tpallentities" .. players.get_name(pid))
+	menu.trigger_commands("tppeds" .. players.get_name(pid))
+    util.yield(1)
+    menu.trigger_commands("tpvehs" .. players.get_name(pid))
+    util.yield(1)
+    menu.trigger_commands("tpobjs" .. players.get_name(pid))
+    util.yield(1)
+    menu.trigger_commands("tppickups" .. players.get_name(pid))
     util.yield(1)
 	menu.trigger_commands("poodlev2" .. players.get_name(pid))
     util.yield(1)
