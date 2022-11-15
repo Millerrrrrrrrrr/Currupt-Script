@@ -4690,22 +4690,9 @@ GenerateFeatures = function(pid)
         tpTableToPlayer(pickupHandles, player)
     end
 
-    menu.divider(griefing, "Teleport Entities")
     local pteleportEntities = menu.list(griefing, "Teleport Entities to Player", {}, "")
-    menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
-        TpAllPeds(pid)
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-    menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
-        TpAllVehs(pid)
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-    menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
-        TpAllObjects(pid)
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-    menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
-        TpAllPickups(pid)
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.toggle_loop(griefing, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+    menu.toggle_loop(pteleportEntities, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
         if on_toggle then
             menu.trigger_commands("tppeds" .. players.get_name(pid))
             util.yield(100)
@@ -4724,6 +4711,19 @@ GenerateFeatures = function(pid)
             menu.trigger_commands("tppickups" .. players.get_name(pid))
         end
     end)
+
+    menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
+        TpAllPeds(pid)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+    menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
+        TpAllVehs(pid)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+    menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
+        TpAllObjects(pid)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+    menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
+        TpAllPickups(pid)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
@@ -8082,22 +8082,10 @@ menu.toggle_loop(centipedegriefing, "Human Centipede", {"togglecentipede"}, "", 
     end
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-
 local pteleportEntities = menu.list(newcrash, "Teleport Entities to Player", {}, "")
-menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
-    TpAllPeds(pid)
-end, nil, nil, COMMANDPERM_AGGRESSIVE)
-menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
-    TpAllVehs(pid)
-end, nil, nil, COMMANDPERM_AGGRESSIVE)
-menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
-    TpAllObjects(pid)
-end, nil, nil, COMMANDPERM_AGGRESSIVE)
-menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
-    TpAllPickups(pid)
-end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-menu.toggle_loop(newcrash, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+
+menu.toggle_loop(pteleportEntities, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
 	if on_toggle then
         menu.trigger_commands("tppeds" .. players.get_name(pid))
         util.yield(100)
@@ -8116,6 +8104,20 @@ menu.toggle_loop(newcrash, "Teleport ALL Entities to Player", {"tpallentities"},
         menu.trigger_commands("tppickups" .. players.get_name(pid))
     end
 end)
+
+menu.action(pteleportEntities, "TP Peds on Player", {"tppeds"}, "", function ()
+    TpAllPeds(pid)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+menu.action(pteleportEntities, "TP All Vehicles on Player", {"tpvehs"}, "", function ()
+    TpAllVehs(pid)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+menu.action(pteleportEntities, "TP All Objects on Player", {"tpobjs"}, "", function ()
+    TpAllObjects(pid)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+menu.action(pteleportEntities, "TP All Pickups on Player", {"tppickups"}, "", function ()
+    TpAllPickups(pid)
+end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	local dont_stop = false
