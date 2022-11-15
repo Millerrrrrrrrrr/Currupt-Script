@@ -44,7 +44,7 @@ async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/ma
             async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
                 local err = select(2,load(a))
                 if err then
-                    util.toast("Ocurred an error, download it from github.")
+                    util.toast("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
                 return end
                 local f = io.open(filesystem.scripts_dir()..SCRIPT_RELPATH, "wb")
                 f:write(a)
