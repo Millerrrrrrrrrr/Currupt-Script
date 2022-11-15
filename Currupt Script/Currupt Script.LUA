@@ -32,6 +32,34 @@ util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
 
 util.toast("Welcome To Currupt Script 0.6.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+
+local response = false
+local localVer = "0.6.7"
+async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
+    currentVer = tonumber(output)
+    response = true
+    if localVer ~= currentVer then
+        util.toast("Hay una actualizacion disponible, reinicia para actualizarlo.")
+        menu.action(menu.my_root(), "Actualizar Lua", {}, "", function()
+            async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
+                local err = select(2,load(a))
+                if err then
+                    util.toast("Ocurred an error, download it from github.")
+                return end
+                local f = io.open(filesystem.scripts_dir()..SCRIPT_RELPATH, "wb")
+                f:write(a)
+                f:close()
+                util.toast("Script updated :3")
+                util.restart_script()
+            end)
+            async_http.dispatch()
+        end)
+    end
+end, function() response = true end)
+async_http.dispatch()
+repeat 
+    util.yield()
+until response
 --------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
