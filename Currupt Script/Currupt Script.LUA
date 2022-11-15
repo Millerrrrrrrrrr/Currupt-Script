@@ -34,13 +34,13 @@ util.require_natives("natives-1640181023")
 util.toast("Welcome To Currupt Script 0.6.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 local response = false
-local localVer = "0.6.7"
+local localVer = "0.6.8"
 async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
     currentVer = tonumber(output)
     response = true
     if localVer ~= currentVer then
-        util.toast("Hay una actualizacion disponible, reinicia para actualizarlo.")
-        menu.action(menu.my_root(), "Actualizar Lua", {}, "", function()
+        util.toast("This version of Currupt Script is outdated but functional. Please update to a more stable version.")
+        menu.action(menu.my_root(), "Update Lua", {}, "", function()
             async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
                 local err = select(2,load(a))
                 if err then
