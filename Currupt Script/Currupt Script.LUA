@@ -3201,7 +3201,7 @@ end)
 		end
 	end)
 
-	menu.toggle(protex, "Toggle Panic Mode", {"panic"}, "This will render you basically uncrashable at the cost of disrupting all gameplay", function(on_toggle)
+	menu.toggle(, "Toggle Panic Mode", {"panic"}, "This will render you basically uncrashable at the cost of disrupting all gameplay", function(on_toggle)
 		local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
 		local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
 		local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
@@ -3220,6 +3220,10 @@ end)
 			menu.trigger_commands("anticrashcamera off")
 		end
 	end)
+
+    menu.action(protex, "Restart GTA V", {"restartgta"}, "Restarts your game in singleplayer, closes it in Online. You will need to reinject (duh).", function(on_click)
+        MISC._RESTART_GAME()
+    end)
 
 	spams = menu.list(menu.my_root(), "Chat Spammers", {}, "", function(); end)
 	menu.divider(spams, "Chat Spammers")
@@ -11199,7 +11203,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
     menu.trigger_commands("2t1spec" .. PLAYER.GET_PLAYER_NAME(pid))
             end)
 
-
+            
     local suscrash = menu.list(crash, "SUS Crash", {}, "")
 
     	menu.action(suscrash, "SUS Crash", {"suscrash"}, "", function()
