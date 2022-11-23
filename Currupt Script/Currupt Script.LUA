@@ -31,7 +31,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
 
-util.toast("Welcome To Currupt Script 0.7.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.7.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -3587,7 +3587,7 @@ end)
 
 menu.action(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function()
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall all co loaded and I'm waiting for North update... :) ",
+        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall usually all co loaded and I'm waiting for North update...",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3597,7 +3597,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function(on_toggle)
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall all co loaded and I'm waiting for North update... :) ",
+        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall usually all co loaded and I'm waiting for North update...",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4659,7 +4659,7 @@ GenerateFeatures = function(pid)
 		end
 	end)
 
-	griefing = menu.list(menu.player_root(pid), "Currupt Griefing", {}, "", function(); end)
+	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
 
     local getPlayerPed = PLAYER.GET_PLAYER_PED
     local getEntityCoords = ENTITY.GET_ENTITY_COORDS
@@ -7072,8 +7072,8 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-	crash = menu.list(menu.player_root(pid), "Crashes", {}, "Currupt Crash", function(); end)
-	kick = menu.list(menu.player_root(pid), "Kicks", {}, "Network Bail", function(); end)
+        crash = menu.list(menu.player_root(pid), "Crashes", {}, "Currupt Crash", function(); end)
+        kick = menu.list(menu.player_root(pid), "Kicks", {}, "Network Bail", function(); end)
 
 
         menu.action(kick, "Blast Kick", {"blast"}, "Blocks the player join reaction then uses breakup kick", function()
@@ -7092,22 +7092,21 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
     	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(kick, "Desync Kick", {"desynckick"}, "Desyncs the player from the session", function()
-    notification("Desycn kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+        menu.action(kick, "Desync Kick", {"desynckick"}, "Desyncs the player from the session", function()
+        notification("Desycn kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(kick, "Storymode Kick", {"storymode"}, "Sends them to storymode", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {111242367, pid, memory.script_global(2689235 + 1 + (pid * 453) + 318 + 7)})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+        menu.action(kick, "Storymode Kick", {"storymode"}, "Sends them to storymode", function()
+        notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            util.trigger_script_event(1 << pid, {111242367, pid, memory.script_global(2689235 + 1 + (pid * 453) + 318 + 7)})
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
-        util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
-    end)
+        menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
+            util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
+        end)
         
-    menu.action(kick, "SE kick v1", {"kickv1"}, "", function()
-    notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+        menu.action(kick, "SE kick v1", {"kickv1"}, "", function()
             local int_min = -2147483647
             local int_max = 2147483647
                 for i = 1, 15 do
@@ -7121,14 +7120,18 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                     util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0, pid, math.random(int_min, int_max)})
                     util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
                 end
+
         menu.trigger_commands("givesh" .. players.get_name(pid))
-        util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
+            util.trigger_script_event(1 << pid, {931221602, 24, 5, 1136816377, -1030212813, 1116101738, 1136772026, -1030205106, 1116101738, 1136852936, -1030108099, 1116101738, 1136724220, -1030340490, 1116101738, 1136907662, -1030087652, 1116101738, 5, 1126325289, 1126325289, 1126325289, 1126325289, 1126325289, 5, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 471761608, 0, 0, 0})
         end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(kick, "SE kick v2", {"kickv2"}, "", function()
-    notification("Storymode kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-        util.trigger_script_event(1 << pid, {0xB9BA4D30, PlayerID, 0x4, -1, 1, 1, 1})
+        menu.action(kick, "SE kick v2", {"kickv2"}, "", function()
+            util.trigger_script_event(1 << pid, {0xB9BA4D30, PlayerID, 0x4, -1, 1, 1, 1})
     	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+        menu.action(kick, "SE kick v3", {"kickv3"}, "", function()
+            util.trigger_script_event(1 << pid, {1368055548, pid, math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256), math.random(-12988, 2112408256)}) 
+        end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 
@@ -7231,14 +7234,15 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
     		local frienm = menu.list(menu.player_root(pid), 'Friendly', {}, '')
 
-	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, never wanted, gives all weapons, ammo and parachute all at once", function ()
+	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, vehiclegodmode, never wanted, gives all weapons, ammo and parachute all at once", function ()
     	notification("Protecting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		menu.trigger_commands("bail".. players.get_name(pid))
-        		menu.trigger_commands("autoheal".. players.get_name(pid))
         		menu.trigger_commands("arm".. players.get_name(pid))
         		menu.trigger_commands("ammo".. players.get_name(pid))
+                menu.trigger_commands("autoheal".. players.get_name(pid))
+                menu.trigger_commands("givevehgodmode".. players.get_name(pid))
         		menu.trigger_commands("paragive".. players.get_name(pid))
-	notification("PROTECTED!!! GANG SHIT!!!", colors.red)
+	    notification("PROTECTED!!! GANG SHIT!!!", colors.red)
     	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm, "Teleport To Them", {"tp"}, "", function()
@@ -7533,36 +7537,39 @@ local function BlockSyncs(pid, callback)
 end
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-menu.toggle_loop(crash, "Combat Crash", {"togglecombat"}, "", function(on_toggle)
-    local mdl = util.joaat('A_F_M_ProlHost_01')
-        BlockSyncs(pid, function()
-        if request_model(mdl, 2) then
-            local pos = players.get_position(pid)
-            util.yield(100)
-            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-            ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0) 
-            local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
-            WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_COMBATMG'), 9999, true, true)
-            local obj
-            repeat
-                obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
-            until obj ~= 0 or util.yield()
-            ENTITY.DETACH_ENTITY(obj, true, true) 
-            util.yield(1000)
-            FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
-            entities.delete_by_handle(ped1)
-            util.yield(1500)
+local jesuscrash = menu.list(crash, "Jesus Oppressor Crash", {}, "")
+
+menu.action(jesuscrash, "Jesus Oppressor Crash", {"jesusoppressor"}, "Causes (A2:456) Events. Skid from x-force re-coded by Picoles (RyzeScript).", function()
+    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+    local pos = ENTITY.GET_ENTITY_COORDS(player_id)
+    local mdl = util.joaat("u_m_m_jesus_01")
+    local veh_mdl = util.joaat("oppressor")
+    util.request_model(veh_mdl)
+    util.request_model(mdl)
+                    local veh = entities.create_vehicle(veh_mdl, pos, 0)
+                    local jesus = entities.create_ped(2, mdl, pos, 0)
+                    PED.SET_PED_INTO_VEHICLE(jesus, veh, -1)
+                    util.yield(100)
+                    TASK.TASK_VEHICLE_HELI_PROTECT(jesus, veh, ped, 10.0, 0, 10, 0, 0)
+                    util.yield(1000)
+                    entities.delete_by_handle(jesus)
+                    entities.delete_by_handle(veh)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl)
+end)
+
+    menu.toggle_loop(jesuscrash, "Jesus Oppressor Crash", {"togglejesusoppressor"}, "Causes (A2:456) Events toggled. Skid from x-force re-coded by Picoles (RyzeScript).", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("jesusoppressor" .. PLAYER.GET_PLAYER_NAME(pids))
     else
-            util.toast("Failed to load model. :/")
-notification("Worth it HAHA!!!", colors.red)
-    end
-end)
-end)
+        menu.trigger_commands("jesusoppressor" .. PLAYER.GET_PLAYER_NAME(pids))
+        end
+    end)
 
         local newcrash = menu.list(crash, "Annoy Modders", {}, "")
 
 
-        menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE!.", function(on)
+    menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE!.", function(on)
 	if on then
     	local player_ped = PLAYER.PLAYER_PED_ID()    
     	local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
@@ -7719,7 +7726,9 @@ else
 
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
-menu.action(lobbycrash, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
+local chunguscrashes = menu.list(lobbycrash, "Big Chungus Crashes", {}, "")
+
+menu.action(chunguscrashes, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
         local pos = ENTITY.GET_ENTITY_COORDS(ped, true)
         local mdl = util.joaat("A_C_Cat_01")
@@ -7843,7 +7852,7 @@ menu.action(lobbycrash, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force 
         util.yield(1000)
     end)
 
-menu.toggle(lobbycrash, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
+menu.toggle(chunguscrashes, "Big Chungus Crash", {"bigchungus"}, "Skid from x-force Big CHUNGUS Crash. Coded by Picoles(RyzeScript)", function(on_toggle)
 if on_toggle then
     menu.trigger_commands("tploopon" .. players.get_name(pid))
     menu.trigger_commands("anticrashcamera On")
@@ -7987,6 +7996,162 @@ else
     menu.trigger_commands("nocollision Off")
     end
 end)
+
+menu.toggle(chunguscrashes, "Big Chungus Crash V2", {"bigchungusv2"}, "Skid from x-force Big CHUNGUS Crash. Coded by Candy & Picoles(RyzeScript)", function(on_toggle)
+        menu.trigger_commands("tploopon" .. players.get_name(pid))
+        menu.trigger_commands("anticrashcamera On")
+        menu.trigger_commands("invisibility On")
+        menu.trigger_commands("levitate On")
+        menu.trigger_commands("potatomode On")
+        menu.trigger_commands("nosky On")
+        menu.trigger_commands("reducedcollision On")
+        menu.trigger_commands("nocollision On")
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped, true)
+        local mdl = util.joaat("A_C_Cat_01")
+        local mdl2 = util.joaat("U_M_Y_Zombie_01")
+        local mdl3 = util.joaat("A_F_M_ProlHost_01")
+        local mdl4 = util.joaat("A_M_M_SouCent_01")
+        local veh_mdl = util.joaat("insurgent2")
+        local veh_mdl2 = util.joaat("brawler")
+        util.request_model(veh_mdl)
+        util.request_model(veh_mdl2)
+        util.request_model(mdl)
+        util.request_model(mdl2)
+        util.request_model(mdl3)
+        util.request_model(mdl4)
+        for i = 1, 250 do
+            local ped1 = entities.create_ped(1, mdl, pos + 20, 0)
+            local ped_ = entities.create_ped(1, mdl2, pos + 20, 0)
+            local ped3 = entities.create_ped(1, mdl3, pos + 20, 0)
+            local ped3 = entities.create_ped(1, mdl4, pos + 20, 0)
+            local veh = entities.create_vehicle(veh_mdl, pos + 20, 0)
+            local veh2 = entities.create_vehicle(veh_mdl2, pos + 20, 0)
+            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
+            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(mdl3, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl3, veh2, -1)
+    
+            PED.SET_PED_INTO_VEHICLE(mdl4, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl4, veh2, -1)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh2, ped, 10.0, 0, 10, 0, 0)
+    
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
+            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
+            util.yield(100)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 0, 0)
+            
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 0, 0)
+    
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl)
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskDoNothing", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl4, "CTaskDoNothing", 0, false)
+    
+            ENTITY.SET_ENTITY_HEALTH(mdl, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl2, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl3, false, 200)
+            ENTITY.SET_ENTITY_HEALTH(mdl4, false, 200)
+    
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
+            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
+            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskInVehicleBasic", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskAmbientClips", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskAmbientClips", 0, false)
+            PED.SET_PED_INTO_VEHICLE(mdl, veh, -1)
+            PED.SET_PED_INTO_VEHICLE(mdl2, veh, -1)
+            ENTITY.SET_ENTITY_PROOFS(veh_mdl, true, true, true, true, true, false, false, true)
+            ENTITY.SET_ENTITY_PROOFS(veh_mdl2, true, true, true, true, true, false, false, true)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskWaitForSteppingOut", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskInVehicleSeatShuffle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicleSeat", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskWaitForSteppingOut", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskInVehicleSeatShuffle", 0, false)
+            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicleSeat", 0, false)
+        end
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl2)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl2)
+        entities.delete_by_handle(mdl)
+        entities.delete_by_handle(mdl2)
+        entities.delete_by_handle(mdl3)
+        entities.delete_by_handle(mdl4)
+        entities.delete_by_handle(veh_mdl)
+        entities.delete_by_handle(veh_mdl2)
+        util.yield(1000)
+        local cord = getEntityCoords(getPlayerPed(pid))
+        local a1 = entities.create_object(-930879665, cord)
+        local a2 = entities.create_object(3613262246, cord)
+        local b1 = entities.create_object(452618762, cord)
+        local b2 = entities.create_object(3613262246, cord)
+        for i = 1, 10 do
+            util.request_model(-930879665)
+            util.yield(10)
+            util.request_model(3613262246)
+            util.yield(10)
+            util.request_model(452618762)
+            util.yield(300)
+            entities.delete_by_handle(a1)
+            entities.delete_by_handle(a2)
+            entities.delete_by_handle(b1)
+            entities.delete_by_handle(b2)
+            util.request_model(452618762)
+            util.yield(10)
+            util.request_model(3613262246)
+            util.yield(10)
+            util.request_model(-930879665)
+            util.yield(10)
+            return
+        end
+    end)
 
 menu.toggle_loop(lobbycrash, "Moab Crash", {"togglemoab"}, "WARNING! Toggle Panic Mode! DO NOT SPECTATE!.", function(on_toggle)
     if on_toggle then
@@ -11679,12 +11844,384 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                                 util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969})
                             end)
 
-
             local oxtypecrash = menu.list(crash, "Ox Menu Type Crashes", {}, "From Nightfall")
 
-        
-            menu.toggle(oxtypecrash, "All Ox Menu Type Crashes On", {"oxallcrash"}, "", function(on_toggle)
+            local oxtypecrashclick = menu.list(oxtypecrash, "Ox Menu Type Crashes Click", {}, "From Nightfall")
+
+            menu.action(oxtypecrashclick, "All Ox Menu Type Crashes", {"oxallcrash"}, "Spam it for stronger results... Use Panic Mode If Needed.", function()
                 if on_toggle then
+                menu.trigger_commands("clickcombat" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickbeverlycrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickfabiencrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickmanuelcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktaostranslatorcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktaostranslator2crash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktenniscoachcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickwadecrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickshophighcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickfranklincrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicklazlowcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicksiemoncrash" .. players.get_name(pid))
+                util.yield(1000)
+            else
+                menu.trigger_commands("clickcombat" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickbeverlycrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickfabiencrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickmanuelcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktaostranslatorcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktaostranslator2crash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicktenniscoachcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickwadecrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickshophighcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clickfranklincrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicklazlowcrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("clicksiemoncrash" .. players.get_name(pid))
+                util.yield(10)
+                menu.trigger_commands("superc")
+                util.yield(10)
+                menu.trigger_commands("superc")
+                            end
+                      end)
+
+                      
+            menu.action(oxtypecrashclick, "Combat Crash", {"clickcombat"}, "", function()
+                
+            local mdl = util.joaat('A_F_M_ProlHost_01')
+                if request_model(mdl, 2) then
+                    local pos = players.get_position(pid)
+                    util.yield(1)
+                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                    ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0) 
+                    local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                    WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_COMBATMG'), 9999, true, true)
+                    local obj
+                    repeat
+                        obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                    until obj ~= 0 or util.yield()
+                    ENTITY.DETACH_ENTITY(obj, true, true) 
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                    entities.delete_by_handle(ped1)
+                    util.yield(1)
+            else
+                    util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            end)
+            
+            menu.action(oxtypecrashclick, "Beverly Crash", {"clickbeverlycrash"}, "", function()
+            
+            local mdl = util.joaat('cs_beverly')
+                if request_model(mdl, 2) then
+                    local pos = players.get_position(pid)
+                    util.yield(1)
+                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                    ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 1, 0, 0), 0)
+                    local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                    WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                    local obj
+                    repeat
+                        obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                    until obj ~= 0 or util.yield()
+                    ENTITY.DETACH_ENTITY(obj, true, true) 
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                    entities.delete_by_handle(ped1)
+                    util.yield(1)
+            else
+                    util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            end)
+            
+            menu.action(oxtypecrashclick, "Fabien Crash", {"clickfabiencrash"}, "", function()
+            
+            local mdl = util.joaat('cs_fabien')
+                if request_model(mdl, 2) then
+                    local pos = players.get_position(pid)
+                    util.yield(1)
+                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                    ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, 1), 0)
+                    local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                    WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                    local obj
+                    repeat
+                        obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                    until obj ~= 0 or util.yield()
+                    ENTITY.DETACH_ENTITY(obj, true, true) 
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                    entities.delete_by_handle(ped1)
+                    util.yield(1)
+            else
+                    util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            end)
+            
+            menu.action(oxtypecrashclick, "Manuel Crash", {"clickmanuelcrash"}, "", function()
+            
+            local mdl = util.joaat('cs_manuel')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 3, 0, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            
+            menu.action(oxtypecrashclick, "Taostranslator Crash", {"clicktaostranslatorcrash"}, "", function()
+            
+            local mdl = util.joaat('cs_taostranslator')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Taostranslator2 Crash", {"clicktaostranslator2crash"}, "", function()
+            
+            local mdl = util.joaat('cs_taostranslator2')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, 3), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Tenniscoach Crash", {"clicktenniscoachcrash"}, "", function()
+            
+            local mdl = util.joaat('cs_tenniscoach')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), -1, 0, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Wade Crash", {"clickwadecrash"}, "", function()
+            
+            local mdl = util.joaat('cs_wade')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, -1, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Shop HIGH Crash", {"clickshophighcrash"}, "", function()
+            
+            local mdl = util.joaat('S_F_M_Shop_HIGH')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, -1), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Franklin Crash", {"clickfranklincrash"}, "", function()
+            
+            local mdl = util.joaat('P_Franklin_02')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), -3, 0, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Lazlow Crash", {"clicklazlowcrash"}, "", function()
+            
+            local mdl = util.joaat('CS_Lazlow')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, -3, 0), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+            
+            menu.action(oxtypecrashclick, "Siemon Crash", {"clicksiemoncrash"}, "", function()
+            
+            local mdl = util.joaat('IG_SiemonYetarian')
+            if request_model(mdl, 2) then
+                local pos = players.get_position(pid)
+                util.yield(1)
+                local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, -3), 0)
+                local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_HOMINGLAUNCHER'), 9999, true, true)
+                local obj
+                repeat
+                    obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                until obj ~= 0 or util.yield()
+                ENTITY.DETACH_ENTITY(obj, true, true) 
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                entities.delete_by_handle(ped1)
+                util.yield(1)
+            else
+                util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            
+            end)
+
+            local oxtypecrashtoggle = menu.list(oxtypecrash, "Ox Menu Type Crashes Toggled", {}, "From Nightfall")
+            
+            menu.toggle(oxtypecrashtoggle, "All Ox Menu Type Crashes", {"toggleoxallcrash"}, "Use Panic Mode If Needed.", function(on_toggle)
+                if on_toggle then
+                menu.trigger_commands("togglecombat" .. players.get_name(pid))
+                util.yield(10)
                 menu.trigger_commands("beverlycrash" .. players.get_name(pid))
                 util.yield(10)
                 menu.trigger_commands("fabiencrash" .. players.get_name(pid))
@@ -11708,6 +12245,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 menu.trigger_commands("siemoncrash" .. players.get_name(pid))
                 util.yield(10)
             else
+                menu.trigger_commands("togglecombat" .. players.get_name(pid))
+                util.yield(10)
                 menu.trigger_commands("beverlycrash" .. players.get_name(pid))
                 util.yield(10)
                 menu.trigger_commands("fabiencrash" .. players.get_name(pid))
@@ -11735,13 +12274,39 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 menu.trigger_commands("superc")
                             end
                       end)
+
+                      
+            menu.toggle_loop(oxtypecrashtoggle, "Combat Crash", {"togglecombat"}, "", function(on_toggle)
+                
+            local mdl = util.joaat('A_F_M_ProlHost_01')
+                if request_model(mdl, 2) then
+                    local pos = players.get_position(pid)
+                    util.yield(1)
+                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                    ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0) 
+                    local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
+                    WEAPON.GIVE_WEAPON_TO_PED(ped1, util.joaat('WEAPON_COMBATMG'), 9999, true, true)
+                    local obj
+                    repeat
+                        obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
+                    until obj ~= 0 or util.yield()
+                    ENTITY.DETACH_ENTITY(obj, true, true) 
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
+                    entities.delete_by_handle(ped1)
+                    util.yield(1)
+            else
+                    util.toast("Failed to load model. :/")
+            notification("Worth it HAHA!!!", colors.red)
+            end
+            end)
             
-            menu.toggle_loop(oxtypecrash, "Beverly Crash", {"beverlycrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Beverly Crash", {"beverlycrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_beverly')
                 if request_model(mdl, 2) then
                     local pos = players.get_position(pid)
-                    util.yield(100)
+                    util.yield(1)
                     local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                     ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 1, 0, 0), 0)
                     local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11751,22 +12316,22 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                     until obj ~= 0 or util.yield()
                     ENTITY.DETACH_ENTITY(obj, true, true) 
-                    util.yield(1500)
-                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                     entities.delete_by_handle(ped1)
-                    util.yield(1000)
+                    util.yield(1)
             else
                     util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
             end
             end)
             
-            menu.toggle_loop(oxtypecrash, "Fabien Crash", {"fabiencrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Fabien Crash", {"fabiencrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_fabien')
                 if request_model(mdl, 2) then
                     local pos = players.get_position(pid)
-                    util.yield(100)
+                    util.yield(1)
                     local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                     ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, 1), 0)
                     local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11776,22 +12341,22 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                     until obj ~= 0 or util.yield()
                     ENTITY.DETACH_ENTITY(obj, true, true) 
-                    util.yield(1500)
-                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                    util.yield(1)
+                    FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                     entities.delete_by_handle(ped1)
-                    util.yield(1000)
+                    util.yield(1)
             else
                     util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
             end
             end)
             
-            menu.toggle_loop(oxtypecrash, "Manuel Crash", {"manuelcrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Manuel Crash", {"manuelcrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_manuel')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 3, 0, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11801,10 +12366,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11813,12 +12378,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             end)
             
             
-            menu.toggle_loop(oxtypecrash, "Taostranslator Crash", {"taostranslatorcrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Taostranslator Crash", {"taostranslatorcrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_taostranslator')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 3, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11828,10 +12393,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11839,12 +12404,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Taostranslator2 Crash", {"taostranslator2crash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Taostranslator2 Crash", {"taostranslator2crash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_taostranslator2')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, 3), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11854,10 +12419,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11865,12 +12430,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Tenniscoach Crash", {"tenniscoachcrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Tenniscoach Crash", {"tenniscoachcrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_tenniscoach')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), -1, 0, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11880,10 +12445,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11891,12 +12456,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Wade Crash", {"wadecrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Wade Crash", {"wadecrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('cs_wade')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, -1, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11906,10 +12471,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11917,12 +12482,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Shop HIGH Crash", {"shophighcrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Shop HIGH Crash", {"shophighcrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('S_F_M_Shop_HIGH')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, -1), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11932,10 +12497,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11943,12 +12508,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Franklin Crash", {"franklincrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Franklin Crash", {"franklincrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('P_Franklin_02')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), -3, 0, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11958,10 +12523,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11969,12 +12534,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Lazlow Crash", {"lazlowcrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Lazlow Crash", {"lazlowcrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('CS_Lazlow')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, -3, 0), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -11984,10 +12549,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
@@ -11995,12 +12560,12 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
             
             end)
             
-            menu.toggle_loop(oxtypecrash, "Siemon Crash", {"siemoncrash"}, "", function(on_toggle)
+            menu.toggle_loop(oxtypecrashtoggle, "Siemon Crash", {"siemoncrash"}, "", function(on_toggle)
             
             local mdl = util.joaat('IG_SiemonYetarian')
             if request_model(mdl, 2) then
                 local pos = players.get_position(pid)
-                util.yield(100)
+                util.yield(1)
                 local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
                 ped1 = entities.create_ped(26, mdl, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 0, -3), 0)
                 local coords = ENTITY.GET_ENTITY_COORDS(ped1, true)
@@ -12010,10 +12575,10 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     obj = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(ped1, 0)
                 until obj ~= 0 or util.yield()
                 ENTITY.DETACH_ENTITY(obj, true, true) 
-                util.yield(1500)
-                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, false)
+                util.yield(1)
+                FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 0, 1.0, false, true, 0.0, true)
                 entities.delete_by_handle(ped1)
-                util.yield(1000)
+                util.yield(1)
             else
                 util.toast("Failed to load model. :/")
             notification("Worth it HAHA!!!", colors.red)
