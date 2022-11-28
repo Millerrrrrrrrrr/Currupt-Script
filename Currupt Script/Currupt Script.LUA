@@ -30,8 +30,10 @@ util.require_natives("natives-1660775568")
 util.require_natives("natives-1651208000")
 util.require_natives("natives-1627063482")
 util.require_natives("natives-1640181023")
+util.require_natives("natives-1663599433-uno")
 
-util.toast("Welcome To Currupt Script 0.7.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+
+util.toast("Welcome To Currupt Script 0.7.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -395,6 +397,88 @@ local local_sub_lists <const> = {
     ["Weapons"] = menu.list(local_lists["Self"], "Weapons"),
 }
 
+--[[
+
+-------------------------------------
+-- TRAILS
+-------------------------------------
+
+local bones <const> = {
+	0x49D9,	-- left hand
+	0xDEAD,	-- right hand
+	0x3779,	-- left foot
+	0xCC4D	-- right foot
+}
+local colour = {r = 1.0, g = 0.0, b = 1.0, a = 1.0}
+local timer <const> = newTimer()
+local trailsOpt <const> = menu.list(funfun, translate("Self", "Trails"), {}, "")
+local effect <const> = Effect.new("scr_rcpaparazzo1", "scr_mich4_firework_sparkle_spawn")
+local effects = {}
+
+---@param effects table
+local function removeFxs(effects)
+	for _, effect in ipairs(effects) do
+		GRAPHICS.STOP_PARTICLE_FX_LOOPED(effect, false)
+		GRAPHICS.REMOVE_PARTICLE_FX(effect, false)
+	end
+end
+
+menu.toggle_loop(trailsOpt, translate("Self - Trails", "Trails"), {"trails"}, "", function ()
+	if not STREAMING.HAS_NAMED_PTFX_ASSET_LOADED(effect.asset) then
+		STREAMING.REQUEST_NAMED_PTFX_ASSET(effect.asset)
+		return
+	end
+	if timer.elapsed() >= 1000 then
+		removeFxs(effects); effects = {}
+		timer.reset()
+	end
+	if PED.IS_PED_IN_ANY_VEHICLE(players.user_ped(), true) then
+		local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
+		local minimum, maximum = v3.new(), v3.new()
+		MISC.GET_MODEL_DIMENSIONS(ENTITY.GET_ENTITY_MODEL(vehicle), minimum, maximum)
+		local offsets <const> = {v3(minimum.x, minimum.y, 0.0), v3(maximum.x, minimum.y, 0.0)}
+		for _, offset in ipairs(offsets) do
+			GRAPHICS.USE_PARTICLE_FX_ASSET(effect.asset)
+			local fx =
+			GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY(
+				effect.name,
+				vehicle,
+				offset.x, offset.y, offset.z,
+				0.0, 0.0, 0.0,
+				0.7,
+				false, false, false, 0, 0, 0, 0
+			)
+			GRAPHICS.SET_PARTICLE_FX_LOOPED_COLOUR(fx, colour.r, colour.g, colour.b, false)
+			table.insert(effects, fx)
+		end
+
+	elseif ENTITY.DOES_ENTITY_EXIST(players.user_ped()) then
+		for _, boneId in ipairs(bones) do
+			GRAPHICS.USE_PARTICLE_FX_ASSET(effect.asset)
+			local bone = PED.GET_PED_BONE_INDEX(players.user_ped(), boneId)
+			local fx =
+			GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY_BONE(
+				effect.name,
+				players.user_ped(),
+				0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0,
+				bone,
+				0.7,
+				false, false, false, 0, 0, 0, 0
+			)
+			GRAPHICS.SET_PARTICLE_FX_LOOPED_COLOUR(fx, colour.r, colour.g, colour.b, false)
+			table.insert(effects, fx)
+		end
+	end
+end, function ()
+	removeFxs(effects); effects = {}
+end)
+
+local trailColour = menu.colour(trailsOpt, translate("Self - Trails", "Colour"), {"trailcolour"}, "",
+	colour, false, function(newColour) colour = newColour end)
+menu.rainbow(trailColour)
+
+]]
 
 ------------------------------
 -- Weapons Menu
@@ -1287,16 +1371,16 @@ function upgrade_vehicle(player) --now my funky functions are useless :'( since 
 		VEHICLE.SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(vehicle, 0, 0, 0)
 		VEHICLE.SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(vehicle,0, 0, 0)
 		VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 22, true)
-		VEHICLE._SET_VEHICLE_XENON_LIGHTS_COLOR(vehicle, 10)
+		VEHICLE.SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(vehicle, 10)
 		VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 18, true)
 		VEHICLE.TOGGLE_VEHICLE_MOD(vehicle, 20, true)
 		for i = 0 ,4 do
-			if not VEHICLE._IS_VEHICLE_NEON_LIGHT_ENABLED(vehicle, i) then
-				VEHICLE._SET_VEHICLE_NEON_LIGHT_ENABLED(vehicle, i, true)
+			if not VEHICLE.SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(vehicle, i) then
+				VEHICLE.SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(vehicle, i, true)
 			end
 		end
-		VEHICLE._SET_VEHICLE_NEON_LIGHTS_COLOUR(vehicle, 255, 0, 255)
-		VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "727")
+		VEHICLE.SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(vehicle, 255, 0, 255)
+		VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "Currupt")
 	end
 end
 
@@ -3215,7 +3299,7 @@ end)
 	end)
 
     menu.action(protex, "Restart GTA V", {"restartgta"}, "Restarts your game in singleplayer, closes it in Online. You will need to reinject (duh).", function(on_click)
-        MISC._RESTART_GAME()
+        MISC.RESTART_GAME("E574A662ACAEFBB1")
     end)
 
 	spams = menu.list(menu.my_root(), "Chat Spammers", {}, "", function(); end)
@@ -3587,7 +3671,7 @@ end)
 
 menu.action(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function()
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall usually all co loaded and I'm waiting for North update...",
+        "I use Stand Ultimate, 2take1 VIP coloaded, Cherax VIP, X-Force, Midnight, Nightfall, Rebound, PhantomX and North",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3597,7 +3681,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function(on_toggle)
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP, Cherax VIP, X-Force, Midnight, Nightfall usually all co loaded and I'm waiting for North update...",
+        "I use Stand Ultimate, 2take1 VIP coloaded, Cherax VIP, X-Force, Midnight, Nightfall, Rebound, PhantomX and North",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
