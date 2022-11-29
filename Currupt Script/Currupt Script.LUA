@@ -34,9 +34,25 @@ util.require_natives("natives-1663599433-uno")
 
 
 util.toast("Welcome To Currupt Script 0.7.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
+
+    local translations = {}
+    setmetatable(translations, {
+        __index = function (self, key)
+            return key
+        end
+    })
+
+local festive_div = menu.divider(menu.my_root(), "Currupt Script")
+local loading_frames = {'!', '! !', '! ! !', '! ! ! !', '! ! ! ! ! ! ! ! ! ', '! ! ! !', '! ! !', '! !', '!'}
+util.create_tick_handler(function()
+    for _, frame in pairs(loading_frames) do
+        menu.set_menu_name(festive_div, frame .. ' ' .. translations.Currupt_Script .. ' ' .. frame)
+        util.yield(100)
+    end
+end)
 
 local aalib = require("aalib")
 local PlaySound = aalib.play_sound
@@ -378,9 +394,6 @@ local fake_pickup_types <const> = {
 
 --########################################################
 
-	local timer_divider = menu.divider(menu.my_root(), "Gang Shit")
-
-
 	funfun = menu.list(menu.my_root(), "Fun Shit", {}, "", function(); end)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -396,89 +409,6 @@ menu.divider(local_lists["Self"], "Self")
 local local_sub_lists <const> = {
     ["Weapons"] = menu.list(local_lists["Self"], "Weapons"),
 }
-
---[[
-
--------------------------------------
--- TRAILS
--------------------------------------
-
-local bones <const> = {
-	0x49D9,	-- left hand
-	0xDEAD,	-- right hand
-	0x3779,	-- left foot
-	0xCC4D	-- right foot
-}
-local colour = {r = 1.0, g = 0.0, b = 1.0, a = 1.0}
-local timer <const> = newTimer()
-local trailsOpt <const> = menu.list(funfun, translate("Self", "Trails"), {}, "")
-local effect <const> = Effect.new("scr_rcpaparazzo1", "scr_mich4_firework_sparkle_spawn")
-local effects = {}
-
----@param effects table
-local function removeFxs(effects)
-	for _, effect in ipairs(effects) do
-		GRAPHICS.STOP_PARTICLE_FX_LOOPED(effect, false)
-		GRAPHICS.REMOVE_PARTICLE_FX(effect, false)
-	end
-end
-
-menu.toggle_loop(trailsOpt, translate("Self - Trails", "Trails"), {"trails"}, "", function ()
-	if not STREAMING.HAS_NAMED_PTFX_ASSET_LOADED(effect.asset) then
-		STREAMING.REQUEST_NAMED_PTFX_ASSET(effect.asset)
-		return
-	end
-	if timer.elapsed() >= 1000 then
-		removeFxs(effects); effects = {}
-		timer.reset()
-	end
-	if PED.IS_PED_IN_ANY_VEHICLE(players.user_ped(), true) then
-		local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
-		local minimum, maximum = v3.new(), v3.new()
-		MISC.GET_MODEL_DIMENSIONS(ENTITY.GET_ENTITY_MODEL(vehicle), minimum, maximum)
-		local offsets <const> = {v3(minimum.x, minimum.y, 0.0), v3(maximum.x, minimum.y, 0.0)}
-		for _, offset in ipairs(offsets) do
-			GRAPHICS.USE_PARTICLE_FX_ASSET(effect.asset)
-			local fx =
-			GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY(
-				effect.name,
-				vehicle,
-				offset.x, offset.y, offset.z,
-				0.0, 0.0, 0.0,
-				0.7,
-				false, false, false, 0, 0, 0, 0
-			)
-			GRAPHICS.SET_PARTICLE_FX_LOOPED_COLOUR(fx, colour.r, colour.g, colour.b, false)
-			table.insert(effects, fx)
-		end
-
-	elseif ENTITY.DOES_ENTITY_EXIST(players.user_ped()) then
-		for _, boneId in ipairs(bones) do
-			GRAPHICS.USE_PARTICLE_FX_ASSET(effect.asset)
-			local bone = PED.GET_PED_BONE_INDEX(players.user_ped(), boneId)
-			local fx =
-			GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY_BONE(
-				effect.name,
-				players.user_ped(),
-				0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0,
-				bone,
-				0.7,
-				false, false, false, 0, 0, 0, 0
-			)
-			GRAPHICS.SET_PARTICLE_FX_LOOPED_COLOUR(fx, colour.r, colour.g, colour.b, false)
-			table.insert(effects, fx)
-		end
-	end
-end, function ()
-	removeFxs(effects); effects = {}
-end)
-
-local trailColour = menu.colour(trailsOpt, translate("Self - Trails", "Colour"), {"trailcolour"}, "",
-	colour, false, function(newColour) colour = newColour end)
-menu.rainbow(trailColour)
-
-]]
 
 ------------------------------
 -- Weapons Menu
@@ -501,7 +431,6 @@ menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"},
         end)
     end
 end)
-
 
 players.on_join(function(player_id)
 
@@ -3495,7 +3424,7 @@ end)
 
 menu.action(help1, "Commands A", {"help1"}, "", function()
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashonfast NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3505,7 +3434,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help1, "Commands A", {"help1"}, "", function(on_toggle)
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
+        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashonfast NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4985,6 +4914,18 @@ menu.toggle_loop(griefing, "Give Wanted", {"givewanted"}, "", function(on_toggle
                 	local pos = players.get_position(pid)
 
 --Ptfx
+
+menu.toggle_loop(ptfxloop, "Blood Splash", {"bloodslash"}, "", function(on_toggle)
+    notification("Electric sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            request_ptfx_asset("core")
+            GRAPHICS.USE_PARTICLE_FX_ASSET("core")
+            GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
+                "blood_wheel", pos.x, pos.y, pos.z, 0, 0, 0, 2.5, false, false, false)
+            request_ptfx_asset("core")
+            GRAPHICS.USE_PARTICLE_FX_ASSET("core")
+            GRAPHICS.START_NETWORKED_PARTICLE_FX_NON_LOOPED_AT_COORD(
+                "blood_wheel", pos.x, pos.y, pos.z, 0, 0, 0, 2.5, false, false, false)
+	end)
 
 menu.toggle_loop(ptfxloop, "Electric", {"ptfxelectric"}, "", function(on_toggle)
     notification("Electric sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -7329,16 +7270,21 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	    notification("PROTECTED!!! GANG SHIT!!!", colors.red)
     	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-	menu.action(frienm, "Teleport To Them", {"tp"}, "", function()
-	menu.trigger_commands("tp" .. players.get_name(pid))
-	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+        menu.action(frienm, "Teleport To Them", {"tp"}, "", function()
+            menu.trigger_commands("tp" .. players.get_name(pid))
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-	menu.action(frienm, "Teleport To Me", {"tpme"}, "", function()
-	menu.trigger_commands("summon" .. players.get_name(pid))
-	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+        menu.action(frienm, "Teleport To Me", {"tpme"}, "", function()
+            menu.trigger_commands("summon" .. players.get_name(pid))
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+        menu.action(frienm, "Fix loading screen", {"fixloading"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
+            menu.trigger_commands("givesh" .. players.get_name(pid))
+            menu.trigger_commands("aptme" .. players.get_name(pid))
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
             local player_torque = 1000
-            menu.slider(frienm, 'Set Torque', {'torque'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1000, function(value)
+        menu.slider(frienm, 'Set Torque', {'torque'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1000, function(value)
                 player_torque = value
                 util.create_tick_handler(function()
                     if PED.IS_PED_IN_ANY_VEHICLE(players.user_ped(), true) then
@@ -7347,7 +7293,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                         VEHICLE.SET_VEHICLE_CHEAT_POWER_INCREASE(playerVehicle, player_torque/1000)
                     end
                     return (player_torque ~= 1000)
-                end, nil, nil, COMMANDPERM_FRIENDLY)
+                end)
             end)
 
 	menu.action(frienm,"Drift Mode", {"driftmode"}, "",function()
@@ -7544,6 +7490,12 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		notification("Currupt Drop On :)", colors.green)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 3600")
+	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+    menu.action(drops, "Cash 1 Timer", {"cashonfast"}, "Turns on ceopay and cash 1.", function()
+		notification("Currupt Drop On :)", colors.green)
+        		menu.trigger_commands("ceopay".. players.get_name(pid))
+		menu.trigger_commands("cash".. players.get_name(pid) .. " 1")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(drops, "Cash Off", {"cashoff"}, "Turns off ceopay and cash 0.", function()
@@ -13133,6 +13085,7 @@ menu.toggle_loop(self, "Block PFTX/Particulate Lag", {}, "", function()
     GRAPHICS.REMOVE_PARTICLE_FX_FROM_ENTITY(players.user_ped())
 end)
 
+
 menu.toggle_loop(self, "Ghost PvP Players", {}, "", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         if PLAYER.IS_PLAYER_FREE_AIMING(pid) then
@@ -13178,6 +13131,19 @@ end)
 menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for the vehicle", function()
     ENTITY.SET_ENTITY_PROOFS(entities.get_user_vehicle_as_handle(), false, false, false, false, false, 0, 0, false)
     end, function() ENTITY.SET_ENTITY_PROOFS(PED.GET_VEHICLE_PED_IS_IN(players.user(), true), true, true, true, true, true, 0, 0, true)
+end)
+
+menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
+    for _, pid in ipairs(players.list(false, true, true)) do
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
+        for i, interior in ipairs(interior_stuff) do
+            if (PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) or not NETWORK.NETWORK_WAS_GAME_SUSPENDED(ped)) and not NETWORK.NETWORK_WAS_GAME_SUSPENDED(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
+                util.draw_debug_text(players.get_name(pid) .. " WAS GAME SUSPENDED!!!")
+                break
+            end
+        end
+    end 
 end)
 
 local gdmedits = menu.list(detections, "Godmode", {}, "")
@@ -13702,6 +13668,7 @@ menu.slider(maxpl, "Max Players To 32", {"maxplayers"}, "Set the maximum number 
        util.toast("Slots are now free :)")
     end
 end)
+
 menu.slider(maxpl, "Max Spectators", {"maxSpectators"}, "Set the maximum number of observers (only works when you are the host)", 0, 2, 2, 1, function (value)
     if Stand_internal_script_can_run then
         NETWORK.NETWORK_SESSION_SET_MATCHMAKING_GROUP_MAX(4, value)
@@ -14334,6 +14301,33 @@ menu.toggle_loop(misc, "Accept Joins", {}, "Automatically accept join screens", 
         util.yield(200)
     end
 end)
+
+menu.toggle(misc, "Rejoin Failed Joins", {"rejoinfail"}, "Joins previously failed transitions, Joins previously failed sessions but if failed will join new public.", function(state)
+    local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
+    local my_player_id = players.user_ped()
+    local playerstatus = {0, 1} -- This tels thee player status, 0 for story mode and 1 for online mode.
+    local message_hashes = {15890625, -398982408, -587688989} 
+    if state then
+        if message_hash == message_hashes then
+            PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
+            util.yield(200)
+        end
+
+        if my_player_id == playerstatus then
+            NETWORK.NETWORK_JOIN_PREVIOUSLY_FAILED_TRANSITION(0, true)
+            NETWORK.NETWORK_JOIN_PREVIOUSLY_FAILED_SESSION(0, true)
+
+            wait_session_transition()
+            util.toast("Rejoining :)")
+            menu.trigger_commands("rejoin ")
+        else
+            util.toast("Failed to join :/")
+            menu.trigger_commands("go newpublic")
+        end
+    end
+end)
+
+players.dispatch_on_join()
 
 menu.toggle(misc, "Stand User Identification", {}, "Identifies other Stand users but also allows them to identify you.", function(on_toggle)
     local standid = menu.ref_by_path("Online>Protections>Detections>Stand User Identification")
