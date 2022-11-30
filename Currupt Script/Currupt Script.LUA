@@ -431,6 +431,8 @@ menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"},
     end
 end)
 
+
+
 players.on_join(function(player_id)
 
 
@@ -7400,6 +7402,27 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		end
 	end)
 
+    local hugs = menu.list(frienm, "Hug Player", {}, "Credits to Kaliya for idea and <3")
+
+    menu.action(hugs,"Hug Player 1", {}, "Credits to Kaliya for idea and <3", function()
+        menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
+        util.yield(200)
+        menu.trigger_commands("nocollision" .. " on")
+        menu.trigger_commands("playanimhug")
+        util.yield(300)
+        menu.trigger_commands("nocollision" .. " off")
+	end)
+
+    menu.action(hugs,"Hug Player 2", {}, "Credits to Kaliya for idea and <3", function()
+        menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
+        util.yield(200)
+        menu.trigger_commands("nocollision" .. " on")
+        menu.trigger_commands("playanimhug2")
+        util.yield(300)
+        menu.trigger_commands("nocollision" .. " off")
+	end)
+
+
     local friendly = menu.list(frienm, "Jinx Drops", {}, "")
 
 
@@ -7611,7 +7634,12 @@ end)
     end)
 
         local newcrash = menu.list(crash, "Annoy Modders", {}, "")
-
+--[[
+    menu.action(newcrash, "Make Player", {"makethem"}, "", function()
+        menu.show_command_box_click_based("asall "..players.get_name(pid):lower().." ") end, function()
+        menu.trigger_commands("tpobjs" .. PLAYER.GET_PLAYER_NAME(pids))
+    end)
+]]
 
     menu.toggle(newcrash, "Fatal Error", {"fatal"}, "WARNING: DO NOT SPECTATE!.", function(on)
 	if on then
@@ -12985,6 +13013,7 @@ menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for
     end, function() ENTITY.SET_ENTITY_PROOFS(PED.GET_VEHICLE_PED_IS_IN(players.user(), true), true, true, true, true, true, 0, 0, true)
 end)
 
+--[[
 menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -12997,7 +13026,7 @@ menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
         end
     end 
 end)
-
+]]
 local gdmedits = menu.list(detections, "Godmode", {}, "")
 menu.toggle_loop(gdmedits, "Godmode", {}, "Detects if someone is using godmode.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
@@ -13525,6 +13554,14 @@ menu.slider(maxpl, "Max Spectators", {"maxSpectators"}, "Set the maximum number 
     if Stand_internal_script_can_run then
         NETWORK.NETWORK_SESSION_SET_MATCHMAKING_GROUP_MAX(4, value)
         util.toast("Slots are now free :)")
+    end
+end)
+
+menu.toggle(misc, "Mental State On/Off", {}, "", function(on_toggle)
+if on_toggle then
+    menu.trigger_commands("mentalstate" .. " 100")
+else
+    menu.trigger_commands("mentalstate" .. " 0")
     end
 end)
 
