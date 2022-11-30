@@ -32,8 +32,40 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.7.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+util.toast("Welcome To Currupt Script 0.7.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--[[
+--AUTO UPDATER
+
+local response = false
+local localVer = 0.70
+async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
+    currentVer = tonumber(output)
+    response = true
+    if localVer ~= currentVer then
+        util.toast("There is an update available, click the buton tu update.")
+        menu.action(menu.my_root(), "Update Script", {}, "", function()
+            async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/Currupt%20Script.LUA',function(a)
+                local err = select(2,load(a))
+                if err then
+                    util.toast("Script failed to download. Please try again later. If this continues to happen then manually update via github.")
+                return end
+                local f = io.open(filesystem.scripts_dir()..SCRIPT_RELPATH, "wb")
+                f:write(a)
+                f:close()
+                util.toast("Script updated, restarting script...")
+                util.restart_script()
+            end)
+            async_http.dispatch()
+        end)
+    end
+end, function() response = true end)
+async_http.dispatch()
+repeat 
+    util.yield()
+until response
+]]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
 
@@ -3766,6 +3798,16 @@ menu.slider(funfun, "Change seat", {"switchseat"}, "DriverSeat = -1 Passenger = 
 	local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user())
 	local vehicle = entities.get_user_vehicle_as_handle()
 	PED.SET_PED_INTO_VEHICLE(ped, vehicle, seatnumber)
+end)
+
+tpf_units = 1
+menu.action(funfun, "TP Forward", {"tpforward"}, "", function(on_click)
+    local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(players.user_ped(), 0, tpf_units, 0)
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
+end)
+
+menu.slider(funfun, "TP Forward Units", {"tpforwardunits"}, "More = -1 More = 0 More = 1 More = 2", 1, 100, 1, 1, function(s)
+    tpf_units = s
 end)
 
 island_block = 0
@@ -7528,6 +7570,20 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 1")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+    local yoinkpickup = menu.list(drops, "Pickup Yoinker", {}, "")
+
+    menu.action(yoinkpickup, "Pickup Yoinker", {"yoinkpickups"}, "", function ()
+        TpAllPickups(pid)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+    
+    menu.toggle_loop(yoinkpickup, "Pickup Yoinker Loop", {"yoinkpickuploop"}, "", function (on_toggle)
+            if on_toggle then
+                TpAllPickups(pid)
+            else
+                TpAllPickups(pid)
+            end
+    end)
 
 	menu.action(drops, "Cash Off", {"cashoff"}, "Turns off ceopay and cash 0.", function()
 		notification("Currupt Drop On :)", colors.green)
