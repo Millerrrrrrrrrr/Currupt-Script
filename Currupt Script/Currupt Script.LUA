@@ -26,14 +26,13 @@ WE HAVE TAKEN OVER░ \☻/\☻/
 ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 util.keep_running()
-util.require_natives("natives-1660775568")
-util.require_natives("natives-1651208000")
-util.require_natives("natives-1627063482")
-util.require_natives("natives-1640181023")
 util.require_natives("natives-1663599433-uno")
+util.require_natives("natives-1640181023")
+util.require_natives("natives-1651208000")
+util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.7.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.7.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -607,7 +606,6 @@ players.on_join(function(player_id)
     menu.hyperlink(particles_other_net_list, "PTFX List", "https://github.com/DurtyFree/gta-v-data-dumps/blob/master/particleEffectsCompact.json#L270", "List of all PTFX and assets.")
 end)
 
-players.dispatch_on_join()
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	cargoloops = menu.list(menu.my_root(), "Cargo Loop", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
@@ -663,7 +661,6 @@ local idiot_proof = true
 -- change this if you know what you are doing and maybe speak a different language 
 local your_fucking_language = "en"
 
-util.require_natives("1663599433")
 util.ensure_package_is_installed("lua/MusinessBanager")
 
 local function BitTest(address, offset)
@@ -4776,6 +4773,17 @@ GenerateFeatures = function(pid)
             end
     end)
 
+    menu.toggle_loop(griefing, "Drop Fake Bags", {}, "Old School :D", function()
+        local coords = players.get_position(pid)
+        coords.z = coords.z + 1.5
+        local card = MISC.GET_HASH_KEY("prop_money_bag_01")
+        STREAMING.REQUEST_MODEL(card)
+        if STREAMING.HAS_MODEL_LOADED(card) == false then  
+            STREAMING.REQUEST_MODEL(card)
+        end
+        OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
+    end)
+
 
 menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -7454,7 +7462,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                 util.yield(300)
     end)
 
-    menu.toggle_loop(drops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note this hasn't been tested for bans but it should be safe", function()
+    menu.toggle_loop(drops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note: this hasn't been tested for bans but it should be safe", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
         local card = MISC.GET_HASH_KEY("vw_prop_vw_lux_card_01a")
@@ -8032,162 +8040,6 @@ else
     menu.trigger_commands("nocollision Off")
     end
 end)
-
-menu.toggle(chunguscrashes, "Big Chungus Crash V2", {"bigchungusv2"}, "Skid from x-force Big CHUNGUS Crash. Coded by Candy & Picoles(RyzeScript)", function(on_toggle)
-        menu.trigger_commands("tploopon" .. players.get_name(pid))
-        menu.trigger_commands("anticrashcamera On")
-        menu.trigger_commands("invisibility On")
-        menu.trigger_commands("levitate On")
-        menu.trigger_commands("potatomode On")
-        menu.trigger_commands("nosky On")
-        menu.trigger_commands("reducedcollision On")
-        menu.trigger_commands("nocollision On")
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
-        local pos = ENTITY.GET_ENTITY_COORDS(ped, true)
-        local mdl = util.joaat("A_C_Cat_01")
-        local mdl2 = util.joaat("U_M_Y_Zombie_01")
-        local mdl3 = util.joaat("A_F_M_ProlHost_01")
-        local mdl4 = util.joaat("A_M_M_SouCent_01")
-        local veh_mdl = util.joaat("insurgent2")
-        local veh_mdl2 = util.joaat("brawler")
-        util.request_model(veh_mdl)
-        util.request_model(veh_mdl2)
-        util.request_model(mdl)
-        util.request_model(mdl2)
-        util.request_model(mdl3)
-        util.request_model(mdl4)
-        for i = 1, 250 do
-            local ped1 = entities.create_ped(1, mdl, pos + 20, 0)
-            local ped_ = entities.create_ped(1, mdl2, pos + 20, 0)
-            local ped3 = entities.create_ped(1, mdl3, pos + 20, 0)
-            local ped3 = entities.create_ped(1, mdl4, pos + 20, 0)
-            local veh = entities.create_vehicle(veh_mdl, pos + 20, 0)
-            local veh2 = entities.create_vehicle(veh_mdl2, pos + 20, 0)
-            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
-            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
-    
-            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
-            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
-    
-            PED.SET_PED_INTO_VEHICLE(ped1, veh, -1)
-            PED.SET_PED_INTO_VEHICLE(ped_, veh, -1)
-    
-            PED.SET_PED_INTO_VEHICLE(ped1, veh2, -1)
-            PED.SET_PED_INTO_VEHICLE(ped_, veh2, -1)
-    
-            PED.SET_PED_INTO_VEHICLE(mdl3, veh, -1)
-            PED.SET_PED_INTO_VEHICLE(mdl3, veh2, -1)
-    
-            PED.SET_PED_INTO_VEHICLE(mdl4, veh, -1)
-            PED.SET_PED_INTO_VEHICLE(mdl4, veh2, -1)
-    
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
-    
-            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(mdl3, veh2, ped, 10.0, 0, 10, 0, 0)
-    
-            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(mdl4, veh2, ped, 10.0, 0, 10, 0, 0)
-    
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped1, veh2, ped, 10.0, 0, 10, 0, 0)
-            TASK.TASK_VEHICLE_HELI_PROTECT(ped_, veh2, ped, 10.0, 0, 10, 0, 0)
-            util.yield(100)
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
-    
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
-    
-            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl3, 0, 0, 0)
-            
-            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl4, 0, 0, 0)
-    
-            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl)
-            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskDoNothing", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl4, "CTaskDoNothing", 0, false)
-    
-            ENTITY.SET_ENTITY_HEALTH(mdl, false, 200)
-            ENTITY.SET_ENTITY_HEALTH(mdl2, false, 200)
-            ENTITY.SET_ENTITY_HEALTH(mdl3, false, 200)
-            ENTITY.SET_ENTITY_HEALTH(mdl4, false, 200)
-    
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl, 0, 0, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 2, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 1, 0)
-            PED.SET_PED_COMPONENT_VARIATION(mdl2, 0, 0, 0)
-            TASK.CLEAR_PED_TASKS_IMMEDIATELY(mdl2)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskInVehicleBasic", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl2, "CTaskAmbientClips", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(mdl3, "CTaskAmbientClips", 0, false)
-            PED.SET_PED_INTO_VEHICLE(mdl, veh, -1)
-            PED.SET_PED_INTO_VEHICLE(mdl2, veh, -1)
-            ENTITY.SET_ENTITY_PROOFS(veh_mdl, true, true, true, true, true, false, false, true)
-            ENTITY.SET_ENTITY_PROOFS(veh_mdl2, true, true, true, true, true, false, false, true)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicle", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskWaitForSteppingOut", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskInVehicleSeatShuffle", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl, "CTaskExitVehicleSeat", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicle", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskWaitForSteppingOut", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskInVehicleSeatShuffle", 0, false)
-            TASK.TASK_START_SCENARIO_IN_PLACE(veh_mdl2, "CTaskExitVehicleSeat", 0, false)
-        end
-        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl)
-        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(mdl2)
-        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl)
-        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(veh_mdl2)
-        entities.delete_by_handle(mdl)
-        entities.delete_by_handle(mdl2)
-        entities.delete_by_handle(mdl3)
-        entities.delete_by_handle(mdl4)
-        entities.delete_by_handle(veh_mdl)
-        entities.delete_by_handle(veh_mdl2)
-        util.yield(1000)
-        local cord = getEntityCoords(getPlayerPed(pid))
-        local a1 = entities.create_object(-930879665, cord)
-        local a2 = entities.create_object(3613262246, cord)
-        local b1 = entities.create_object(452618762, cord)
-        local b2 = entities.create_object(3613262246, cord)
-        for i = 1, 10 do
-            util.request_model(-930879665)
-            util.yield(10)
-            util.request_model(3613262246)
-            util.yield(10)
-            util.request_model(452618762)
-            util.yield(300)
-            entities.delete_by_handle(a1)
-            entities.delete_by_handle(a2)
-            entities.delete_by_handle(b1)
-            entities.delete_by_handle(b2)
-            util.request_model(452618762)
-            util.yield(10)
-            util.request_model(3613262246)
-            util.yield(10)
-            util.request_model(-930879665)
-            util.yield(10)
-            return
-        end
-    end)
 
 menu.toggle_loop(lobbycrash, "Moab Crash", {"togglemoab"}, "WARNING! Toggle Panic Mode! DO NOT SPECTATE!.", function(on_toggle)
     if on_toggle then
@@ -15535,47 +15387,62 @@ end
 	menu.toggle(misc, "Halloween FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
+        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " extrasunny")
+        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " clear01")
+        --menu.ref_by_path("")
 		menu.trigger_commands("time" .. " 6")
+        --menu.ref_by_path("")
 		menu.trigger_commands("superc")
-    		menu.trigger_commands("noidlekick ")
-    		menu.trigger_commands("noidlecam ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("noidlecam ")
 	else
 		notification("Resetting FPS...", colors.red)
+        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " normal")
+        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " normal")
-    		menu.trigger_commands("noidlekick ")
-    		menu.trigger_commands("noidlecam ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("noidlecam ")
 		end
 	end)
 
 	menu.toggle(misc, "Halloween FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
+        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " extrasunny")
+        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " clear01")
+        --menu.ref_by_path("")
 		menu.trigger_commands("time" .. " 6")
+        --menu.ref_by_path("")
 		menu.trigger_commands("superc")
-    		menu.trigger_commands("potatomode ")
-    		menu.trigger_commands("nosky ")
-    		menu.trigger_commands("noidlekick ")
-    		menu.trigger_commands("noidlecam ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("potatomode ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("nosky ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("noidlecam ")
 	else
 		notification("Resetting FPS...", colors.red)
+        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " normal")
+        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " normal")
-    		menu.trigger_commands("potatomode ")
-    		menu.trigger_commands("nosky ")
-    		menu.trigger_commands("noidlekick ")
-    		menu.trigger_commands("noidlecam ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("potatomode ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("nosky ")
+        --menu.ref_by_path("")
+        menu.trigger_commands("noidlecam ")
 		end
 	end)
 
 bountyloop = menu.list(misc, "Bounty Loops", {}, "", function(); end)
 
 --coded by MrWall 
-
 
 util.show_corner_help("~s~Loaded ~o~ " .. SCRIPT_FILENAME .. " ~p~;)\n~s~Let's farm some ~g~$$$")
 
