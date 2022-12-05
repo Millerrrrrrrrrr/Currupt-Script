@@ -32,13 +32,13 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---[[
+
 --AUTO UPDATER
 
 local response = false
-local localVer = 0.70
+local localVer = 0.7
 async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
     currentVer = tonumber(output)
     response = true
@@ -64,7 +64,7 @@ async_http.dispatch()
 repeat 
     util.yield()
 until response
-]]
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -4738,9 +4738,23 @@ GenerateFeatures = function(pid)
 		menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " bountyall 10000")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(griefing, "Give Player A Deluxo", {"givedeluxo"}, "", function()
-		menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " deluxo")
+--[[
+
+    menu.action(griefing, "Get Key Test", {""}, "", function()
+        if NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then
+        menu.get_activation_key_hash(mesage,  PLAYER.GET_PLAYER_NAME(pid, true, 1))
+        util.toast(message, TOAST_ABOVE_MAP, TOAST_LOGGER)
+        end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.action(griefing, "Get Ip Test", {""}, "", function()
+            util.toast(players.get_connect_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
+            util.toast(players.get_online_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
+            util.toast(players.get_online_port(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
+            util.toast(players.get_connect_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+]]
 
     local getPlayerPed = PLAYER.GET_PLAYER_PED
     local getEntityCoords = ENTITY.GET_ENTITY_COORDS
@@ -7464,16 +7478,24 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
         menu.action(frienm, "Teleport To Them", {"tp"}, "", function()
             menu.trigger_commands("tp" .. players.get_name(pid))
-            end, nil, nil, COMMANDPERM_AGGRESSIVE)
+            end, nil, nil, COMMANDPERM_FRIENDLY)
 
         menu.action(frienm, "Teleport To Me", {"tpme"}, "", function()
             menu.trigger_commands("summon" .. players.get_name(pid))
-            end, nil, nil, COMMANDPERM_AGGRESSIVE)
+            end, nil, nil, COMMANDPERM_FRIENDLY)
 
         menu.action(frienm, "Fix loading screen", {"fixloading"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
             menu.trigger_commands("givesh" .. players.get_name(pid))
             menu.trigger_commands("aptme" .. players.get_name(pid))
-            end, nil, nil, COMMANDPERM_AGGRESSIVE)
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(griefing, "Give Player A Deluxo", {"givedeluxo"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " deluxo")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(griefing, "As Player", {"asplayer"}, "Give them something.", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid))
+            end, nil, nil, COMMANDPERM_FRIENDLY)
 
             local player_torque = 1000
         menu.slider(frienm, 'Set Torque', {'torque'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1000, function(value)
@@ -7487,6 +7509,19 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                     return (player_torque ~= 1000)
                 end)
             end)
+  
+--[[
+menu.action(frienm, "Send Message", {"Sendmessage"}, "Input the text for your private message.", function(on_click)
+    util.toast("Please input your message.")
+    menu.show_command_box("Sendmessage " .. players.get_name(pid) .. " ")
+    end, function(on_command)
+        if #on_command > 140 then
+        else
+            chat.send_targeted_message(pid, players.user(), on_command, false)
+            util.toast("Message Sent!")
+        end
+end)
+]]
 
 	menu.action(frienm,"Drift Mode", {"driftmode"}, "",function()
 		local vehicle = get_player_veh(pid,true)
@@ -9087,7 +9122,6 @@ menu.toggle_loop(clonecrash, "SkyDive Centipede Crash", {"toggleskycrash"}, "Clo
                 TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
                 TASK.TASK_LEAVE_ANY_VEHICLE(ped, 0, 16)
             end
-
             ENTITY.DETACH_ENTITY(ped, false, false)
             if last_ped ~= 0 then
                 ENTITY.ATTACH_ENTITY_TO_ENTITY(ped, last_ped, 0, 0.0, 0.0, last_ped_ht-0.5, 0.0, 0.0, 0.0, false, false, false, false, 0, false)
