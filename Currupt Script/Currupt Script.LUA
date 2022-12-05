@@ -38,7 +38,7 @@ util.toast("Welcome To Currupt Script 0.8.1\n" .. "\n" .. "Official Discord: htt
 --AUTO UPDATER
 
 local response = false
-local localVer = 0.7
+local localVer = 0.8
 async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
     currentVer = tonumber(output)
     response = true
