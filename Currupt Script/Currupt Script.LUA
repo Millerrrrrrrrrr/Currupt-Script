@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --AUTO UPDATER
@@ -2568,7 +2568,6 @@ for i = 0, 31 do
 	cmd_id[i] = 0
 end
 
-local checkbruhmoment = menu.get_activation_key_hash()
 
 local chaos, gravity, speed = false, true, 100
 
@@ -5201,19 +5200,84 @@ menu.toggle_loop(griefing, "Bend There Knees", {"bendknees"}, "Forces them down 
     end
 end)
 
-menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
-    local player_ped = PLAYER.PLAYER_PED_ID()    
-    local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
-    local pld = PLAYER.GET_PLAYER_PED(pid)
-    local pos = ENTITY.GET_ENTITY_COORDS(pld)
-    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 446.9146, 5571.7847, 781.1893)
-    util.yield(1000)
-    for i=1,4  do
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -8000.0, 15999.0, 1337.0)
-        util.yield(1000)
-    end
-    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
-end)
+
+        menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
+            local player_ped = PLAYER.PLAYER_PED_ID()    
+            local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+            local pld = PLAYER.GET_PLAYER_PED(pid)
+            local pos = ENTITY.GET_ENTITY_COORDS(pld)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1130.4989, -3266.1335, 13.944448)
+            util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+            util.yield(2000)
+            for i=1,1  do
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 12.201786, -2608.5598, 27.00581)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 529.52344, -3159.0903, 46.26378)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 797.6639, -2314.7708, 66.75716)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -904.7783, -1799.8903, 60.525257)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -902.62103, -1797.8055, 68.71026)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -811.026, -1052.471, 84.877464)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -74.7535, -820.54895, 331.0572)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 693.5279, -1200.2932, 45.110516)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1944.0536, -911.7328, 177.15826)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 955.1047, 11.822339, 129.3541)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -604.4595, 53.186974, 124.79825)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -84.817345, 882.59576, 287.78268)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1755.0154, -75.41939, 137.54353)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2568.129, 760.6324, 160.43828)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 807.4092, 2714.9368, 103.85771)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2252.8367, 3330.679, 138.64398)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -1970.4495, 2864.2395, 34.49541)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1840.9294, 3868.8608, 54.188793)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 490.04102, 5584.988, 802.92584)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 2313.2842, 5981.442, 136.00969)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+                ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -272.11963, 6188.8105, 82.51767)
+                util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+                util.yield(2000)
+            end
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, old_coords.x, old_coords.y, old_coords.z)
+            util.trigger_script_event(1 << pid, {-1388926377, 27, -1762807505, 0})
+        end)
+
 ---------------------------------------------------------------------------------------------------------------------
 menu.toggle_loop(griefing, "Give Wanted", {"givewanted"}, "", function(on_toggle)
         local p_hash = util.joaat("s_m_y_swat_01")
@@ -5657,7 +5721,7 @@ menu.toggle_loop(lagwiths, "Lag With Cargobob's V2", {"lagwithcargosv2"}, "", fu
     local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
-    local khanjali = util.joaat("cargobob")
+    local khanjali = util.joaat("cargobob2")
     STREAMING.REQUEST_MODEL(khanjali)
     while not STREAMING.HAS_MODEL_LOADED(khanjali) do
         util.yield()
