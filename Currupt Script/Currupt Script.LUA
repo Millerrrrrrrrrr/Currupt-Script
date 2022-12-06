@@ -3839,9 +3839,7 @@ menu.action(funfun, "TP Forward", {"tpforward"}, "", function(on_click)
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 end)
 
-menu.slider(funfun, "TP Forward Units", {"tpforwardunits"}, "More = -1 More = 0 More = 1 More = 2", 1, 100, 1, 1, function(s)
-    tpf_units = s
-end)
+
 
 island_block = 0
 menu.action(funfun, "Sky Island", {""}, "", function(sky_island)
@@ -7711,23 +7709,27 @@ end)
 	end)
 
     local hugs = menu.list(frienm, "Hug Player", {}, "Credits to Kaliya for idea and <3")
-
+    tpf_units = 1
     menu.action(hugs,"Hug Player 1", {}, "Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
         util.yield(200)
-        menu.trigger_commands("reducedcollision" .. " on")
+        menu.trigger_commands("nocollision" .. " on")
         menu.trigger_commands("playanimhug")
         util.yield(300)
-        menu.trigger_commands("reducedcollision" .. " off")
+        menu.trigger_commands("nocollision" .. " off")
+        local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(players.user_ped(), 0, tpf_units, 0)
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 	end)
-
+    tpf_units = -0.7
     menu.action(hugs,"Hug Player 2", {}, "Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
         util.yield(200)
-        menu.trigger_commands("reducedcollision" .. " on")
+        menu.trigger_commands("nocollision" .. " on")
         menu.trigger_commands("playanimhug2")
         util.yield(300)
-        menu.trigger_commands("reducedcollision" .. " off")
+        menu.trigger_commands("nocollision" .. " off")
+        local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(players.user_ped(), 0, tpf_units, 0)
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 	end)
 
 
