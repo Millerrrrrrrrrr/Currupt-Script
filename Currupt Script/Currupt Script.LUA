@@ -7708,7 +7708,7 @@ end)
 		end
 	end)
 
-    local hugs = menu.list(frienm, "Hug Player", {}, "Credits to Kaliya for idea and <3")
+    local hugs = menu.list(frienm, "Hug Player", {"hug"}, "Note: Make sure they are stood still. Credits to Kaliya for idea and <3")
     tpf_units = 1
     menu.action(hugs,"Hug Player 1", {}, "Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
@@ -7720,8 +7720,9 @@ end)
         local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(players.user_ped(), 0, tpf_units, 0)
         ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 	end)
+    
     tpf_units = -0.7
-    menu.action(hugs,"Hug Player 2", {}, "Credits to Kaliya for idea and <3", function()
+    menu.action(hugs,"Hug Player 2", {"hugs"}, "Note: Make sure they are stood still. Like first one but tiny bit different. Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
         util.yield(200)
         menu.trigger_commands("nocollision" .. " on")
