@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --AUTO UPDATER
@@ -5097,7 +5097,6 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
     end)
 
-
 menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
@@ -7994,6 +7993,94 @@ end
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
+
+
+playerposition = function(entity, distance)
+	if not ENTITY.DOES_ENTITY_EXIST(entity) then
+		return v3.new(0.0, 0.0, 0.0)
+	end
+	local coords = ENTITY.GET_ENTITY_FORWARD_VECTOR(entity)
+	coords:mul(distance)
+	coords:add(ENTITY.GET_ENTITY_COORDS(entity, true))
+	return coords
+end
+
+function GetLocalPed()
+    return PLAYER.PLAYER_PED_ID()
+end
+
+NetworkControl = function(entity, timeOut)
+	timeOut = timeOut or 1000
+	local start = util.current_time_millis()
+	while not NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(entity) and
+	util.current_time_millis() - start < timeOut do
+		util.yield_once()
+	end
+	return util.current_time_millis() - start < timeOut
+end
+
+local function deletehandlers(list)
+    for _, entity in pairs(list) do
+        if ENTITY.DOES_ENTITY_EXIST(entity) then
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(entity, false, false)
+            NetworkControl(entity)
+            entities.delete_by_handle(entity)
+        end
+    end
+end
+
+
+local spawnDistance = 0
+local vehicleType = { 'hydra', 'cargoplane', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+ 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+ 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+
+local selected = 1
+local spawnedPlanes = {}
+local craftcrash = menu.list(lobbycrash, "Craft Crashes", {}, "")
+
+menu.toggle_loop(craftcrash, "Start Loop", {"craftloop"}, "Hold down enter...", function (on_toggle)
+    local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local modelHash <const> = util.joaat(vehicleType[selected])
+    local startTime = util.current_time_millis()
+    local lastExplosion
+    local lastSpawn
+    STREAMING.REQUEST_MODEL(modelHash)
+    while not STREAMING.HAS_MODEL_LOADED(modelHash) do
+        util.yield_once()
+    end
+    util.toast("Incoming Craft o.o")
+    while util.current_time_millis() - startTime < 20000 do
+        local pos = playerposition(playerPed, spawnDistance)
+        pos.z = pos.z + 30.0
+        if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
+            local plane = entities.create_vehicle(modelHash, pos, 0.0)
+            NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
+            NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
+            table.insert(spawnedPlanes, plane)
+            lastSpawn = util.current_time_millis()
+        end
+        if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 1.0, true, false, 0.0, false)
+            lastExplosion = util.current_time_millis()
+        end
+        if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
+        util.yield_once()
+    end
+    deletehandlers(spawnedPlanes)
+    spawnedPlanes = {}
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
+end)
+
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType, 1, function (opt)
+    selected = opt
+end)
+
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance, 25, function(distance)
+    spawnDistance = distance
+end)
+
 
 local chunguscrashes = menu.list(lobbycrash, "Big Chungus Crashes", {}, "")
 
