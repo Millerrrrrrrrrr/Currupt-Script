@@ -32,13 +32,13 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --AUTO UPDATER
-
+--[[
 local response = false
-local localVer = 0.8
+local localVer = 0.70
 async_http.init("raw.githubusercontent.com", "/Millerrrrrrrrrr/Currupt-Script/main/Currupt%20Script/CurruptScriptVersion.lua", function(output)
     currentVer = tonumber(output)
     response = true
@@ -64,7 +64,7 @@ async_http.dispatch()
 repeat 
     util.yield()
 until response
-
+]]
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
@@ -2738,6 +2738,24 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
+    menu.action(custselc, "TP Players", {"tpplayers"}, "", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("summon" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Give them a second to get on..." .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Teleporting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("summon" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Give them a second to get on..." .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Teleporting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+				end
+			end
+		end
+	end)
+
 	menu.action(custselc, "Next Gen Crash", {}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
@@ -3912,6 +3930,62 @@ util.toast("Hulk Mode Off")
     end 
 end)
 
+menu.toggle(playermode, "Toggle Sneaky Mode", {"sneakymode"}, "Turns you invisible, off radar and no collisions...", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("invisibility" .. " on")
+        menu.trigger_commands("reducedcollision" .. " on")
+        menu.trigger_commands("otr")
+        util.toast("Sneaky Mode On") 
+    else
+        menu.trigger_commands("tpmazehelipad")
+        menu.trigger_commands("invisibility" .. " off")
+        menu.trigger_commands("reducedcollision" .. " off")
+        menu.trigger_commands("otr")
+        util.toast("Sneaky Mode Off")
+        end 
+end)
+
+
+menu.toggle(playermode, "Toggle Pidgeon Mode", {"pidgeonmode"}, "Turns you into a Pidgeon, off radar and no collisions...", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("otr")
+        menu.trigger_commands("reducedcollision" .. " on")
+        menu.trigger_commands("acpigeon")
+        util.yield(100)
+        menu.trigger_commands("noguns")
+        menu.trigger_commands("allguns")
+        util.toast("Pidgeon Mode On") 
+    else
+        menu.trigger_commands("otr")
+        menu.trigger_commands("tpmazehelipad")
+        menu.trigger_commands("reducedcollision" .. " off")
+        menu.trigger_commands("outfit1candydinka")
+        util.toast("Pidgeon Mode Off")
+        end 
+end)
+
+menu.toggle(playermode, "Toggle Killer Whale Mode", {"killerwhaleonmode"}, "Turns you into a Killer Whale, off radar and no collisions...", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("otr")
+        local player_ped = PLAYER.PLAYER_PED_ID()    
+        local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+        local pld = PLAYER.GET_PLAYER_PED(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(pld)
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, -2592.5793, -612.5788, -34.412697)
+        util.yield(1)
+        menu.trigger_commands("ackillerwhale")
+        util.yield(10)
+        menu.trigger_commands("noguns")
+        menu.trigger_commands("allguns")
+        util.toast("Killer Whale Mode On") 
+    else
+        menu.trigger_commands("otr")
+        menu.trigger_commands("tpmazehelipad")
+        menu.trigger_commands("outfit1candydinka")
+        util.toast("Killer Whale Off")
+        end 
+end)
+
 menu.toggle(playermode, "Big Foot Mode", {"bigfoot mode"}, "Activates Big Foot off radar and makes you strong and jump high then to Candy's outfit on radar.", function(on)
 if on then
     menu.trigger_commands("igorleans")
@@ -4731,12 +4805,56 @@ GenerateFeatures = function(pid)
 	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
 
     menu.action(griefing, "Make Player Explode All", {"makethemexplodeall"}, "", function()
-		menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " explodeall")
+		menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " explodeall")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.action(griefing, "Make Player Bounty All", {"makethembountyall"}, "", function()
-		menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " bountyall 10000")
+		menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " bountyall 10000")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.action(griefing, "TP All Players", {"tpallplayers"}, "Teleports all players to you.", function()
+        menu.trigger_commands("say " .. " Get on the bike :)")
+        menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " manchez")
+        util.toast("Give them a second to get on...")
+        util.yield(10000)
+        excludeselected = true
+        menu.trigger_commands("tpplayers")
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.toggle(griefing, "Toggle Sneaky Mode", {"sneakymode"}, "Teleports you to player then turns you invisible, off radar and no collisions...", function(on_toggle)
+        if on_toggle then
+            menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("invisibility" .. " on")
+            menu.trigger_commands("reducedcollision" .. " on")
+            menu.trigger_commands("otr")
+            util.toast("Sneaky Mode On") 
+        else
+            menu.trigger_commands("tpmazehelipad")
+            menu.trigger_commands("invisibility" .. " off")
+            menu.trigger_commands("reducedcollision" .. " off")
+            menu.trigger_commands("otr")
+            util.toast("Sneaky Mode Off")
+            end 
+    end)
+
+    menu.toggle(griefing, "Toggle Pidgeon Mode", {"pidgeonmode"}, "Teleports you to player then turns you into a Pidgeon, off radar and no collisions...", function(on_toggle)
+        if on_toggle then
+            menu.trigger_commands("otr")
+            menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("reducedcollision" .. " on")
+            menu.trigger_commands("acpigeon")
+            util.yield(100)
+            menu.trigger_commands("noguns")
+            menu.trigger_commands("allguns")
+            util.toast("Pidgeon Mode On") 
+        else
+            menu.trigger_commands("otr")
+            menu.trigger_commands("tpmazehelipad")
+            menu.trigger_commands("reducedcollision" .. " off")
+            menu.trigger_commands("outfit1candydinka")
+            util.toast("Pidgeon Mode Off")
+            end 
+    end)
 
 --[[
 
@@ -5013,12 +5131,11 @@ menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
-
 menu.toggle_loop(griefing, "Rain Peds on Player", {"rainpeds"}, "", function(on_toggle)
     notification("Rain Peds sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
     local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
-        all_peds = entities.get_all_peds_as_handles()
+        all_peds = entities.get_all_peds_as_pointers()
     for k,ped in pairs(all_peds) do
         if not PED.IS_PED_A_PLAYER(ped) then
             if PED.IS_PED_IN_ANY_VEHICLE(ped, true) then
@@ -6629,21 +6746,6 @@ end)
             util.trigger_script_event(1 << pid, event_data)
         end)
 
-    menu.action(griefing, "Custom Label", {"label"}, "", function() menu.show_command_box("label "..players.get_name(pid).." ") end, function(label)
-        local event_data = {0xD0CCAC62, players.user(), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-        local out = label:sub(1, 127)
-        if HUD.DOES_TEXT_LABEL_EXIST(label) then
-            for i = 0, #out -1 do
-                local slot = i // 8
-                local byte = string.byte(out, i + 1)
-                event_data[slot + 3] = event_data[slot + 3] | byte << ( (i - slot * 8) * 8)
-            end
-            util.trigger_script_event(1 << pid, event_data)
-        else
-            util.toast("Sorry, that isn't a valid label. :/")
-        end
-    end)
-
 local function request_model(hash, timeout)
     timeout = timeout or 3
     STREAMING.REQUEST_MODEL(hash)
@@ -6976,9 +7078,6 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	local heli = entities.create_vehicle(heli_hash, pos, CAM.GET_GAMEPLAY_CAM_ROT(0).z)
 	buzzard_entities[#buzzard_entities + 1] = heli
 	
-	if not collision then
-		VEHICLE._DISABLE_VEHICLE_WORLD_COLLISION(heli)
-	end
 	
 	ENTITY.SET_ENTITY_INVINCIBLE(heli, buzzard_godmode)
 	ENTITY.SET_ENTITY_VISIBLE(heli, buzzard_visible, 0)	
@@ -7489,12 +7588,12 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             menu.trigger_commands("aptme" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-            menu.action(griefing, "Give Player A Deluxo", {"givedeluxo"}, "", function()
+            menu.action(frienm, "Give Player A Deluxo", {"givedeluxo"}, "", function()
                 menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " deluxo")
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-            menu.action(griefing, "As Player", {"asplayer"}, "Give them something.", function()
-                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.action(frienm, "As Player", {"asplayer"}, "Give them something.", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
             local player_torque = 1000
@@ -7616,19 +7715,19 @@ end)
     menu.action(hugs,"Hug Player 1", {}, "Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
         util.yield(200)
-        menu.trigger_commands("nocollision" .. " on")
+        menu.trigger_commands("reducedcollision" .. " on")
         menu.trigger_commands("playanimhug")
         util.yield(300)
-        menu.trigger_commands("nocollision" .. " off")
+        menu.trigger_commands("reducedcollision" .. " off")
 	end)
 
     menu.action(hugs,"Hug Player 2", {}, "Credits to Kaliya for idea and <3", function()
         menu.trigger_commands("tp" .. PLAYER.GET_PLAYER_NAME(pid))
         util.yield(200)
-        menu.trigger_commands("nocollision" .. " on")
+        menu.trigger_commands("reducedcollision" .. " on")
         menu.trigger_commands("playanimhug2")
         util.yield(300)
-        menu.trigger_commands("nocollision" .. " off")
+        menu.trigger_commands("reducedcollision" .. " off")
 	end)
 
 
@@ -14697,14 +14796,6 @@ menu.toggle_loop(misc, 'Increase Kosatka Missile Range', {'krange'}, 'You can us
     end
 end)
 
---[[menu.toggle(misc,"Player Bar", {"playerbar"}, "Turns on an overlay with a list of names and tags based on certain flags", function(on)
-	if on then
-		playerbar = true
-	else
-		playerbar = false
-	end
-end, false)]]
-
 joining = false
 menu.toggle(misc, "Player Joining Notifications", {}, "", function(on_toggle)
 	if on_toggle then
@@ -14715,17 +14806,6 @@ menu.toggle(misc, "Player Joining Notifications", {}, "", function(on_toggle)
 end)
 
 notification("Currupt Script has been successfully loaded!", colors.green)
-
-async_http.init('pastebin.com', '/raw/j8iZnWjV', function(authver)
-	if tonumber(authver) ~= version then -- why the fuck do i have to tonumber this when its literally already a number :waitwhat:
-		util.toast(version .. " " .. authver)
-		notification("Your using the BEST version of Currupt Script  available!", colors.red)
-		menu.hyperlink(menu.my_root(), "Join Kwengz Server! #KWENGZ-IS-KING  #CANDY-FAX", "https://discord.gg/KHOS")
-	end
-end, function()
-end)
-async_http.dispatch()
-
 
 local InitialPlayersList = players.list(true, true, true) -- Obtain list of players from Stand API
 for i=1, #InitialPlayersList do -- Loop through the received player list
@@ -15885,58 +15965,38 @@ end
 		menu.trigger_commands("setrank" .. " 420")
 	end)
 
-	menu.toggle(misc, "Halloween FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
+	menu.toggle(misc, "FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
-        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " extrasunny")
-        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " clear01")
-        --menu.ref_by_path("")
 		menu.trigger_commands("time" .. " 6")
-        --menu.ref_by_path("")
 		menu.trigger_commands("superc")
-        --menu.ref_by_path("")
         menu.trigger_commands("noidlecam ")
 	else
 		notification("Resetting FPS...", colors.red)
-        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " normal")
-        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " normal")
-        --menu.ref_by_path("")
         menu.trigger_commands("noidlecam ")
 		end
 	end)
 
-	menu.toggle(misc, "Halloween FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
+	menu.toggle(misc, "FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
-        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " extrasunny")
-        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " clear01")
-        --menu.ref_by_path("")
 		menu.trigger_commands("time" .. " 6")
-        --menu.ref_by_path("")
 		menu.trigger_commands("superc")
-        --menu.ref_by_path("")
         menu.trigger_commands("potatomode ")
-        --menu.ref_by_path("")
         menu.trigger_commands("nosky ")
-        --menu.ref_by_path("")
         menu.trigger_commands("noidlecam ")
 	else
 		notification("Resetting FPS...", colors.red)
-        --menu.ref_by_path("")
 		menu.trigger_commands("weather" .. " normal")
-        --menu.ref_by_path("")
 		menu.trigger_commands("clouds" .. " normal")
-        --menu.ref_by_path("")
         menu.trigger_commands("potatomode ")
-        --menu.ref_by_path("")
         menu.trigger_commands("nosky ")
-        --menu.ref_by_path("")
         menu.trigger_commands("noidlecam ")
 		end
 	end)
