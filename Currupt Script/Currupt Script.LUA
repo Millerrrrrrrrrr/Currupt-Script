@@ -4831,11 +4831,11 @@ GenerateFeatures = function(pid)
 
     griefingtpp = menu.list(tpoptions, "TP Player", {}, "", function(); end)
 
-    menu.action(griefingtpp, "Teleport To Them", {"tp"}, "", function()
+    menu.action(griefingtpp, "Teleport To Them", {"goingtheere"}, "", function()
         menu.trigger_commands("tp" .. players.get_name(pid))
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
-    menu.action(griefingtpp, "Teleport To Me", {"tpme"}, "", function()
+    menu.action(griefingtpp, "Teleport To Me", {"cometome"}, "", function()
         menu.trigger_commands("summon" .. players.get_name(pid))
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
@@ -7699,11 +7699,11 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	    notification("PROTECTED!!! GANG SHIT!!!", colors.red)
     	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "Teleport To Them", {"tp"}, "", function()
+        menu.action(frienm, "Teleport To Them", {"gotothem"}, "", function()
             menu.trigger_commands("tp" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "Teleport To Me", {"tpme"}, "", function()
+        menu.action(frienm, "Teleport To Me", {"bringtome"}, "", function()
             menu.trigger_commands("summon" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
