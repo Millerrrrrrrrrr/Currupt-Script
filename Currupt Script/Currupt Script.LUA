@@ -4829,12 +4829,11 @@ GenerateFeatures = function(pid)
 
     griefingtp = menu.list(griefing, "TP Players", {}, "", function(); end)
 
-        menu.action(griefingtp, "TP Player To MazeBank", {"tpmazebank"}, "", function(on_toggle)
-            if on_toggle then
-                    menu.trigger_commands("panic")
+        menu.action(griefingtp, "TP Player To MazeBank", {"tpmazebank"}, "", function()
                     local int_min = -2147483647
                     local int_max = 2147483647
                         for i = 1, 1 do
+                        menu.trigger_commands("panic")
                         util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max), 
                         math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
                         math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
@@ -4843,14 +4842,12 @@ GenerateFeatures = function(pid)
                         menu.trigger_commands("givesh" .. players.get_name(pid))
                         util.yield(100)
                         for i = 1, 1 do
+                        menu.trigger_commands("panic")
                         util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0, pid, math.random(int_min, int_max)})
                         util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
                         end
                         util.yield(100)
                         util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
-                    else
-                        menu.trigger_commands("panic")
-                            end
                         end)
 
     menu.action(griefingtp, "TP Everyone To MazeBank", {"tpallmazebank"}, "Teleports all players to mazebank you.", function()
@@ -4858,13 +4855,17 @@ GenerateFeatures = function(pid)
         menu.trigger_commands("tpplayersmazebank")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(griefingtp, "TP All Players", {"tpallplayers"}, "Teleports all players to you.", function()
+    menu.action(griefingtp, "TP All Players to me", {"tpallplayers"}, "Teleports all players to you.", function()
         menu.trigger_commands("say " .. " Get on the bike :)")
         menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " manchez")
         util.toast("Give them a second to get on...")
         util.yield(10000)
         excludeselected = true
         menu.trigger_commands("tpplayers")
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.action(griefingtp, "TP All Players Near me", {"tpallnear"}, "Teleports all players near you.", function()
+        menu.trigger_commands("aptmeall")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     menu.toggle(griefing, "Toggle Sneaky Mode", {"sneakymode"}, "Teleports you to player then turns you invisible, off radar and no collisions...", function(on_toggle)
