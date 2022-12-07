@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --AUTO UPDATER
@@ -3844,6 +3844,7 @@ menu.action(list, "Normal shit", {"nshit"}, "Make a normale sized shit", functio
     entities.create_object(rshit, c)
 end)
 
+
 menu.slider(funfun, "Change seat", {"switchseat"}, "DriverSeat = -1 Passenger = 0 Left Rear = 1 RightRear = 2", -1, 2, -1, 1, function(seatnumber)
 	local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user())
 	local vehicle = entities.get_user_vehicle_as_handle()
@@ -3855,7 +3856,6 @@ menu.action(funfun, "TP Forward", {"tpforward"}, "", function(on_click)
     local pos = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(players.user_ped(), 0, tpf_units, 0)
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 end)
-
 
 
 island_block = 0
@@ -4880,6 +4880,128 @@ GenerateFeatures = function(pid)
         menu.trigger_commands("aptmeall")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+    function attachto(offx, offy, offz, pid, angx, angy, angz, hash, isnpc, isveh)
+        atomicattachto = util.create_thread(function(thr)
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+            local coords = ENTITY.GET_ENTITY_COORDS(ped, true)
+            coords.x = coords['x']
+            coords.y = coords['y']
+            coords.z = coords['z']
+            if isnpc then
+                obj = entities.create_ped(1, hash, coords, 90.0)
+            elseif isveh then
+                obj = entities.create_vehicle(hash, coords, 90.0)
+            else
+                obj = OBJECT.CREATE_OBJECT_NO_OFFSET(hash, coords['x'], coords['y'], coords['z'], true, false, false)
+            end
+            ENTITY.SET_ENTITY_INVINCIBLE(obj, true)
+            ENTITY.SET_ENTITY_COMPLETELY_DISABLE_COLLISION(obj, false, true)
+                while true do
+                    local player_coords = ENTITY.GET_ENTITY_COORDS(ped, false)
+                    local obj_coords = ENTITY.GET_ENTITY_COORDS(obj, false)
+                    local dist =  MISC.GET_DISTANCE_BETWEEN_COORDS(player_coords['x'], player_coords['y'], player_coords['z'], obj_coords['x'], obj_coords['y'], obj_coords['z'], false)
+                    if dist > 0.1 then
+                        local behind = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, offx, offy, offz)
+                        ENTITY.SET_ENTITY_COORDS(obj, behind['x'], behind['y'], behind['z'], false, false, false, false)
+                    end
+                    if not stopato then
+                    util.stop_thread()
+                    if not ENTITY.DOES_ENTITY_EXIST(obj) then
+                    end
+                    attachto(offx, offy, offz, pid, angx, angy, angz, hash, isnpc, isveh)
+                    end
+                    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+                    if not players.exists(pid) then
+                        util.toast(aatoast)
+                        util.stop_thread()
+                    else
+                    end
+                    util.yield()
+                end
+            end)
+        end
+
+        function request_control_of_entity(ent)
+            if not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(ent) and util.is_session_started() then
+                util.toast("Requesting entity control of " .. ent)
+                local netid = NETWORK.NETWORK_GET_NETWORK_ID_FROM_ENTITY(ent)
+                NETWORK.SET_NETWORK_ID_CAN_MIGRATE(netid, true)
+                local st_time = os.time()
+                while not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(ent) do
+                    if os.time() - st_time >= 5 then
+                        util.toast("Failed to request entity control in 5 seconds (entity " .. ent .. ")")
+                        break
+                    end
+                    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ent)
+                    util.yield()
+                end
+            end
+        end
+
+        function is_ped_player(ped)
+            if PED.GET_PED_TYPE(ped) >= 4 then
+                return false
+            else
+                return true
+            end
+        end
+
+    attachoptions = menu.list(griefing, "Attach Options", {}, "", function(); end)
+
+
+    menu.action(attachoptions, "Attach A Cone", {"aacone"}, "", function(on_click)
+        attachto(0.0, 0.07, 0.63, pid, 0.0, 90.0, 0.0, 3760607069, false, false)
+    end)
+
+    menu.action(attachoptions, "Attach A Backpack", {"abackpack"}, "", function(on_click)
+        attachto(0.0, -0.15, 0.0, pid, 0.0, 0.0, 0.0, 4208448709, false, false)
+    end)
+
+    menu.action(attachoptions, "Stop Attachments", {"stopata"}, "", function(on_click)
+		stopato = false
+		util.yield(600)
+		stopato = true
+	end)
+	
+	stopato = true
+
+        menu.toggle_loop(attachoptions, "Attach All Nearby", {"attachallnearby"}, "", function(on_toggle)
+        local tar = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        objects = entities.get_all_objects_as_handles()
+        vehicles = entities.get_all_vehicles_as_handles()
+        peds = entities.get_all_peds_as_handles()
+        for i, ent in pairs(peds) do
+            if not is_ped_player(ped) then
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(ent, tar, 0, 0.0, -0.20, 2.00, 1.0, 1.0,1, true, true, true, false, 0, true)
+            end
+        end
+        for i, ent in pairs(vehicles) do
+            if not is_ped_player(VEHICLE.GET_PED_IN_VEHICLE_SEAT(ent, -1)) then
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(ent, tar, 0, 0.0, -0.20, 2.00, 1.0, 1.0,1, true, true, true, false, 0, true)
+            end
+        end
+        for i, ent in pairs(objects) do
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(ent, tar, 0, 0.0, -0.20, 2.00, 1.0, 1.0,1, true, true, true, false, 0, true)
+        end
+    end)
+
+    menu.action(attachoptions, "Custom Object Model", {"customattmodel"}, "", function(on_click)
+        util.toast("Please input the model name")
+        menu.show_command_box("customattmodel" .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
+    end, function(on_command)
+        local hash = util.joaat(on_command)
+        request_model_load(hash)
+        attachto(0.0, 0.0, 0.0, pid, 90.0, 0.0, 0.0, hash, false)
+    end)
+    
+    menu.action(attachoptions, "Custom Vehicle Model", {"customvemodel"}, "", function(on_click)
+        util.toast("Please input the model name")
+        menu.show_command_box("customvemodel" .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
+    end, function(on_command)
+        local hash = util.joaat(on_command)
+        request_model_load(hash)
+        attachto(0.0, 0.0, 0.0, pid, 0.0, 0.0, 0.0, hash, false, true)
+    end)
 
     menu.toggle(griefing, "Toggle Sneaky Mode", {"sneakymode"}, "Teleports you to player then turns you invisible, off radar and no collisions...", function(on_toggle)
         if on_toggle then
@@ -8053,10 +8175,82 @@ local function BlockSyncs(pid, callback)
         end
     end
 end
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
+local protectcrash = menu.list(crash, "Join Player's Crash Protections", {}, "")
 
+menu.toggle(protectcrash, "Join Player's Crash Protections", {"joinprotect"}, "This is best for when joining people that are crashing as session. Stops your position being updated for other players and can even prevent other players from knowing that you're in the session if joining with this enabled.", function(on_toggle)
+    local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+    local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+    local BlockBailing = menu.ref_by_path("Online>Protections>Block Bailing>Player No Longer In Session")
+    local BlockBailing2 = menu.ref_by_path("Online>Protections>Block Bailing>Switching Primary Crew")
+    local BlockBailing3 = menu.ref_by_path("Online>Protections>Block Bailing>Spectating Related")
+    local BlockBailing4 = menu.ref_by_path("Online>Protections>Block Bailing>Other Reasons")
+    local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+    local BlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+    local UnBlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local DontAsk = menu.ref_by_path("Online>Transitions>Speed Up>Don't Ask For Permission To Spawn")
+    if on_toggle then
+        menu.trigger_commands("anticrashcamera")
+        menu.trigger_commands("desyncall")
+        menu.trigger_commands("fpsnsboost")
+        menu.trigger_commands("noentities")
+        menu.trigger_commands("nobgscript on")
+		menu.trigger_commands("skipbroadcast on")
+        menu.trigger_commands("speedupspawn on")
+        menu.trigger_commands("speedupfmmc on")
+        menu.trigger_commands("skipswoopdown on")
+        menu.trigger_command(BlockIncSyncs)
+        menu.trigger_command(BlockNetEvents)
+        menu.trigger_command(BlockBailing, "on")
+        menu.trigger_command(BlockBailing2, "on")
+        menu.trigger_command(BlockBailing3, "on")
+        menu.trigger_command(BlockBailing4, "on")
+        menu.trigger_command(ShowNotis)
+        menu.trigger_command(BlockRaw)
+        menu.trigger_commands("skipbroadcast on")
+        menu.trigger_command(DontAsk, "on")
+        menu.trigger_commands("skipswoopdown on")
+        util.toast("Activated, now enter your session and prepare the kick/crash.")
+        util.yield(100)
+    else
+        menu.trigger_commands("anticrashcamera")
+        menu.trigger_commands("desyncall")
+        menu.trigger_commands("fpsnsboost")
+        menu.trigger_commands("noentities")
+        menu.trigger_commands("nobgscript off")
+		menu.trigger_commands("skipbroadcast off")
+        menu.trigger_commands("speedupspawn off")
+        menu.trigger_commands("speedupfmmc off")
+        menu.trigger_commands("skipswoopdown off")
+        menu.trigger_command(UnblockIncSyncs)
+        menu.trigger_command(UnblockNetEvents)
+        menu.trigger_command(BlockBailing3, "off")
+        menu.trigger_command(UnShowNotis)
+        menu.trigger_command(UnBlockRaw)
+        menu.trigger_commands("skipbroadcast off")
+        menu.trigger_command(DontAsk, "off")
+        menu.trigger_commands("skipswoopdown off")
+        util.toast("Done, all off")
+        util.yield(100)
+        end
+    end)
+
+    menu.action(protectcrash, "Turn On/Off Anti-Crash Camera", {""}, "Shortcut if needed.", function(on_toggle)
+        if on_toggle then
+            menu.trigger_commands("anticrashcamera")
+            util.yield(100)
+        else
+            menu.trigger_commands("anticrashcamera")
+            util.yield(100)
+            end
+        end)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 playerposition = function(entity, distance)
 	if not ENTITY.DOES_ENTITY_EXIST(entity) then
@@ -8092,6 +8286,7 @@ local function deletehandlers(list)
     end
 end
 
+local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
 local spawnDistance = 0
 local vehicleType = { 'hydra', 'cargoplane', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
@@ -8100,6 +8295,7 @@ local vehicleType = { 'hydra', 'cargoplane', 'bombushka', 'volatol', 'kosatka', 
 
 local selected = 1
 local spawnedPlanes = {}
+
 local craftcrash = menu.list(lobbycrash, "Craft Crashes", {}, "")
 
 menu.toggle_loop(craftcrash, "Start Loop", {"craftloop"}, "Hold down enter...", function (on_toggle)
@@ -8144,6 +8340,52 @@ menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance, 25, func
     spawnDistance = distance
 end)
 
+local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
+
+menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is OP...", function()
+    menu.trigger_commands("tpspread")
+    menu.trigger_commands("attachallnearby" .. players.get_name(pid))
+    menu.trigger_commands("tpallentities" .. players.get_name(pid))
+    menu.trigger_commands("craftloop" .. players.get_name(pid))
+    menu.trigger_commands("badnet" .. players.get_name(pid))
+    menu.trigger_commands("togglefragv3" .. players.get_name(pid))
+    menu.trigger_commands("toggleweedcrash" .. players.get_name(pid))
+    menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("tpspread")
+    menu.trigger_commands("attachallnearby" .. players.get_name(pid))
+    menu.trigger_commands("tpallentities" .. players.get_name(pid))
+    menu.trigger_commands("craftloop" .. players.get_name(pid))
+    menu.trigger_commands("badnet" .. players.get_name(pid))
+    menu.trigger_commands("togglefragv3" .. players.get_name(pid))
+    menu.trigger_commands("toggleweedcrash" .. players.get_name(pid))
+    menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+    util.yield(100)
+end)
+
+menu.toggle_loop(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is OP...", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("tpspread")
+        menu.trigger_commands("attachallnearby" .. players.get_name(pid))
+        menu.trigger_commands("tpallentities" .. players.get_name(pid))
+        menu.trigger_commands("craftloop" .. players.get_name(pid))
+        menu.trigger_commands("badnet" .. players.get_name(pid))
+        menu.trigger_commands("togglefragv3" .. players.get_name(pid))
+        menu.trigger_commands("toggleweedcrash" .. players.get_name(pid))
+        menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+        util.yield(100)
+    else
+        menu.trigger_commands("tpspread")
+        menu.trigger_commands("attachallnearby" .. players.get_name(pid))
+        menu.trigger_commands("tpallentities" .. players.get_name(pid))
+        menu.trigger_commands("craftloop" .. players.get_name(pid))
+        menu.trigger_commands("badnet" .. players.get_name(pid))
+        menu.trigger_commands("togglefragv3" .. players.get_name(pid))
+        menu.trigger_commands("toggleweedcrash" .. players.get_name(pid))
+        menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+        util.yield(100)
+        end
+    end)
 
 local chunguscrashes = menu.list(lobbycrash, "Big Chungus Crashes", {}, "")
 
@@ -8958,7 +9200,6 @@ end)
     	local keramicrash = menu.list(lobbycrash, "Kerami Crashes", {}, "")
 
 menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami script.", function(on_toggle)
-    notification("Badnet Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local hashes = {1492612435, 3517794615, 3889340782, 3253274834}
     local vehicles = {}
     for i = 1, 4 do
@@ -9052,7 +9293,7 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
     end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local clonecrash = menu.list(crash, "Clone Crashes (UNTESTED)", {}, "Warning: You will self crash if toggled all whilst spectating.")
+local clonecrash = menu.list(crash, "Clone CrasheS", {}, "Warning: You will self crash if spectating whilst toggled.")
 
 local pclpid = {}
 
@@ -12325,9 +12566,105 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 
             local scrash = menu.list(crash, "Script Event Crashes", {}, "")
 
+            menu.action(scrash, "All Script Event Crashes", {"allsecrashes"}, "", function()
+                menu.trigger_commands("crashs1" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs0" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs0a" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs1a" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs2" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs3" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs4" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs7" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("togglesus" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("toggleautomob" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("toggleautobike" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs1" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs0" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs0a" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs1a" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs2" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs3" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs4" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("crashs7" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("togglesus" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("toggleautomob" .. players.get_name(pid))
+                util.yield(100)
+                menu.trigger_commands("toggleautobike" .. players.get_name(pid))
+                util.yield(100)
+            end)
+
+            menu.toggle_loop(scrash, "All Script Event Crashes", {"togglesecrashes"}, "", function(on_toggle)
+                if on_toggle then
+                    menu.trigger_commands("crashs1" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs0" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs0a" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs1a" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs2" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs3" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs4" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs7" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("togglesus" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("toggleautomob" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("toggleautobike" .. players.get_name(pid))
+                    util.yield(100)
+                else
+                    menu.trigger_commands("crashs1" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs0" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs0a" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs1a" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs2" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs3" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs4" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("crashs7" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("togglesus" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("toggleautomob" .. players.get_name(pid))
+                    util.yield(100)
+                    menu.trigger_commands("toggleautobike" .. players.get_name(pid))
+                    util.yield(100)
+                    end
+                end)
+
             
-            menu.toggle_loop(scrash, "SE Crash (S1)", {""}, "A very strong SE/SH crash", function(on_toggle)
-                notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12345,8 +12682,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     util.trigger_script_event(1 << pid, {526822748, 1, 0, 2126548485})
                         end)
         
-            menu.toggle_loop(scrash, "SE Crash (S0)", {""}, "A very strong SE/SH crash", function(on_toggle)
-            notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12364,8 +12700,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     util.trigger_script_event(1 << pid, {-555356783, 1, 1, 2024683308})
                         end)
 
-            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash", function(on_toggle)
-            notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0a"}, "A very strong SE/SH crash", function(on_toggle)
                     local int_min = -2147483647
                     local int_max = 2147483647
                         for i = 1, 15 do
@@ -12383,8 +12718,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     util.trigger_script_event(1 << pid, {-555356783, 26, -589330767, 40106, 44698, 114444756, -1221859636, 78561})
                         end)
         
-            menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
-            notification("SE Crash (S1) sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+            menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1a"}, "A very strong SE/SH crash", function(on_toggle)
                     local int_min = -2147483647
                     local int_max = 2147483647
                         for i = 1, 15 do
@@ -12404,7 +12738,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         end)
         
                 menu.toggle_loop(scrash, "SE Crash (S2)", {"crashs2"}, "A very strong SE/SH crash", function(on_toggle)
-                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                     local int_min = -2147483647
                     local int_max = 2147483647
                         for i = 1, 15 do
@@ -12423,7 +12756,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     end)
         
                 menu.toggle_loop(scrash, "SE Crash (S3)", {"crashs3"}, "A very strong SE/SH crash", function(on_toggle)
-                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12442,7 +12774,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                             end)
         
                 menu.toggle_loop(scrash, "SE Crash (S4)", {"crashs4"}, "A very strong SE/SH crash", function(on_toggle)
-                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12483,7 +12814,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 ]]       
                                 
                 menu.toggle_loop(scrash, "SE Crash (S7)", {"crashs7"}, "A very strong SE/SH crash", function(on_toggle)
-                notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12503,7 +12833,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 
 
                 menu.toggle_loop(scrash, "SUS Crash", {"togglesus"}, "This one is bound to hurt.", function(on_toggle)
-                notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
@@ -12545,7 +12874,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                             end)
 
                 menu.toggle_loop(scrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
-                    notification("Automobile Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                             local int_min = -2147483647
                             local int_max = 2147483647
                                 for i = 1, 15 do
@@ -12561,7 +12889,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                             end)
 
                 menu.toggle_loop(scrash, "Autobike Crash", {"toggleautobike"}, "Skidded from X-Force script event code.", function(on_toggle)
-                    notification("Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                             local int_min = -2147483647
                             local int_max = 2147483647
                                 for i = 1, 15 do
@@ -13607,7 +13934,65 @@ local interior_stuff = {0, 233985, 169473, 169729, 169985, 170241, 177665, 17740
 
 local self = menu.list(menu.my_root(), "Protections", {}, "")
 
-local detections = menu.list(menu.my_root(), "Modder Detections", {}, "")
+menu.toggle(self, "Join Player's Crash Protections", {"joinprotect"}, "This is best for when joining people that are crashing as session. Stops your position being updated for other players and can even prevent other players from knowing that you're in the session if joining with this enabled.", function(on_toggle)
+    local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local BlockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Enabled")
+    local UnblockIncSyncs = menu.ref_by_path("Online>Protections>Syncs>Incoming>Any Incoming Sync>Block>Disabled")
+    local BlockBailing = menu.ref_by_path("Online>Protections>Block Bailing>Player No Longer In Session")
+    local BlockBailing2 = menu.ref_by_path("Online>Protections>Block Bailing>Switching Primary Crew")
+    local BlockBailing3 = menu.ref_by_path("Online>Protections>Block Bailing>Spectating Related")
+    local BlockBailing4 = menu.ref_by_path("Online>Protections>Block Bailing>Other Reasons")
+    local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+    local BlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
+    local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+    local UnBlockRaw = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
+    local DontAsk = menu.ref_by_path("Online>Transitions>Speed Up>Don't Ask For Permission To Spawn")
+    if on_toggle then
+        menu.trigger_commands("anticrashcamera")
+        menu.trigger_commands("desyncall")
+        menu.trigger_commands("fpsnsboost")
+        menu.trigger_commands("noentities")
+        menu.trigger_commands("nobgscript on")
+		menu.trigger_commands("skipbroadcast on")
+        menu.trigger_commands("speedupspawn on")
+        menu.trigger_commands("speedupfmmc on")
+        menu.trigger_commands("skipswoopdown on")
+        menu.trigger_command(BlockIncSyncs)
+        menu.trigger_command(BlockNetEvents)
+        menu.trigger_command(BlockBailing, "on")
+        menu.trigger_command(BlockBailing2, "on")
+        menu.trigger_command(BlockBailing3, "on")
+        menu.trigger_command(BlockBailing4, "on")
+        menu.trigger_command(ShowNotis)
+        menu.trigger_command(BlockRaw)
+        menu.trigger_commands("skipbroadcast on")
+        menu.trigger_command(DontAsk, "on")
+        menu.trigger_commands("skipswoopdown on")
+        util.toast("Activated, now enter your session and prepare the kick/crash.")
+        util.yield(100)
+    else
+        menu.trigger_commands("anticrashcamera")
+        menu.trigger_commands("desyncall")
+        menu.trigger_commands("fpsnsboost")
+        menu.trigger_commands("noentities")
+        menu.trigger_commands("nobgscript off")
+		menu.trigger_commands("skipbroadcast off")
+        menu.trigger_commands("speedupspawn off")
+        menu.trigger_commands("speedupfmmc off")
+        menu.trigger_commands("skipswoopdown off")
+        menu.trigger_command(UnblockIncSyncs)
+        menu.trigger_command(UnblockNetEvents)
+        menu.trigger_command(BlockBailing3, "off")
+        menu.trigger_command(UnShowNotis)
+        menu.trigger_command(UnBlockRaw)
+        menu.trigger_commands("skipbroadcast off")
+        menu.trigger_command(DontAsk, "off")
+        menu.trigger_commands("skipswoopdown off")
+        util.toast("Done, all off")
+        util.yield(100)
+        end
+    end)
 
 local values = {
     [0] = 0,
@@ -13617,7 +14002,7 @@ local values = {
     [4] = 208,
 }
 
-local bypasskick = menu.list(self, "Bypass Kick", {}, "Options that allow you to use methods to n enter the session if you are being blocked.")
+local bypasskick = menu.list(self, "Bypass Kicks", {}, "Options that allow you to use methods to n enter the session if you are being blocked.")
 
 menu.divider(bypasskick, "Normal Methods")
 
@@ -13832,6 +14217,8 @@ menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for
     end, function() ENTITY.SET_ENTITY_PROOFS(PED.GET_VEHICLE_PED_IS_IN(players.user(), true), true, true, true, true, true, 0, 0, true)
 end)
 
+local detections = menu.list(menu.my_root(), "Modder Detections", {}, "")
+
 --[[
 menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
     for _, pid in ipairs(players.list(false, true, true)) do
@@ -13846,6 +14233,7 @@ menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
     end 
 end)
 ]]
+
 local gdmedits = menu.list(detections, "Godmode", {}, "")
 menu.toggle_loop(gdmedits, "Godmode", {}, "Detects if someone is using godmode.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
