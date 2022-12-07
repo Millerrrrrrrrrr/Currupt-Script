@@ -3029,8 +3029,20 @@ end)
 			menu.trigger_commands("clearnotifications")
 			menu.trigger_commands("clearstandnotifys")
 		end
-	
 	end)
+
+    menu.toggle_loop(protexx, "Clear All Transaction Errors", {"toggleclearallnotifs"}, "Clears stand notifs and above mini map & Transaction Errors.", function(on_toggle)
+        local TransactionError = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Block")
+        local TransactionErrorV = menu.ref_by_path("Online>Protections>Events>Transaction Error Event>Notification")
+        if on_toggle then
+            menu.trigger_command(TransactionError, "on")
+            menu.trigger_command(TransactionErrorV, "on")
+            for i = 1, 100 do
+                menu.trigger_commands("removeloader")
+            end
+            util.toast("It's not my fault the log error if prompted, wait for Stand to fix it")
+        end
+    end)
 
 menu.toggle_loop(protexx, "Clear All Notifications & Transaction Errors", {"toggleclearallnotifs"}, "Clears stand notifs and above mini map & Transaction Errors.", function(on_toggle)
     local clearnotifts = menu.ref_by_path("Game > Remove Notifications Above Minimap")
@@ -8241,6 +8253,18 @@ menu.toggle(protectcrash, "Join Player's Crash Protections", {"joinprotect"}, "T
         util.yield(100)
         end
     end)
+
+    menu.toggle(protectcrash, "Hide RAW Notifications", {"hiderawnotifs"}, "", function(on_toggle)
+        local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+        local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+        if on_toggle then
+            menu.trigger_command(UnShowNotis)
+			menu.trigger_commands("clearnotifs")
+            util.yield(100)
+        else
+            menu.trigger_command(ShowNotis)
+            end
+        end)
 
     menu.action(protectcrash, "Turn On/Off Anti-Crash Camera", {""}, "Shortcut if needed.", function(on_toggle)
         if on_toggle then
@@ -13997,6 +14021,18 @@ menu.toggle(self, "Join Player's Crash Protections", {"joinprotect"}, "This is b
         util.yield(100)
         end
     end)
+
+    menu.toggle(self, "Hide RAW Notifications", {"hiderawnotifs"}, "", function(on_toggle)
+        local ShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Enabled")
+        local UnShowNotis = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Notification>Disabled")
+        if on_toggle then
+            menu.trigger_command(UnShowNotis)
+			menu.trigger_commands("clearnotifs")
+            util.yield(100)
+        else
+            menu.trigger_command(ShowNotis)
+            end
+        end)
 
 local values = {
     [0] = 0,
