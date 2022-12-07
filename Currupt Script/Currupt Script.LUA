@@ -4827,9 +4827,19 @@ GenerateFeatures = function(pid)
 		menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " bountyall 10000")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    griefingtp = menu.list(griefing, "TP Players", {}, "", function(); end)
+    tpoptions = menu.list(griefing, "TP Options", {}, "", function(); end)
 
-        menu.action(griefingtp, "TP Player To MazeBank", {"tpmazebank"}, "", function()
+    griefingtpp = menu.list(tpoptions, "TP Player", {}, "", function(); end)
+
+    menu.action(griefingtpp, "Teleport To Them", {"tp"}, "", function()
+        menu.trigger_commands("tp" .. players.get_name(pid))
+        end, nil, nil, COMMANDPERM_FRIENDLY)
+
+    menu.action(griefingtpp, "Teleport To Me", {"tpme"}, "", function()
+        menu.trigger_commands("summon" .. players.get_name(pid))
+        end, nil, nil, COMMANDPERM_FRIENDLY)
+
+        menu.action(griefingtpp, "TP Player To MazeBank", {"tpmazebank"}, "", function()
                     local int_min = -2147483647
                     local int_max = 2147483647
                         for i = 1, 1 do
@@ -4849,6 +4859,8 @@ GenerateFeatures = function(pid)
                         util.yield(100)
                         util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
                         end)
+                        
+                        griefingtp = menu.list(tpoptions, "TP All Players", {}, "", function(); end)
 
     menu.action(griefingtp, "TP Everyone To MazeBank", {"tpallmazebank"}, "Teleports all players to mazebank you.", function()
         excludeselected = true
@@ -4867,6 +4879,7 @@ GenerateFeatures = function(pid)
     menu.action(griefingtp, "TP All Players Near me", {"tpallnear"}, "Teleports all players near you.", function()
         menu.trigger_commands("aptmeall")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
 
     menu.toggle(griefing, "Toggle Sneaky Mode", {"sneakymode"}, "Teleports you to player then turns you invisible, off radar and no collisions...", function(on_toggle)
         if on_toggle then
@@ -4952,7 +4965,7 @@ GenerateFeatures = function(pid)
         tpTableToPlayer(pickupHandles, player)
     end
 
-    local pteleportEntities = menu.list(griefing, "Teleport Entities to Player", {}, "")
+    local pteleportEntities = menu.list(tpoptions, "Teleport Entities to Player", {}, "")
 
     menu.action(pteleportEntities, "Teleport ALL Entities to Player", {"tpallentities"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function()
         menu.trigger_commands("tppeds" .. players.get_name(pid))
@@ -5250,7 +5263,7 @@ menu.toggle_loop(griefing, "Bend There Knees", {"bendknees"}, "Forces them down 
 end)
 
 
-        menu.toggle_loop(griefing, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
+        menu.toggle_loop(tpoptions, "Tp Spread Your Shit", {"tpspread"}, "Note: Great for spreading any kinda mods like gifting vehicles or crash events.", function(on_toggle)
             local player_ped = PLAYER.PLAYER_PED_ID()    
             local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
             local pld = PLAYER.GET_PLAYER_PED(pid)
@@ -6096,7 +6109,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 	
 	end)
 
-    menu.toggle_loop(griefing, "TP On Ped Loop", {"tploopon"}, "", function(on_toggle)
+    menu.toggle_loop(tpoptions, "TP On Ped Loop", {"tploopon"}, "", function(on_toggle)
     if on_toggle then
     menu.trigger_commands("tp" .. players.get_name(pid))
     else
@@ -6139,7 +6152,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
         util.yield(65)
     end)
 
-    menu.toggle_loop(griefing, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
+    menu.toggle_loop(tpoptions, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
     menu.trigger_commands("tp" .. players.get_name(pid))
     local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     c.z = c.z -1
@@ -6152,7 +6165,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
     entities.create_object(mshit, c)
     end)
 
-menu.toggle_loop(griefing, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
+menu.toggle_loop(tpoptions, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
     menu.trigger_commands("tp" .. players.get_name(pid))
     local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     c.z = c.z -1
