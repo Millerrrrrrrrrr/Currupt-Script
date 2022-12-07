@@ -2755,6 +2755,24 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
+    menu.action(custselc, "TP Player To MazeBank", {"tpplayersmazebank"}, "", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+                    util.yield(100)
+					menu.trigger_commands("tpmazebank" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Teleporting..." .. PLAYER.GET_PLAYER_NAME(pids))
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+                    util.yield(100)
+					menu.trigger_commands("tpmazebank" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Teleporting..." .. PLAYER.GET_PLAYER_NAME(pids))
+				end
+			end
+		end
+	end)
+
 	menu.action(custselc, "Next Gen Crash", {}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
@@ -4809,7 +4827,38 @@ GenerateFeatures = function(pid)
 		menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " bountyall 10000")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(griefing, "TP All Players", {"tpallplayers"}, "Teleports all players to you.", function()
+    griefingtp = menu.list(griefing, "TP Players", {}, "", function(); end)
+
+        menu.action(griefingtp, "TP Player To MazeBank", {"tpmazebank"}, "", function(on_toggle)
+            if on_toggle then
+                    menu.trigger_commands("panic")
+                    local int_min = -2147483647
+                    local int_max = 2147483647
+                        for i = 1, 1 do
+                        util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0, math.random(int_min, int_max), math.random(int_min, int_max), 
+                        math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                        math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
+                        end
+                        menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.yield(100)
+                        for i = 1, 1 do
+                        util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0, pid, math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
+                        end
+                        util.yield(100)
+                        util.trigger_script_event(1 << pid, {-1390976345, 20, 1, -1, 1, 112, 0, 0, 0})
+                    else
+                        menu.trigger_commands("panic")
+                            end
+                        end)
+
+    menu.action(griefingtp, "TP Everyone To MazeBank", {"tpallmazebank"}, "Teleports all players to mazebank you.", function()
+        excludeselected = true
+        menu.trigger_commands("tpplayersmazebank")
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+    menu.action(griefingtp, "TP All Players", {"tpallplayers"}, "Teleports all players to you.", function()
         menu.trigger_commands("say " .. " Get on the bike :)")
         menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " manchez")
         util.toast("Give them a second to get on...")
