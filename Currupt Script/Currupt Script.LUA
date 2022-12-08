@@ -8252,8 +8252,7 @@ menu.toggle(protectcrash, "Join Player's Crash Protections", {"joinprotect"}, "T
 
 playerposition = function(entity, distance)
 	if not ENTITY.DOES_ENTITY_EXIST(entity) then
-		return v3.new(0.0, 0.0, 0.0)
-	end
+    end
 	local coords = ENTITY.GET_ENTITY_FORWARD_VECTOR(entity)
 	coords:mul(distance)
 	coords:add(ENTITY.GET_ENTITY_COORDS(entity, true))
@@ -8341,7 +8340,7 @@ end)
 local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
 
 menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is OP...", function()
-    menu.trigger_commands("tpspread")
+    menu.trigger_commands("tpspread" .. players.get_name(pid))
     menu.trigger_commands("attachallnearby" .. players.get_name(pid))
     menu.trigger_commands("tpallentities" .. players.get_name(pid))
     menu.trigger_commands("craftloop" .. players.get_name(pid))
@@ -8350,7 +8349,7 @@ menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is 
     menu.trigger_commands("toggleweedcrash" .. players.get_name(pid))
     menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
     util.yield(100)
-    menu.trigger_commands("tpspread")
+    menu.trigger_commands("tpspread" .. players.get_name(pid))
     menu.trigger_commands("attachallnearby" .. players.get_name(pid))
     menu.trigger_commands("tpallentities" .. players.get_name(pid))
     menu.trigger_commands("craftloop" .. players.get_name(pid))
@@ -8363,7 +8362,7 @@ end)
 
 menu.toggle_loop(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is OP...", function(on_toggle)
     if on_toggle then
-        menu.trigger_commands("tpspread")
+        menu.trigger_commands("tpspread" .. players.get_name(pid))
         menu.trigger_commands("attachallnearby" .. players.get_name(pid))
         menu.trigger_commands("tpallentities" .. players.get_name(pid))
         menu.trigger_commands("craftloop" .. players.get_name(pid))
@@ -8373,7 +8372,7 @@ menu.toggle_loop(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! Th
         menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
         util.yield(100)
     else
-        menu.trigger_commands("tpspread")
+        menu.trigger_commands("tpspread" .. players.get_name(pid))
         menu.trigger_commands("attachallnearby" .. players.get_name(pid))
         menu.trigger_commands("tpallentities" .. players.get_name(pid))
         menu.trigger_commands("craftloop" .. players.get_name(pid))
