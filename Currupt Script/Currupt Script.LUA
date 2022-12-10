@@ -32,9 +32,10 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
 
-util.toast("Welcome To Currupt Script 0.8.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.8.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
 
@@ -2724,6 +2725,22 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
+    menu.action(custselc, "TP Players To Their Waypoint", {"sendtowp"}, "", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("wptp" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Teleporting..." .. PLAYER.GET_PLAYER_NAME(pids))
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("wptp" .. PLAYER.GET_PLAYER_NAME(pids))
+                    util.toast("Teleporting..." .. PLAYER.GET_PLAYER_NAME(pids))
+				end
+			end
+		end
+	end)
+
     menu.action(custselc, "TP Player To MazeBank", {"tpplayersmazebank"}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
@@ -4877,6 +4894,11 @@ GenerateFeatures = function(pid)
         menu.trigger_commands("aptmeall")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+    menu.action(griefingtp, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
+        excludeselected = true
+        menu.trigger_commands("sendtowp")
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
     function attachto(offx, offy, offz, pid, angx, angy, angz, hash, isnpc, isveh)
         atomicattachto = util.create_thread(function(thr)
             local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -5208,7 +5230,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
 
     local ControlEntities = menu.list(griefing, "Control Entities", {}, "")
     
-    menu.action(ControlEntities, "Sky Dive Peds", {""}, "", function()
+    menu.action(ControlEntities, "Sky Dive Peds", {"skydivepeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5220,7 +5242,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Writher Peds", {""}, "", function()
+    menu.action(ControlEntities, "Writher Peds", {"writherpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5232,7 +5254,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Vault Peds", {""}, "", function()
+    menu.action(ControlEntities, "Vault Peds", {"vaultpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5244,7 +5266,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Cower Peds", {""}, "", function()
+    menu.action(ControlEntities, "Cower Peds", {"cowerpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5256,7 +5278,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Cover Peds", {""}, "", function()
+    menu.action(ControlEntities, "Cover Peds", {"coverpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5268,7 +5290,9 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    player_toggle_loop(griefing, pid, "Taser Loop", {}, "", function()
+    local tormentplayer = menu.list(griefing, "Torments")
+
+    player_toggle_loop(tormentplayer, pid, "Taser Loop", {"taserloop"}, "", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(ped)
         for i = 1, 50 do
@@ -5277,7 +5301,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         util.yield()
     end)
 
-    menu.toggle_loop(griefing, "Drop Fake Bags", {}, "Old School :D", function()
+    menu.toggle_loop(tormentplayer, "Drop Fake Bags", {"dropfakebags"}, "Old School :D", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
         local card = MISC.GET_HASH_KEY("prop_money_bag_01")
@@ -5288,7 +5312,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
     end)
 
-menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Glitch Physics", {"glitchphysics"}, "", function(on_toggle)
     local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local playerpos = ENTITY.GET_ENTITY_COORDS(id)
     playerpos.z = playerpos.z + 3
@@ -5318,7 +5342,7 @@ menu.toggle_loop(griefing, "Glitch Physics", {"glitchphysics"}, "", function(on_
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
-menu.toggle_loop(griefing, "Rain Peds on Player", {"rainpeds"}, "", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Rain Peds on Player", {"rainpeds"}, "", function(on_toggle)
     notification("Rain Peds sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
     local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
@@ -5341,7 +5365,7 @@ menu.toggle_loop(griefing, "Rain Peds on Player", {"rainpeds"}, "", function(on_
 end)
 
 
-menu.toggle_loop(griefing, "Rain Vehicles on Player", {"rainveh"}, "", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Rain Vehicles on Player", {"rainveh"}, "", function(on_toggle)
     notification("Rain Vehicles sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
     local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
     local ped_c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
@@ -5363,7 +5387,7 @@ menu.toggle_loop(griefing, "Rain Vehicles on Player", {"rainveh"}, "", function(
     end
 end)
 
-menu.toggle_loop(griefing, "Bend There Knees", {"bendknees"}, "Forces them down making them bend there knees.", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Bend There Knees", {"bendknees"}, "Forces them down making them bend there knees.", function(on_toggle)
     for k, ped in pairs(entities.get_all_peds_as_handles()) do
         local PedInSeat = VEHICLE.GET_PED_IN_VEHICLE_SEAT(ped, -1, false)
         local locspeed2 = speed
@@ -5469,7 +5493,7 @@ end)
         end)
 
 ---------------------------------------------------------------------------------------------------------------------
-menu.toggle_loop(griefing, "Give Wanted", {"givewanted"}, "", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Give Wanted", {"givewanted"}, "", function(on_toggle)
         local p_hash = util.joaat("s_m_y_swat_01")
         local c 
         local cop
@@ -5565,7 +5589,7 @@ function request_model_load(hash)
 end
 
 
-menu.toggle_loop(griefing, "Laughter Torment", {"laughter"}, "Only works when they are on foot.", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Laughter Torment", {"laughter"}, "Only works when they are on foot.", function(on_toggle)
         local target_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local voice = "A_F_M_EASTSA_01_LATINO_FULL_01"
         local speech = "FEMALE_DISTANT_LAUGH"
@@ -5587,9 +5611,164 @@ menu.toggle_loop(griefing, "Laughter Torment", {"laughter"}, "Only works when th
 
 
 	menu.toggle_loop(griefing, "Kick from vehicle", {"kickveh"}, "Little laggy when looped might find a new way to do this", function(on_toggle)
-	menu.trigger_commands("vehkick" .. players.get_name(pid))
+	    menu.trigger_commands("vehkick" .. players.get_name(pid))
 	end)
 
+        
+local function request_model(hash, timeout)
+    timeout = timeout or 3
+    STREAMING.REQUEST_MODEL(hash)
+    local end_time = os.time() + timeout
+    repeat
+        util.yield()
+    until STREAMING.HAS_MODEL_LOADED(hash) or os.time() >= end_time
+    return STREAMING.HAS_MODEL_LOADED(hash)
+end
+
+local player_deer_army = {}
+local DeerArmy = menu.list(griefing, "Deer Army")
+
+menu.divider(DeerArmy, "__________________bruh__________________")
+
+menu.toggle(DeerArmy, "Deer Fuck Player", {"deerfuck"}, "", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("deerarmy" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("skydivepeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        util.toast("Wait 5 Seconds to turn off please.")
+    else
+        menu.trigger_commands("cleardeers" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("superc")
+        end        
+    end)
+
+menu.click_slider(DeerArmy, "Spawn A Deer Army", {"deerarmy"}, "They will follow you like lost...", 1, 50, 49, 1, function(val)
+    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
+    pos.y = pos.y - 5
+    pos.z = pos.z + 1
+    local pussy = util.joaat("A_C_Deer")
+    request_model(pussy)
+    for i = 1, val do
+        player_deer_army[i] = entities.create_ped(28, pussy, pos, 0)
+        ENTITY.SET_ENTITY_INVINCIBLE(player_deer_army[i], true)
+        PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_deer_army[i], true)
+        PED.SET_PED_COMPONENT_VARIATION(player_deer_army[i], 0, 0, 1, 0)
+        TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_deer_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
+        util.yield()
+    end 
+end)
+
+menu.action(DeerArmy, "Clear Deer's", {"cleardeers"}, "", function()
+    for i, ped in ipairs(entities.get_all_peds_as_handles()) do
+        if PED.IS_PED_MODEL(ped, util.joaat("A_C_Deer")) then
+            entities.delete_by_handle(ped)
+        end
+    end
+end)
+
+local player_boar_army = {}
+local BoarArmy = menu.list(griefing, "Boar/Pig Army")
+
+menu.divider(BoarArmy, "__________________bruh__________________")
+
+menu.toggle(BoarArmy, "Boar/Pig Fuck Player", {"boarfuck"}, "Restart the script if they don't stop spawning instances of a A_C_Pig. Or you will crash the player with Crash event (A0:335). For some reason you will see a pig spawning pigs out its ass like a portal.", function(on_toggle)
+    if on_toggle then
+        menu.trigger_commands("boararmy" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("skydivepeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        util.toast("Wait 5 Seconds to turn off please.")
+    else
+        menu.trigger_commands("clearboars" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("superc")
+        end        
+    end)
+
+menu.click_slider(BoarArmy, "Spawn A Boar/Pig Army", {"boararmy"}, "They will follow you like lost...", 1, 50, 49, 1, function(val)
+    local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
+    pos.y = pos.y - 5
+    pos.z = pos.z + 1
+    local pussy = util.joaat("A_C_Boar")
+    request_model(pussy)
+    for i = 1, val do
+        player_boar_army[i] = entities.create_ped(28, pussy, pos, 0)
+        ENTITY.SET_ENTITY_INVINCIBLE(player_boar_army[i], true)
+        PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_boar_army[i], true)
+        PED.SET_PED_COMPONENT_VARIATION(player_boar_army[i], 0, 0, 1, 0)
+        TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_boar_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
+        util.yield()
+        local pussy = util.joaat("A_C_Pig")
+        request_model(pussy)
+        for i = 1, val do
+            player_boar_army[i] = entities.create_ped(28, pussy, pos, 0)
+            ENTITY.SET_ENTITY_INVINCIBLE(player_boar_army[i], true)
+            PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_boar_army[i], true)
+            PED.SET_PED_COMPONENT_VARIATION(player_boar_army[i], 0, 0, 1, 0)
+            TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_boar_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
+            util.yield()
+        end
+    end 
+end)
+
+menu.action(BoarArmy, "Clear Boar/Pig's", {"clearboars"}, "", function()
+    for i, ped in ipairs(entities.get_all_peds_as_handles()) do
+        if PED.IS_PED_MODEL(ped, util.joaat("A_C_Boar")) then
+            entities.delete_by_handle(ped)
+            for i, ped in ipairs(entities.get_all_peds_as_handles()) do
+                if PED.IS_PED_MODEL(ped, util.joaat("A_C_Pig")) then
+                    entities.delete_by_handle(ped)
+                end
+            end
+        end
+    end
+end)
+
+
+    local player_pussy_army = {}
+    local PussyArmy = menu.list(griefing, "Pussy Army", {}, "")
+
+    menu.divider(PussyArmy, "__________________bruh__________________")
+
+    menu.toggle(PussyArmy, "Pussy Fuck Player", {"deerfuck"}, "", function(on_toggle)
+        if on_toggle then
+            menu.trigger_commands("pussyarmy" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("skydivepeds" .. PLAYER.GET_PLAYER_NAME(pid))
+            util.toast("Wait 5 Seconds to turn off please.")
+        else
+            menu.trigger_commands("clearpussys" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("toggletppeds" .. PLAYER.GET_PLAYER_NAME(pid))
+            menu.trigger_commands("superc")
+            end        
+        end)
+
+    menu.click_slider(PussyArmy, "Spawn Pussy Army", {"pussyarmy"}, "", 1, 50, 49, 1, function(val)
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
+        pos.y = pos.y - 5
+        pos.z = pos.z + 1
+        local pussy = util.joaat("a_c_cat_01")
+        request_model(pussy)
+        for i = 1, val do
+            player_pussy_army[i] = entities.create_ped(28, pussy, pos, 0)
+            ENTITY.SET_ENTITY_INVINCIBLE(player_pussy_army[i], true)
+            PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_pussy_army[i], true)
+            PED.SET_PED_COMPONENT_VARIATION(player_pussy_army[i], 0, 0, 1, 0)
+            TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_pussy_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
+            util.yield()
+        end 
+    end)
+
+    menu.action(PussyArmy, "Clear Pussy's", {"clearpussys"}, "", function()
+        for i, ped in ipairs(entities.get_all_peds_as_handles()) do
+            if PED.IS_PED_MODEL(ped, util.joaat("a_c_cat_01")) then
+                entities.delete_by_handle(ped)
+            end
+        end
+    end)
 
 	centipedegriefing = menu.list(griefing, "Human Centipede", {}, "", function(); end)
 
@@ -6234,45 +6413,44 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 			menu.trigger_commands("seizurev1" .. players.get_name(pid))
 			menu.trigger_commands("seizurev2" .. players.get_name(pid))
 		end
-	
 	end)
 
-    menu.toggle_loop(griefing, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
+    menu.toggle_loop(tormentplayer, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
         local coords = players.get_position(pid)
         coords.z = coords['z'] + 15.0
         local asteroid = entities.create_object(3751297495, coords)
         ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
     end)
 
-    menu.toggle_loop(griefing, "Ragdoll loop", {"ragdollon"}, "Keeps target ragdolled", function()
+    menu.toggle_loop(tormentplayer, "Ragdoll loop", {"ragdollon"}, "Keeps target ragdolled", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
         util.yield(10)
     end)
 
-    menu.toggle_loop(griefing, "Flame loop", {"fireon"}, "Spam fire beneath the target", function()
+    menu.toggle_loop(tormentplayer, "Flame loop", {"fireon"}, "Spam fire beneath the target", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
         util.yield(25)
     end)
 
-    menu.toggle_loop(griefing, "Water Jet loop", {"wateron"}, "Spam water jets beneath the target", function()
+    menu.toggle_loop(tormentplayer, "Water Jet loop", {"wateron"}, "Spam water jets beneath the target", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] - 2.0
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
         util.yield(25)
     end)
 
-    menu.toggle_loop(griefing, "Crap trail", {"crapon"}, "", function()
+    menu.toggle_loop(tormentplayer, "Crap trail", {"crapon"}, "", function()
         local coords = players.get_position(pid)
         coords.z = coords['z'] + 1.5
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
         util.yield(65)
     end)
 
-    menu.toggle_loop(tpoptions, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
+    menu.toggle_loop(tormentplayer, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
     menu.trigger_commands("tp" .. players.get_name(pid))
     local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     c.z = c.z -1
@@ -6285,7 +6463,7 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
     entities.create_object(mshit, c)
     end)
 
-menu.toggle_loop(tpoptions, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
+menu.toggle_loop(tormentplayer, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
     menu.trigger_commands("tp" .. players.get_name(pid))
     local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
     c.z = c.z -1
@@ -6299,14 +6477,14 @@ menu.toggle_loop(tpoptions, "Normal Shit On Head", {"nshit"}, "Make a normale si
 end)
 
 
-    menu.toggle_loop(griefing, "Flame path", {}, "They better run", function()
+    menu.toggle_loop(tormentplayer, "Flame path", {}, "They better run", function()
         local coords = players.get_position(pid)
         --coords.z = coords['z'] + 1.5
         FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 38, 0, false, false, 0, false)
         util.yield(65)
     end)
 
-   menu.toggle_loop(griefing, "Village People 360 Wade Raper", {"waderape"}, "Send's a few wades (only works on others, not yourself) Might crash a legit player.", function(on_toggle)
+   menu.toggle_loop(tormentplayer, "Village People 360 Wade Raper", {"waderape"}, "Send's a few wades (only works on others, not yourself) Might crash a legit player.", function(on_toggle)
             if pid ~= players.user() and players.exists(pid) then
                 pedhash = 0xD266D9D6
                 while not STREAMING.HAS_MODEL_LOADED(pedhash) do
@@ -6984,72 +7162,6 @@ end)
             util.trigger_script_event(1 << pid, event_data)
         end)
 
-local function request_model(hash, timeout)
-    timeout = timeout or 3
-    STREAMING.REQUEST_MODEL(hash)
-    local end_time = os.time() + timeout
-    repeat
-        util.yield()
-    until STREAMING.HAS_MODEL_LOADED(hash) or os.time() >= end_time
-    return STREAMING.HAS_MODEL_LOADED(hash)
-end
-
-    local player_pussy_army = {}
-    local PussyArmy = menu.list(griefing, "Pussy Army", {}, "")
-
-    menu.click_slider(PussyArmy, "Spawn Pussy Army", {}, "", 1, 50, 49, 1, function(val)
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
-        pos.y = pos.y - 5
-        pos.z = pos.z + 1
-        local pussy = util.joaat("a_c_cat_01")
-        request_model(pussy)
-        for i = 1, val do
-            player_pussy_army[i] = entities.create_ped(28, pussy, pos, 0)
-            ENTITY.SET_ENTITY_INVINCIBLE(player_pussy_army[i], true)
-            PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_pussy_army[i], true)
-            PED.SET_PED_COMPONENT_VARIATION(player_pussy_army[i], 0, 0, 1, 0)
-            TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_pussy_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
-            util.yield()
-        end 
-    end)
-
-    menu.action(PussyArmy, "Clear Pussy's", {}, "", function()
-        for i, ped in ipairs(entities.get_all_peds_as_handles()) do
-            if PED.IS_PED_MODEL(ped, util.joaat("a_c_cat_01")) then
-                entities.delete_by_handle(ped)
-            end
-        end
-    end)
-
-	local DeerArmy = menu.list(griefing, "Deer Army")
-
-    menu.click_slider(DeerArmy, "Spawn Deer Army", {}, "", 1, 50, 49, 1, function(val)
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
-        pos.y = pos.y - 5
-        pos.z = pos.z + 1
-        local pussy = util.joaat("A_C_Deer")
-        request_model(pussy)
-        for i = 1, val do
-            player_pussy_army[i] = entities.create_ped(28, pussy, pos, 0)
-            ENTITY.SET_ENTITY_INVINCIBLE(player_pussy_army[i], true)
-            PED.SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(player_pussy_army[i], true)
-            PED.SET_PED_COMPONENT_VARIATION(player_pussy_army[i], 0, 0, 1, 0)
-            TASK.TASK_FOLLOW_TO_OFFSET_OF_ENTITY(player_pussy_army[i], ped, 0, -0.3, 0, 7.0, -1, 10, true)
-            util.yield()
-        end 
-    end)
-
-    menu.action(DeerArmy, "Clear Pussy's", {}, "", function()
-        for i, ped in ipairs(entities.get_all_peds_as_handles()) do
-            if PED.IS_PED_MODEL(ped, util.joaat("a_c_cat_01")) then
-                entities.delete_by_handle(ped)
-            end
-        end
-    end)
-
-
 	local trolly_vehicles = menu.list(griefing, "Trolly Vehicles")
 
 	function set_ent_face_ent(ent1, ent2) --All credits to Ren for suggesting me this function
@@ -7294,29 +7406,6 @@ end
 			util.yield(50)
 		end
 	end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-	menu.action(griefing,"Volatol Spam Player", {}, "spams volatols on target player, huge AOE", function() -- cpu burn simulator v2
-		while not STREAMING.HAS_MODEL_LOADED(447548909) do
-			STREAMING.REQUEST_MODEL(447548909)
-			util.yield(10)
-		end
-		local self_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user())
-        local OldCoords = ENTITY.GET_ENTITY_COORDS(self_ped) --save location
-		ENTITY.SET_ENTITY_COORDS_NO_OFFSET(self_ped, 24, 7643.5, 19, true, true, true)
-
-		notification("Started lagging the fuck out of him", colors.red)
-		menu.trigger_commands("anticrashcamera on")
-		local player_ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-		local PlayerPedCoords = ENTITY.GET_ENTITY_COORDS(player_ped, true)
-		spam_amount = 300
-		while spam_amount >= 1 do
-			entities.create_vehicle(447548909, PlayerPedCoords, 0)
-			spam_amount = spam_amount - 1
-			util.yield(10)
-		end
-		notification("Done", colors.red) -- cpu burned congrats
-		menu.trigger_commands("anticrashcamera off")
-	end)
 ----------------------------------------------------------------------------------------------------------------------- attacker buzzard --------------------------------------------------------
 
 	local gunner_weapon_list = {              --these are the buzzard's gunner weapons 
@@ -7629,43 +7718,6 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         end
 	end)
 
-	menu.action(griefing,"Ban Voice Chat", {}, "May lag your game when in progress", function(on)
-		if pid ~= players.user() then
-			for i = 1, 30 do
-				menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pid))
-				util.yield()
-			end
-		end
-	end)
-
-	menu.toggle(griefing,"Report Spam", {}, "Sends all types of reports, may lag your game when in progress.", function(on)
-		spam = on
-		while spam do
-			if pid ~= players.user() then
-                menu.trigger_commands("reportgriefing " .. PLAYER.GET_PLAYER_NAME(pid))
-                menu.trigger_commands("reportexploits " .. PLAYER.GET_PLAYER_NAME(pid))
-                menu.trigger_commands("reportbugabuse " .. PLAYER.GET_PLAYER_NAME(pid))
-                menu.trigger_commands("reportannoying " .. PLAYER.GET_PLAYER_NAME(pid))
-                menu.trigger_commands("reporthate " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pid))
-			end
-			util.yield()
-		end
-	end)
-
-	menu.toggle(griefing,"Commend Spam", {}, "Sends all types of commends its good for a player if they have been reported alot, may lag your game when in progress.", function(on)
-		spam = on
-		while spam do
-			if pid ~= players.user() then
-				menu.trigger_commands("commendfriendly " .. PLAYER.GET_PLAYER_NAME(pid))
-				menu.trigger_commands("commendhelpful " .. PLAYER.GET_PLAYER_NAME(pid))
-			end
-			util.yield()
-		end
-	end)
-
 -----------------------------------------------------------------------------------------------------------------------------------------
 
         crash = menu.list(menu.player_root(pid), "Crashes", {}, "Currupt Crash", function(); end)
@@ -7773,6 +7825,45 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	menu.trigger_commands("pickupkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
+                menu.action(griefing,"Ban Voice Chat", {}, "May lag your game when in progress", function(on)
+                    if pid ~= players.user() then
+                        for i = 1, 30 do
+                            menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pid))
+                            util.yield()
+                        end
+                    end
+                end)
+
+                spams = menu.list(griefing, "Spams", {}, "Sends all types of reports/commends may lag your game when in progress.", function(); end)
+            
+                menu.toggle(spams,"Spam", {}, "Sends all types of reports, may lag your game when in progress.", function(on)
+                    spam = on
+                    while spam do
+                        if pid ~= players.user() then
+                            menu.trigger_commands("reportgriefing " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportexploits " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportbugabuse " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportannoying " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reporthate " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pid))
+                        end
+                        util.yield()
+                    end
+                end)
+            
+                menu.toggle(spams,"Commend Spam", {}, "Sends all types of commends its good for a player if they have been reported alot, may lag your game when in progress.", function(on)
+                    spam = on
+                    while spam do
+                        if pid ~= players.user() then
+                            menu.trigger_commands("commendfriendly " .. PLAYER.GET_PLAYER_NAME(pid))
+                            menu.trigger_commands("commendhelpful " .. PLAYER.GET_PLAYER_NAME(pid))
+                        end
+                        util.yield()
+                    end
+                end)
+
 
 	local WeakCrash = {
 		"Hey bro, it would be pretty poggers to close your game for me",
@@ -7781,13 +7872,13 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 		"Please close your game, please please please please please",
 	}
 
-                       menu.toggle_loop(griefing, "SmS Spam", {}, "Might Work On Pussy's Fam", function(on_toggle)
+    menu.toggle_loop(spams, "SmS Spam", {}, "Might Work On Pussy's Fam", function(on_toggle)
 		menu.trigger_commands("smstext" .. PLAYER.GET_PLAYER_NAME(pid).. " " .. WeakCrash[math.random(1, #WeakCrash)])
 		util.yield()
 		menu.trigger_commands("smssend" .. PLAYER.GET_PLAYER_NAME(pid))
 	end)
 	
-                       menu.toggle(griefing, "Notify Spam", {}, "", function(on_toggle)
+    menu.toggle(spams, "Notify Spam", {}, "", function(on_toggle)
 	if on then
 		menu.trigger_commands("notifyspam" .. PLAYER.GET_PLAYER_NAME(pid).. " " .. WeakCrash[math.random(1, #WeakCrash)])
 	else
@@ -7848,6 +7939,11 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         menu.action(frienm, "Teleport To Me", {"bringtome"}, "", function()
             menu.trigger_commands("summon" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
+
+        menu.action(frienm, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
+            excludeselected = true
+            menu.trigger_commands("sendtowp")
+        end, nil, nil, COMMANDPERM_FRIENDLY)
 
         menu.action(frienm, "Fix loading screen", {"fixloading"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
             menu.trigger_commands("givesh" .. players.get_name(pid))
@@ -8710,8 +8806,8 @@ else
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
     local newcrash = menu.list(crash, "Annoy Modders", {}, "")
-
 
 	lagwithss = menu.list(newcrash, "Lag With Shit", {}, "", function(); end)
 
