@@ -3850,13 +3850,12 @@ menu.action(list, "Normal shit", {"nshit"}, "Make a normale sized shit", functio
 end)
 
 menu.toggle_loop(funfun,"Horn boost", {"hornboost"}, "Gives you the ability to speed up their car by pressing honking their horn or activating the siren. Will try fix it for other players soon.", function()
-    local vehicle = get_player_veh(pid,true)
+    local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
     if not (AUDIO.IS_HORN_ACTIVE(vehicle) or VEHICLE.IS_VEHICLE_SIREN_ON(vehicle)) then return end
     NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle)
     if AUDIO.IS_HORN_ACTIVE(vehicle) then
         ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 0.0, 1.0, 0.0, true, true, true, true)
     end
-    if not players.exists(pid) then util.stop_thread() end
 end)
 
 
