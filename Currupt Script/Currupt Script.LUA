@@ -7954,6 +7954,34 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                 menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " deluxo")
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
+            local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(playerPid)
+
+            karma = {}
+            function isAnyPlayerTargetingEntity(playerPed)
+                local playerList = getNonWhitelistedPlayers(whitelistListTable, whitelistGroups, whitelistedName)
+                for k, playerPid in pairs(playerList) do
+                    if PLAYER.IS_PLAYER_TARGETTING_ENTITY(playerPid, playerPed) or PLAYER.IS_PLAYER_FREE_AIMING_AT_ENTITY(playerPid, playerPed) then
+                        karma[playerPed] = {
+                            pid = playerPid,
+                            ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(playerPid)
+                        }
+                        return true
+                    end
+                end
+                karma[playerPed] = nil
+                return false
+            end
+
+            menu.toggle_loop(frienm,"Give horn boost", {"givehornboost"}, "Gives them the ability to speed up their car by pressing honking their horn or activating the siren.", function()
+                local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
+                if not (AUDIO.IS_HORN_ACTIVE(vehicle) or VEHICLE.IS_VEHICLE_SIREN_ON(vehicle)) then return end
+                NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle)
+                if AUDIO.IS_HORN_ACTIVE(vehicle) then
+                    ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 0.0, 1.0, 0.0, true, true, true, true)
+                end
+                if not players.exists(pid) then util.stop_thread() end
+            end)
+
             menu.action(frienm, "As Player", {"asplayer"}, "Give them something.", function()
                 menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
             end, nil, nil, COMMANDPERM_FRIENDLY)
