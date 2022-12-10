@@ -7966,9 +7966,52 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             menu.trigger_commands("aptme" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-            menu.action(frienm, "Give Player A Deluxo", {"givedeluxo"}, "", function()
+            givevehicle = menu.list(frienm, "Give Player A vehicle", {}, "", function(); end)
+
+            menu.action(givevehicle, "Give Player A Deluxo", {"givedeluxo"}, "", function()
                 menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " deluxo")
             end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Festival Bus", {"givefestivalbus"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " pbus2")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+            
+            menu.action(givevehicle, "Give Player A Forklift", {"giveforklift"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " forklift")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+      
+            menu.action(givevehicle, "Give Player A Khanjali", {"givekhanjali"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " khanjali")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Future Shock Sasquatch", {"givesasquatch"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " monster4")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Future Shock Scarab", {"givescarab"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " scarab2")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player Aqua Blazer", {"giveblazer"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " blazer5")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Lazer", {"givelazer"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " lazer")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Hydra", {"givehydra"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " hydra")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Starling", {"givestarling"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " starling")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
+            menu.action(givevehicle, "Give Player A Pyro", {"givepyro"}, "", function()
+                menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " pyro")
+            end, nil, nil, COMMANDPERM_FRIENDLY)
+
 
             local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(playerPid)
 
