@@ -35,8 +35,7 @@ util.require_natives("natives-1663599433")
         async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
 
-        menu.action(menu.my_root(),"Update",{"updatecurrupt"},"",function()
-            util.toast("If it still says update when its been updated just ignore it until you see my change logs in my server.\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc")
+        menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
             util.toast("New Version found")async_http.init('raw.githubusercontent.com','/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/Currupt Script.LUA',function(c)
             local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
             util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
