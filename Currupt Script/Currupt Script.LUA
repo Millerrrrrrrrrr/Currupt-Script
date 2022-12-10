@@ -3849,6 +3849,16 @@ menu.action(list, "Normal shit", {"nshit"}, "Make a normale sized shit", functio
     entities.create_object(rshit, c)
 end)
 
+menu.toggle_loop(funfun,"Horn boost", {"hornboost"}, "Gives you the ability to speed up their car by pressing honking their horn or activating the siren. Will try fix it for other players soon.", function()
+    local vehicle = get_player_veh(pid,true)
+    if not (AUDIO.IS_HORN_ACTIVE(vehicle) or VEHICLE.IS_VEHICLE_SIREN_ON(vehicle)) then return end
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle)
+    if AUDIO.IS_HORN_ACTIVE(vehicle) then
+        ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 0.0, 1.0, 0.0, true, true, true, true)
+    end
+    if not players.exists(pid) then util.stop_thread() end
+end)
+
 
 menu.slider(funfun, "Change seat", {"switchseat"}, "DriverSeat = -1 Passenger = 0 Left Rear = 1 RightRear = 2", -1, 2, -1, 1, function(seatnumber)
 	local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user())
@@ -4776,7 +4786,7 @@ GenerateFeatures = function(pid)
 	---	end
 	---end)
 
-	menu.action(lock_sub_vehicle_tab,"Lock that bitch in", {"blockcar"}, "Locks the doors, paints the car Hot Pink, changes plate text to 'LOCKED'",function()
+	menu.action(lock_sub_vehicle_tab,"Lock that bitch in", {"lockcar"}, "Locks the doors, paints the car Hot Pink, changes plate text to 'LOCKED'",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_DOORS_LOCKED(vehicle, 4) 
@@ -7978,9 +7988,9 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                 karma[playerPed] = nil
                 return false
             end
-
+--[[
             menu.toggle_loop(frienm,"Give horn boost", {"givehornboost"}, "Gives them the ability to speed up their car by pressing honking their horn or activating the siren.", function()
-                local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
+                local vehicle = get_player_veh(pid,true)
                 if not (AUDIO.IS_HORN_ACTIVE(vehicle) or VEHICLE.IS_VEHICLE_SIREN_ON(vehicle)) then return end
                 NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle)
                 if AUDIO.IS_HORN_ACTIVE(vehicle) then
@@ -7988,6 +7998,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                 end
                 if not players.exists(pid) then util.stop_thread() end
             end)
+]]
 
             menu.action(frienm, "As Player", {"asplayer"}, "Give them something.", function()
                 menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
