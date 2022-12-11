@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.1;if not dev_mode then 
+local a=1.2;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=1.1;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2879,7 +2879,7 @@ local chaos, gravity, speed = false, true, 100
 	end
 
 
-	protex = menu.list(menu.my_root(), "Stop Net Shit", {}, "", function(); end)
+	protex = menu.list(menu.my_root(), "Net Shit", {"netshit"}, "", function(); end)
     	local pidsacam = menu.list(protex, "Anti Crash Camera", {}, "")
 
 	local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
@@ -4084,6 +4084,9 @@ menu.action(funfun, "TP Forward", {"tpforward"}, "", function(on_click)
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 end)
 
+menu.slider(funfun, "TP Forward", {"tpforward"}, "", 1, 100, 1, 1, function(s)
+tpf_units = s
+end)
 
 island_block = 0
 menu.action(funfun, "Sky Island", {""}, "", function(sky_island)
@@ -5225,7 +5228,7 @@ GenerateFeatures = function(pid)
 	
 	stopato = true
 
-        menu.toggle_loop(attachoptions, "Attach All Nearby", {"attachallnearby"}, "", function(on_toggle)
+        menu.toggle_loop(attachoptions, "Attach All Nearby Entities", {"attachallnearby"}, "", function(on_toggle)
         local tar = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         objects = entities.get_all_objects_as_handles()
         vehicles = entities.get_all_vehicles_as_handles()
@@ -14533,8 +14536,6 @@ end
 
 end
 
-misc = menu.list(menu.my_root(), "Net Shit", {}, "", function(); end)
-
 --------------------------------------
 
 
@@ -15398,7 +15399,7 @@ function decode(text)
 end
 
 
-local maxpl = menu.list(misc, "Max Players To 32")
+local maxpl = menu.list(protex, "Max Players To 32")
 
 menu.slider(maxpl, "Max Players To 32", {"maxplayers"}, "Set the maximum number of players in a session (only works when you are the host)", 1, 32, 32, 1, function (value)
     if Stand_internal_script_can_run then
@@ -15414,7 +15415,7 @@ menu.slider(maxpl, "Max Spectators", {"maxSpectators"}, "Set the maximum number 
     end
 end)
 
-menu.toggle(misc, "Mental State On/Off", {}, "", function(on_toggle)
+menu.toggle(protex, "Mental State On/Off", {}, "", function(on_toggle)
 if on_toggle then
     menu.trigger_commands("mentalstate" .. " 100")
 else
@@ -15422,7 +15423,7 @@ else
     end
 end)
 
-local chat_trans = menu.list(misc, "Chat Translator")
+local chat_trans = menu.list(protex, "Chat Translator")
 
 settingtrad = menu.list(chat_trans, "Settings for traduction")
 colortradtrad = menu.list(chat_trans, "PLayer name color")
@@ -15612,7 +15613,7 @@ end
 	end)
 
 
-spoofpresets = menu.list(misc, "IP Spoofer Repository", {}, "Stand's default GeoIP may show wrong location on some presets", function(); end)
+spoofpresets = menu.list(protex, "IP Spoofer Repository", {}, "Stand's default GeoIP may show wrong location on some presets", function(); end)
 
 	menu.action(spoofpresets, "Enable IP Spoofer", {}, "", function()
 		menu.trigger_commands("spoofip on")
@@ -15963,7 +15964,7 @@ spoofpresets = menu.list(misc, "IP Spoofer Repository", {}, "Stand's default Geo
 		menu.trigger_commands("spoofedip " .. "2.85." .. tostring(math.random(227, 227)) .. "." .. tostring(math.random(0, 255)))
 	end)
 
-ColorRepo = menu.list(misc, "Color Repository", {"colorrepo"}, "", function(); end)
+ColorRepo = menu.list(protex, "Color Repository", {"colorrepo"}, "", function(); end)
 BasicColors = menu.list(ColorRepo, "Basic Colors", {}, "", function(); end)
 SecondaryColors = menu.list(ColorRepo, "Secondary Colors", {}, "", function(); end)
 
@@ -16008,7 +16009,7 @@ menu.action(SecondaryColors, "CEO of Crash", {"ceoofcrash"}, "The color I person
 end)
 
 
-faketype = menu.list(misc, "Spoof Typing indicator", {}, "", function(); end)
+faketype = menu.list(protex, "Spoof Typing indicator", {}, "", function(); end)
 
 menu.action(faketype, "Start Fake Typing", {}, "Will show a typing indicator above your nickname and also make other menus think that you're typing in chat", function()
 	menu.trigger_commands("hidetyping off")
@@ -16035,12 +16036,12 @@ menu.toggle(faketype, "Anti-Type", {}, "AKA 'Suppress Typing Indicator', hides t
 	end
 end)
 
-menu.action(misc, "Fix Casino Heist", {}, "If you've bricked your casino heist by not doing the scoping mission, give this a try :)", function()
+menu.action(protex, "Fix Casino Heist", {}, "If you've bricked your casino heist by not doing the scoping mission, give this a try :)", function()
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_POI"), 0, true)
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_ACCESSPOINTS"), 0, true)
 end)
 
-menu.toggle_loop(misc, "Accept Joins", {}, "Automatically accept join screens", function() -- credits to jinx for letting me steal this
+menu.toggle_loop(protex, "Accept Joins", {}, "Automatically accept join screens", function() -- credits to jinx for letting me steal this
     local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
     if message_hash == 15890625 or message_hash == -398982408 or message_hash == -587688989 then
         PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
@@ -16048,7 +16049,7 @@ menu.toggle_loop(misc, "Accept Joins", {}, "Automatically accept join screens", 
     end
 end)
 
-menu.toggle(misc, "Rejoin Failed Joins", {"rejoinfail"}, "Joins previously failed transitions, Joins previously failed sessions but if failed will join new public.", function(state)
+menu.toggle(protex, "Rejoin Failed Joins", {"rejoinfail"}, "Joins previously failed transitions, Joins previously failed sessions but if failed will join new public.", function(state)
     local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
     local my_player_id = players.user_ped()
     local playerstatus = {0, 1} -- This tels thee player status, 0 for story mode and 1 for online mode.
@@ -16075,7 +16076,7 @@ end)
 
 players.dispatch_on_join()
 
-menu.toggle(misc, "Stand User Identification", {}, "Identifies other Stand users but also allows them to identify you.", function(on_toggle)
+menu.toggle(protex, "Stand User Identification", {}, "Identifies other Stand users but also allows them to identify you.", function(on_toggle)
     local standid = menu.ref_by_path("Online>Protections>Detections>Stand User Identification")
     if on_toggle then
         menu.trigger_command(standid, "on")
@@ -16084,14 +16085,14 @@ menu.toggle(misc, "Stand User Identification", {}, "Identifies other Stand users
     end
 end)
 
-menu.toggle_loop(misc, 'Increase Kosatka Missile Range', {'krange'}, 'You can use it anywhere in the map now', function ()
+menu.toggle_loop(protex, 'Increase Kosatka Missile Range', {'krange'}, 'You can use it anywhere in the map now', function ()
     if util.is_session_started() then
     memory.write_float(memory.script_global(262145 + 30176), 200000.0)
     end
 end)
 
 joining = false
-menu.toggle(misc, "Player Joining Notifications", {}, "", function(on_toggle)
+menu.toggle(protex, "Player Joining Notifications", {}, "", function(on_toggle)
 	if on_toggle then
 		joining = true
 	else
@@ -17254,12 +17255,12 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 
-	menu.toggle(misc, "Rank 420", {"rank"}, "Note: If you save the profile with it toggled it will give you pemanant 420 rank", function(on_toggle)
+	menu.toggle(protex, "Rank 420", {"rank"}, "Note: If you save the profile with it toggled it will give you pemanant 420 rank", function(on_toggle)
 		notification("Setting Rank 420...", colors.red)
 		menu.trigger_commands("setrank" .. " 420")
 	end)
 
-	menu.toggle(misc, "FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
+	menu.toggle(protex, "FPS Boost", {"fpsboost"}, "Wait a few seconds for 5-10 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
 		menu.trigger_commands("weather" .. " extrasunny")
@@ -17275,7 +17276,7 @@ end
 		end
 	end)
 
-	menu.toggle(misc, "FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
+	menu.toggle(protex, "FPS Boost No Sky", {"fpsnsboost"}, "Wait a few seconds 10-15 FPS Boost.", function(on_toggle)
 	if on_toggle then
 		notification("Setting FPS...", colors.green)
 		menu.trigger_commands("weather" .. " extrasunny")
@@ -17295,7 +17296,7 @@ end
 		end
 	end)
 
-bountyloop = menu.list(misc, "Bounty Loops", {}, "", function(); end)
+bountyloop = menu.list(protex, "Bounty Loops", {}, "", function(); end)
 
 --coded by MrWall 
 
