@@ -30,7 +30,6 @@ util.require_natives("natives-1663599433-uno")
 util.require_natives("natives-1640181023")
 util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
-
 guidedMissile = require("guided_missile")
 
 local a=1.0;if not dev_mode then 
@@ -8286,11 +8285,12 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
     		local frienm = menu.list(menu.player_root(pid), 'Friendly', {}, '')
 
-	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, vehiclegodmode, never wanted, gives all weapons, ammo and parachute all at once", function ()
+	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, vehiclegodmode, never wanted, gives all weapons, ammo/infinite and parachute all at once", function ()
     	notification("Protecting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		menu.trigger_commands("bail".. players.get_name(pid))
         		menu.trigger_commands("arm".. players.get_name(pid))
         		menu.trigger_commands("ammo".. players.get_name(pid))
+                menu.trigger_commands("autoammo".. players.get_name(pid))
                 menu.trigger_commands("autoheal".. players.get_name(pid))
                 menu.trigger_commands("givevehgodmode".. players.get_name(pid))
         		menu.trigger_commands("paragive".. players.get_name(pid))
