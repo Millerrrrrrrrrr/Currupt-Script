@@ -39,7 +39,7 @@ local a=0.8;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.8.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -5306,9 +5306,9 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    local tormentplayer = menu.list(griefing, "Torments")
+    local tormentplayer = menu.list(griefing, "Torment Loops")
 
-    player_toggle_loop(tormentplayer, pid, "Taser Loop", {"taserloop"}, "", function()
+    player_toggle_loop(tormentplayer, pid, "Taser", {"taseron"}, "", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(ped)
         for i = 1, 50 do
@@ -5317,7 +5317,25 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         util.yield()
     end)
 
-    player_toggle_loop(tormentplayer, pid, "Flare Loop", {"flareloop"}, "", function()
+    player_toggle_loop(tormentplayer, pid, "Up-n-Atomizer", {"atomizeron"}, "", function()
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped)
+        for i = 1, 24 do
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 0, true, util.joaat("weapon_raypistol"), players.user_ped(), false, true, 1.0)
+        end
+        util.yield()
+    end)
+
+    player_toggle_loop(tormentplayer, pid, "EMP", {"emploop"}, "", function()
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped)
+        for i = 1, 50 do
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 0, true, util.joaat("weapon_emplauncher"), players.user_ped(), false, true, 1.0)
+        end
+        util.yield()
+    end)
+
+    player_toggle_loop(tormentplayer, pid, "Flare", {"flareon"}, "", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(ped)
         for i = 1, 50 do
@@ -5325,6 +5343,83 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         end
         util.yield()
     end)
+
+    player_toggle_loop(tormentplayer, pid, "Firework", {"fireworkon"}, "", function()
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped)
+        for i = 1, 30 do
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 0, true, util.joaat("weapon_firework"), players.user_ped(), false, true, 1.0)
+        end
+        util.yield()
+    end)
+
+    menu.toggle_loop(tormentplayer, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] + 15.0
+        local asteroid = entities.create_object(3751297495, coords)
+        ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Ragdoll", {"ragdollon"}, "Keeps target ragdolled", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
+        util.yield(10)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Flames", {"fireon"}, "Spam fire beneath the target", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
+        util.yield(25)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Water Jet", {"wateron"}, "Spam water jets beneath the target", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] - 2.0
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
+        util.yield(25)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Flame path", {"flamepathon"}, "They better run", function()
+        local coords = players.get_position(pid)
+        --coords.z = coords['z'] + 1.5
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 38, 0, false, false, 0, false)
+        util.yield(65)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Crap trail", {"crapon"}, "", function()
+        local coords = players.get_position(pid)
+        coords.z = coords['z'] + 1.5
+        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
+        util.yield(65)
+    end)
+
+    menu.toggle_loop(tormentplayer, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    c.z = c.z -1
+    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
+        STREAMING.REQUEST_ANIM_DICT(agroup)
+        util.yield()
+    end
+    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
+    util.yield(100)
+    entities.create_object(mshit, c)
+    end)
+
+menu.toggle_loop(tormentplayer, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
+    menu.trigger_commands("tp" .. players.get_name(pid))
+    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
+    c.z = c.z -1
+    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
+        STREAMING.REQUEST_ANIM_DICT(agroup)
+        util.yield()
+    end
+    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
+    util.yield(100)
+    entities.create_object(rshit, c)
+end)
 
     menu.toggle_loop(tormentplayer, "Drop Fake Bags", {"dropfakebags"}, "Old School :D", function()
         local coords = players.get_position(pid)
@@ -6439,75 +6534,6 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
 			menu.trigger_commands("seizurev2" .. players.get_name(pid))
 		end
 	end)
-
-    menu.toggle_loop(tormentplayer, "Asteroid Smash", {"asteroidon"}, "Crush the player with an asteroid", function() 
-        local coords = players.get_position(pid)
-        coords.z = coords['z'] + 15.0
-        local asteroid = entities.create_object(3751297495, coords)
-        ENTITY.SET_ENTITY_DYNAMIC(asteroid, true)
-    end)
-
-    menu.toggle_loop(tormentplayer, "Ragdoll loop", {"ragdollon"}, "Keeps target ragdolled", function()
-        local coords = players.get_position(pid)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 11, 1, false, true, 0, true)
-        util.yield(10)
-    end)
-
-    menu.toggle_loop(tormentplayer, "Flame loop", {"fireon"}, "Spam fire beneath the target", function()
-        local coords = players.get_position(pid)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 12, 1, true, false, 0, false)
-        util.yield(25)
-    end)
-
-    menu.toggle_loop(tormentplayer, "Water Jet loop", {"wateron"}, "Spam water jets beneath the target", function()
-        local coords = players.get_position(pid)
-        coords.z = coords['z'] - 2.0
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 13, 1, true, false, 0, false)
-        util.yield(25)
-    end)
-
-    menu.toggle_loop(tormentplayer, "Crap trail", {"crapon"}, "", function()
-        local coords = players.get_position(pid)
-        coords.z = coords['z'] + 1.5
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 35, 0, false, false, 0, false)
-        util.yield(65)
-    end)
-
-    menu.toggle_loop(tormentplayer, "Huge Shit On Head", {"hshit"}, "Make a massive shit", function(on_toggle)
-    menu.trigger_commands("tp" .. players.get_name(pid))
-    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
-    c.z = c.z -1
-    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
-        STREAMING.REQUEST_ANIM_DICT(agroup)
-        util.yield()
-    end
-    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
-    util.yield(100)
-    entities.create_object(mshit, c)
-    end)
-
-menu.toggle_loop(tormentplayer, "Normal Shit On Head", {"nshit"}, "Make a normale sized shit", function(on_toggle)
-    menu.trigger_commands("tp" .. players.get_name(pid))
-    local c = ENTITY.GET_ENTITY_COORDS(players.user_ped())
-    c.z = c.z -1
-    while not STREAMING.HAS_ANIM_DICT_LOADED(agroup) do 
-        STREAMING.REQUEST_ANIM_DICT(agroup)
-        util.yield()
-    end
-    TASK.TASK_PLAY_ANIM(player, agroup, anim, 8.0, 8.0, 3000, 0, 0, true, true, true)
-    util.yield(100)
-    entities.create_object(rshit, c)
-end)
-
-
-    menu.toggle_loop(tormentplayer, "Flame path", {}, "They better run", function()
-        local coords = players.get_position(pid)
-        --coords.z = coords['z'] + 1.5
-        FIRE.ADD_EXPLOSION(coords.x, coords.y, coords.z, 38, 0, false, false, 0, false)
-        util.yield(65)
-    end)
 
    menu.toggle_loop(tormentplayer, "Village People 360 Wade Raper", {"waderape"}, "Send's a few wades (only works on others, not yourself) Might crash a legit player.", function(on_toggle)
             if pid ~= players.user() and players.exists(pid) then
