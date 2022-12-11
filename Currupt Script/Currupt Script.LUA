@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.3;if not dev_mode then 
+local a=1.4;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -8707,7 +8707,7 @@ end)
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-    menu.action(givevehicle, "Send Friend Request", {"friend"}, "", function()
+    menu.action(frienm, "Send Friend Request", {"friend"}, "", function()
         menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid) .. " pyro")
     end, nil, nil, COMMANDPERM_FRIENDLY)
 
