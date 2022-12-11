@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.2;if not dev_mode then 
+local a=1.3;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=1.2;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2603,14 +2603,14 @@ local chaos, gravity, speed = false, true, 100
                     send_script_event(1114091621, pids, {pids, 0})
                     send_script_event(2033772643, pids, {pids, 0})
 					util.yield()
-					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
                     send_script_event(1114091621, pids, {pids, 0})
                     send_script_event(2033772643, pids, {pids, 0})
 					util.yield()
-					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
@@ -2651,65 +2651,81 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
-	menu.action(custselc, "Give RP Steadily", {}, "", function()
+	menu.action(custselc, "Give RP Steadily", {"giverpto"}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("droprp" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("droprp" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
 	end)
 
-	menu.action(custselc, "Give Cash (3600 Ms 2k Drops)", {}, "", function()
+	menu.action(custselc, "Give Cash (2k Drops)", {"givecashto"}, "3600 ms per drop per 2k.", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("cashon" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("cashon" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
 	end)
 
-    menu.action(custselc, "Give Crazy Drop", {}, "", function()
+    menu.action(custselc, "Give Crazy Drop", {"crazydropto"}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("crazydrop" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("crazydrop" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
 	end)
 
-    menu.action(custselc, "Infinity Ammo", {}, "", function()
+    menu.action(custselc, "Infinity Ammo", {"infintyammoto"}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("autoammo" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("autoammo" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
+				end
+			end
+		end
+	end)
+
+    menu.action(custselc, "Send Friend Request", {"sendfriend"}, "", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("historybefriend" .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Friend Request has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("historybefriend" .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Friend Request has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
@@ -8164,43 +8180,47 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
 	menu.divider(kick, "Stand Kicks")
 
-    	menu.action(kick, "Smart", {"kick"}, "Removes the player by any means necessary.", function()
+    	menu.action(kick, "Smart", {"smartkick"}, "Removes the player by any means necessary.", function()
 	menu.trigger_commands("kick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Buttplug", {"buttplug"}, "Unblockable when you are the host.", function()
+    	menu.action(kick, "Buttplug", {"buttplugkick"}, "Unblockable when you are the host.", function()
 	menu.trigger_commands("buttplug"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Breakup", {"breakup"}, "A discrete kick that won't tell the target who did it.", function()
+    	menu.action(kick, "Breakup", {"breakupkick"}, "A discrete kick that won't tell the target who did it.", function()
 	menu.trigger_commands("breakup"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Confusion", {"confusion"}, "Can't be blocked without consequences, but the target might karma you for using it.", function()
+    	menu.action(kick, "Confusion", {"confusionkick"}, "Can't be blocked without consequences, but the target might karma you for using it.", function()
 	menu.trigger_commands("confusion"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Love Letter", {"loveletterkick"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function()
+        menu.action(kick, "Pool's Closed", {"aidskick"}, "", function()
+    menu.trigger_commands("aids"..PLAYER.GET_PLAYER_NAME(pid))
+                end)
+
+    	menu.action(kick, "Love Letter", {"lovekick"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function()
 	menu.trigger_commands("loveletterkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Orgasm", {"orgasmkick"}, "Blocked by popular menus.", function()
+    	menu.action(kick, "Orgasm", {"orgkick"}, "Blocked by popular menus.", function()
 	menu.trigger_commands("orgasmkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Blacklist", {"blacklist"}, "Adds the player to the blacklist like they were vote kicked, but kicks them like a desync. Only available when you are the host.", function()
+    	menu.action(kick, "Blacklist", {"blacklistkick"}, "Adds the player to the blacklist like they were vote kicked, but kicks them like a desync. Only available when you are the host.", function()
 	menu.trigger_commands("blacklist"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Host", {"hostkick"}, "Kicks the player using the vote kick mechanism. Unblockable when you are the host, but you might be karma'd for it.", function()
+    	menu.action(kick, "Host", {"kickhost"}, "Kicks the player using the vote kick mechanism. Unblockable when you are the host, but you might be karma'd for it.", function()
 	menu.trigger_commands("hostkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Non-Host", {"nonhostkick"}, "Kicks the player using script events. Blocked by most menus.", function()
+    	menu.action(kick, "Non-Host", {"kicknonhost"}, "Kicks the player using script events. Blocked by most menus.", function()
 	menu.trigger_commands("nonhostkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
-    	menu.action(kick, "Invalid Pickup", {"pickupkick"}, "Block by most menus.", function()
+    	menu.action(kick, "Invalid Pickup", {"invalidkick"}, "Block by most menus.", function()
 	menu.trigger_commands("pickupkick"..PLAYER.GET_PLAYER_NAME(pid))
     			end)
 
@@ -8214,7 +8234,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                     end
                 end)
 
-                spams = menu.list(griefing, "Spams", {}, "Sends all types of reports/commends may lag your game when in progress.", function(); end)
+                spams = menu.list(griefing, "Report Spam", {}, "Sends all types of reports/commends may lag your game when in progress.", function(); end)
             
                 menu.toggle(spams,"Spam", {}, "Sends all types of reports, may lag your game when in progress.", function(on)
                     spam = on
@@ -8335,7 +8355,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             menu.trigger_commands("sendtowp")
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "Fix loading screen", {"fixloading"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
+        menu.action(frienm, "Fix loading screen", {"fix"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
             menu.trigger_commands("givesh" .. players.get_name(pid))
             menu.trigger_commands("aptme" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
@@ -8686,6 +8706,10 @@ end)
         		menu.trigger_commands("ceopay".. players.get_name(pid))
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
+
+    menu.action(givevehicle, "Send Friend Request", {"friend"}, "", function()
+        menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid) .. " pyro")
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm, "Spectate", {"spec"}, "", function()
     	notification("Spectating " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
