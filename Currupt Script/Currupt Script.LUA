@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.6;if not dev_mode then 
+local a=1.7;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -3286,7 +3286,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /help6 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3470,7 +3470,7 @@ menu.action(help1, "Commands A", {"help1"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(help1, "Commands A", {"help1"}, "", function(on_toggle)
+menu.toggle_loop(help1, "Commands A", {}, "", function(on_toggle)
     chat.send_message(
         "/rankplayer NAME /crazydrop NAME /cashon NAME /cashonfast NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
         false, -- in team chat
@@ -3492,7 +3492,7 @@ menu.action(help2, "Commands B", {"help2"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(help2, "Commands B", {"help2"}, "", function(on_toggle)
+menu.toggle_loop(help2, "Commands B", {}, "", function(on_toggle)
     chat.send_message(
         "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
         false, -- in team chat
@@ -3514,7 +3514,7 @@ menu.action(help3, "Commands C", {"help3"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(help3, "Commands C", {"help3"}, "", function(on_toggle)
+menu.toggle_loop(help3, "Commands C", {}, "", function(on_toggle)
     chat.send_message(
         "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
         false, -- in team chat
@@ -3536,7 +3536,7 @@ menu.action(help4, "Commands D", {"help4"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(help4, "Commands D", {"help4"}, "", function(on_toggle)
+menu.toggle_loop(help4, "Commands D", {}, "", function(on_toggle)
     chat.send_message(
         "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
         false, -- in team chat
@@ -3558,9 +3558,31 @@ menu.action(help5, "Commands E", {"help5"}, "", function()
     util.yield(150000)
 end, nil, nil, COMMANDPERM_FRIENDLY)
 
-menu.toggle_loop(help5, "Commands E", {"help5"}, "", function(on_toggle)
+menu.toggle_loop(help5, "Commands E", {}, "", function(on_toggle)
     chat.send_message(
         "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+    help6 = menu.list(spams, "Commands F", {}, "Command: help5", function(); end)
+
+menu.action(help6, "Commands F", {"help6"}, "", function()
+    chat.send_message(
+        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
+        false, -- in team chat
+        true, -- add to local history
+        true  -- networked
+        )
+    util.yield(150000)
+end)
+
+menu.toggle_loop(help6, "Commands F", {}, "", function(on_toggle)
+    chat.send_message(
+        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
