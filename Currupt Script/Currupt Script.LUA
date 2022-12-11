@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.7;if not dev_mode then 
+local a=1.8;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -3276,7 +3276,7 @@ end)
 
 menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /help6 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
