@@ -31,7 +31,9 @@ util.require_natives("natives-1640181023")
 util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 
-local a=0.8;if not dev_mode then 
+guidedMissile = require("guided_missile")
+
+local a=0.9;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -39,7 +41,7 @@ local a=0.8;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2698,6 +2700,22 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
+    menu.action(custselc, "Infinity Ammo", {}, "", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("autoammo" .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("autoammo" .. PLAYER.GET_PLAYER_NAME(pids))
+					notification("Ammo has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+				end
+			end
+		end
+	end)
+    
 	menu.action(custselc, "Give Wanted", {}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
@@ -3815,6 +3833,202 @@ menu.toggle_loop(yuminwoman, "Yumin Woman", {"yuminwoman"}, "AUUUUUUUUUGGHH", fu
     util.yield(50)
 end)
 ----------------------Fun Shit-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-------------------------------------
+-- VALKYIRE ROCKET
+-------------------------------------
+
+menu.toggle(funfun, "Upgrade firewerk launcher to ATGM", {"ATGM"}, "Firework upgrade to guided anti-tank missile", function(toggle)
+	gUsingValkRocket = toggle
+	if gUsingValkRocket then
+		local rocket
+		local cam
+		local blip
+		local init
+		local draw_rect = function(x, y, z, w)
+			GRAPHICS.DRAW_RECT(x, y, z, w, 255, 255, 255, 255)
+		end
+
+		while gUsingValkRocket do
+			if PED.IS_PED_SHOOTING(PLAYER.PLAYER_PED_ID()) and WEAPON.GET_SELECTED_PED_WEAPON(players.user_ped()) == 2138347493 and not init then
+				init = true 
+				sTime = cTime()
+			elseif init then
+				if not ENTITY.DOES_ENTITY_EXIST(rocket) then
+					local weapon = WEAPON.GET_CURRENT_PED_WEAPON_ENTITY_INDEX(PLAYER.PLAYER_PED_ID())
+					local offset = getOffsetFromCam(10)
+			
+					rocket = OBJECT.CREATE_OBJECT_NO_OFFSET(util.joaat("w_lr_rpg_rocket"), offset.x, offset.y, offset.z, true, false, true)
+					ENTITY.SET_ENTITY_INVINCIBLE(rocket, true)
+
+					ENTITY.SET_ENTITY_LOAD_COLLISION_FLAG(rocket, true, 1)
+					NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.OBJ_TO_NET(rocket), true);
+					NETWORK.SET_NETWORK_ID_CAN_MIGRATE(NETWORK.OBJ_TO_NET(rocket), false)
+					ENTITY.SET_ENTITY_RECORDS_COLLISIONS(rocket, true)
+					ENTITY.SET_ENTITY_HAS_GRAVITY(rocket, false)
+				
+					CAM.DESTROY_ALL_CAMS(true)
+					cam = CAM.CREATE_CAM("DEFAULT_SCRIPTED_CAMERA", true)
+					CAM.SET_CAM_NEAR_CLIP(cam, 0.01)
+					CAM.SET_CAM_NEAR_DOF(cam, 0.01)
+					GRAPHICS.CLEAR_TIMECYCLE_MODIFIER()
+					GRAPHICS.SET_TIMECYCLE_MODIFIER("CAMERA_secuirity")
+					ATTACH_CAM_TO_ENTITY_WITH_FIXED_DIRECTION(cam, rocket, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1)
+					CAM.SET_CAM_ACTIVE(cam, true)
+					CAM.RENDER_SCRIPT_CAMS(true, false, 0, true, true, 0)
+
+					PLAYER.DISABLE_PLAYER_FIRING(PLAYER.PLAYER_PED_ID(), true)
+					ENTITY.FREEZE_ENTITY_POSITION(PLAYER.PLAYER_PED_ID(), true)
+				else
+					local rot = CAM.GET_GAMEPLAY_CAM_ROT(0)
+					local direction = toDirection(CAM.GET_GAMEPLAY_CAM_ROT(0))
+					local coords = ENTITY.GET_ENTITY_COORDS(rocket)
+					local groundZ = getGroundZ(coords)
+					local altitude = math.abs(coords.z - groundZ)
+					local force = vect.mult(direction, 25)
+					ENTITY.SET_ENTITY_ROTATION(rocket, rot.x, rot.y, rot.z, 0, 1)
+					STREAMING.SET_FOCUS_POS_AND_VEL(coords.x, coords.y, coords.z, rot.z, rot.y, rot.z)
+					
+					ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(rocket, 1, force.x, force.y, force.z, false, false, false, false)
+
+					HUD.HIDE_HUD_AND_RADAR_THIS_FRAME()
+					PLAYER.DISABLE_PLAYER_FIRING(PLAYER.PLAYER_PED_ID(), true)
+					ENTITY.FREEZE_ENTITY_POSITION(PLAYER.PLAYER_PED_ID(), true)
+
+					
+					draw_rect(0.5, 0.5 - 0.025, 0.050, 0.002)
+					draw_rect(0.5, 0.5 + 0.025, 0.050, 0.002)
+					draw_rect(0.5 - 0.025, 0.5, 0.002, 0.052)
+					draw_rect(0.5 + 0.025, 0.5, 0.002, 0.052)
+					draw_rect(0.5 + 0.050, 0.5, 0.050, 0.002)
+					draw_rect(0.5 - 0.050, 0.5, 0.050, 0.002)
+					draw_rect(0.5, 0.500 + 0.05, 0.002, 0.05)
+					draw_rect(0.5, 0.500 - 0.05, 0.002, 0.05)
+					
+					local maxTime = 15000 -- ms
+					local length = 0.5 - 0.5 * (cTime()-sTime) / maxTime -- timer length
+					local perc = length / 0.5
+					local color = getBlendedColour(perc) -- timer color
+					GRAPHICS.DRAW_RECT(0.25, 0.5, 0.03, 0.5, 255, 255, 255, 120)
+					GRAPHICS.DRAW_RECT(0.25, 0.75 - length / 2, 0.03, length, color.r, color.g, color.b, color.a)
+
+					if ENTITY.HAS_ENTITY_COLLIDED_WITH_ANYTHING(rocket) or length <= 0 then
+						local impactCoord = ENTITY.GET_ENTITY_COORDS(rocket)
+						FIRE.ADD_OWNED_EXPLOSION(PLAYER.PLAYER_PED_ID(),impactCoord.x, impactCoord.y, impactCoord.z, 5, 1.0, true, false, 0.4)
+						entities.delete_by_handle(rocket)
+						PLAYER.DISABLE_PLAYER_FIRING(PLAYER.PLAYER_PED_ID(), false)
+						CAM.RENDER_SCRIPT_CAMS(false, false, 3000, true, false, 0)
+						GRAPHICS.SET_TIMECYCLE_MODIFIER("DEFAULT")
+						STREAMING.CLEAR_FOCUS()
+						CAM.DESTROY_CAM(cam, 1)
+						PLAYER.DISABLE_PLAYER_FIRING(PLAYER.PLAYER_PED_ID(), false)
+						ENTITY.FREEZE_ENTITY_POSITION(PLAYER.PLAYER_PED_ID(), false)					
+						rocket = 0
+						init = false
+					end	
+				end
+			end
+			wait()
+		end
+		
+		if rocket and ENTITY.DOES_ENTITY_EXIST(rocket) then
+			local impactCoord = ENTITY.GET_ENTITY_COORDS(rocket)
+			FIRE.ADD_EXPLOSION(impactCoord.x, impactCoord.y, impactCoord.z, 32, 1.0, true, false, 0.4)
+			entities.delete_by_handle(rocket)
+			STREAMING.CLEAR_FOCUS()
+			CAM.RENDER_SCRIPT_CAMS(false, false, 3000, true, false, 0)
+			CAM.DESTROY_CAM(cam, 1)
+			GRAPHICS.SET_TIMECYCLE_MODIFIER("DEFAULT")
+			ENTITY.FREEZE_ENTITY_POSITION(PLAYER.PLAYER_PED_ID(), false)
+			PLAYER.DISABLE_PLAYER_FIRING(PLAYER.PLAYER_PED_ID(), false)
+			if HUD.DOES_BLIP_EXIST(blip) then
+				util.remove_blip(blip)
+			end
+			HUD.UNLOCK_MINIMAP_ANGLE()
+			HUD.UNLOCK_MINIMAP_POSITION()
+		end
+	end
+end)
+
+
+local fire_wings_list = menu.list(funfun, "Fire wings")
+
+----------------------------------------
+--Fire Wings
+----------------------------------------
+
+local fireWings = {
+    [1] = {pos = {[1] = 140, [2] =  75}},
+    [2] = {pos = {[1] = 140, [2] = -75}},
+    [3] = {pos = {[1] = 150, [2] =  75}},
+    [4] = {pos = {[1] = 150, [2] = -75}},
+    [5] = {pos = {[1] = 160, [2] =  75}},
+    [6] = {pos = {[1] = 160, [2] = -75}},
+    [7] = {pos = {[1] = 170, [2] =  75}},
+    [8] = {pos = {[1] = 170, [2] = -75}},
+}
+local fireWingsSettings = {
+    scale = 0.3,
+    fireColour = colour or {r = 255, g = 255, b = 255, a = 255},
+    on = false
+}
+local ptfxEgg
+local firewingPtfx = 'muz_xs_turret_flamethrower_looping'
+menu.toggle(fire_wings_list, 'Fire wings', {'ToxfireWings'}, 'Put the wings on your back.', function (toggle)
+    fireWingsSettings.on = toggle
+    if fireWingsSettings.on then
+        ENTITY.SET_ENTITY_PROOFS(players.user_ped(), false, true, false, false, false, false, 1, false)
+        if ptfxEgg == nil then
+            local eggHash = 1803116220
+            request_model_load(eggHash)
+            ptfxEgg = entities.create_object(eggHash, ENTITY.GET_ENTITY_COORDS(players.user_ped()))
+            ENTITY.SET_ENTITY_COLLISION(ptfxEgg, false, false)
+            STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(eggHash)
+        end
+        for i = 1, #fireWings do
+            while not STREAMING.HAS_NAMED_PTFX_ASSET_LOADED('weap_xs_vehicle_weapons') do
+                STREAMING.REQUEST_NAMED_PTFX_ASSET('weap_xs_vehicle_weapons')
+                wait()
+            end
+            GRAPHICS.USE_PARTICLE_FX_ASSET('weap_xs_vehicle_weapons')
+            fireWings[i].ptfx = GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY(firewingPtfx, ptfxEgg, 0, -0.15, 0.3, fireWings[i].pos[1], 0, fireWings[i].pos[2], fireWingsSettings.scale, false, false, false)
+            util.create_tick_handler(function()
+                local rot = ENTITY.GET_ENTITY_ROTATION(players.user_ped(), 2)
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(ptfxEgg, players.user_ped(), -1, 0, 0, 0, rot.x, rot.y, rot.z, false, false, false, false, 0, false)
+                ENTITY.SET_ENTITY_ROTATION(ptfxEgg, rot.x, rot.y, rot.z, 2, true)
+                for i = 1, #fireWings do
+                    GRAPHICS.SET_PARTICLE_FX_LOOPED_SCALE(fireWings[i].ptfx, fireWingsSettings.scale)
+                    GRAPHICS.SET_PARTICLE_FX_LOOPED_COLOUR(fireWings[i].ptfx, fireWingsSettings.fireColour.r, fireWingsSettings.fireColour.g, fireWingsSettings.fireColour.b)
+                end
+
+                ENTITY.SET_ENTITY_VISIBLE(ptfxEgg, false)
+                return fireWingsSettings.on
+            end)
+        end
+    else
+        for i = 1, #fireWings do
+            if fireWings[i].ptfx then
+                GRAPHICS.REMOVE_PARTICLE_FX(fireWings[i].ptfx, true)
+                fireWings[i].ptfx = nil
+            end
+            if ptfxEgg then
+                entities.delete_by_handle(ptfxEgg)
+                ptfxEgg = nil
+            end
+        end
+        STREAMING.REMOVE_NAMED_PTFX_ASSET('weap_xs_vehicle_weapons')
+    end
+end) 
+
+menu.slider(fire_wings_list, 'Fire wings scale', {'ToxfireWingsScale'}, '', 1, 100, 3, 1, function(value)
+    fireWingsSettings.scale = value / 10
+end)
+
+menu.rainbow(menu.colour(fire_wings_list, "Fire wings colour", {'ToxfireWingsColour'}, '', fireWingsSettings.fireColour, false, function(colour)
+    fireWingsSettings.fireColour = colour
+end))
+
 
 util.keep_running()
 local player = players.user_ped()
@@ -5246,7 +5460,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
 
     local ControlEntities = menu.list(griefing, "Control Entities", {}, "")
     
-    menu.action(ControlEntities, "Sky Dive Peds", {"skydivepeds"}, "", function()
+    menu.toggle_loop(ControlEntities, "Sky Dive Peds", {"skydivepeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5258,7 +5472,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Writher Peds", {"writherpeds"}, "", function()
+    menu.toggle_loop(ControlEntities, "Writher Peds", {"writherpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5270,7 +5484,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Vault Peds", {"vaultpeds"}, "", function()
+    menu.toggle_loop(ControlEntities, "Vault Peds", {"vaultpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5282,7 +5496,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Cower Peds", {"cowerpeds"}, "", function()
+    menu.toggle_loop(ControlEntities, "Cower Peds", {"cowerpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -5294,7 +5508,7 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-    menu.action(ControlEntities, "Cover Peds", {"coverpeds"}, "", function()
+    menu.toggle_loop(ControlEntities, "Cover Peds", {"coverpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local c = ENTITY.GET_ENTITY_COORDS(p)
                 all_peds = entities.get_all_peds_as_handles()
@@ -7983,6 +8197,16 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 	    notification("PROTECTED!!! GANG SHIT!!!", colors.red)
     	end, nil, nil, COMMANDPERM_FRIENDLY)
 
+        
+    menu.toggle_loop(frienm, "Infinity Ammo", {"autoammo"}, "Endless ammo for players", function(toggle)
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local weaphash = WEAPON.GET_SELECTED_PED_WEAPON(ped)
+        local ammo = WEAPON.GET_AMMO_IN_PED_WEAPON(ped, weaphash)
+        if ammo < 9999 then
+            WEAPON.ADD_AMMO_TO_PED(ped, weaphash, 9999)
+        end
+    end)
+
         menu.action(frienm, "Teleport To Them", {"gotothem"}, "", function()
             menu.trigger_commands("tp" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
@@ -8510,6 +8734,18 @@ local function deletehandlers(list)
         end
     end
 end
+
+--         _____ ________________ ________  _   __
+--        / ___// ____/ ___/ ___//  _/ __ \/ | / /
+--        \__ \/ __/  \__ \\__ \ / // / / /  |/ / 
+--       ___/ / /___ ___/ /__/ // // /_/ / /|  /  
+--      /____/_____//____/____/___/\____/_/ |_/   
+
+--         __________  ___   _____ __  __
+--        / ____/ __ \/   | / ___// / / /
+--       / /   / /_/ / /| | \__ \/ /_/ /
+--      / /___/ _, _/ ___ |___/ / __  /
+--      \____/_/ |_/_/  |_/____/_/ /_/   
 
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
