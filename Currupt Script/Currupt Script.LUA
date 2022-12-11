@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.4;if not dev_mode then 
+local a=1.5;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=1.4;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2551,71 +2551,6 @@ local chaos, gravity, speed = false, true, 100
 
 	menu.divider(custselc, "Slap Man")
 
-	menu.action(custselc, "Ban Voice Chat", {}, "May lag your game when in progress", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-					for i = 1, 30 do
-						menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pids))
-						menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pids))
-						util.yield()
-					end
-					notification("Ban Voice Chat has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-					for i = 1, 30 do
-						menu.trigger_commands("reportvcannoying " .. PLAYER.GET_PLAYER_NAME(pids))
-						menu.trigger_commands("reportvchate " .. PLAYER.GET_PLAYER_NAME(pids))
-						util.yield()
-					end
-					notification("Ban Voice Chat has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			end
-		end
-	end)
-
-
-	menu.action(custselc, "Block Pussive", {}, "", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-                    send_script_event(1114091621, pids, {pids, 1})
-                    send_script_event(1859990871, pids, {pids, 1})
-					util.yield()
-					notification("Block Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-                    send_script_event(1114091621, pids, {pids, 1})
-                    send_script_event(1859990871, pids, {pids, 1})
-					util.yield()
-					notification("Block Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			end
-		end
-	end)
-
-    menu.action(custselc, "Unblock Pussive", {}, "", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-                    send_script_event(1114091621, pids, {pids, 0})
-                    send_script_event(2033772643, pids, {pids, 0})
-					util.yield()
-					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-                    send_script_event(1114091621, pids, {pids, 0})
-                    send_script_event(2033772643, pids, {pids, 0})
-					util.yield()
-					notification("Unblock Passive has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			end
-		end
-	end)
-
 	menu.action(custselc, "Vehicle Kick", {}, "", function()
     	notification("Ooopsy vehicle kicked " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 		for pids = 0, 31 do
@@ -2630,22 +2565,6 @@ local chaos, gravity, speed = false, true, 100
 					local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pids)
 					menu.trigger_commands("vehkick" .. PLAYER.GET_PLAYER_NAME(pids))
 					notification("Vehicle Kick has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			end
-		end
-	end)
-
-	menu.action(custselc, "CEO Ban", {}, "", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("ceoban" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("CEO Ban has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("ceoban" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("CEO Ban has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
 				end
 			end
 		end
@@ -8342,20 +8261,26 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         end
     end)
 
-        menu.action(frienm, "Teleport To Them", {"gotothem"}, "", function()
+    local tpthem = menu.list(frienm, 'Teleports', {"friendlyteleports"}, '')
+
+        menu.action(tpthem, "Teleport To Them", {"gotothem"}, "", function()
             menu.trigger_commands("tp" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "Teleport To Me", {"bringtome"}, "", function()
+        menu.action(tpthem, "Teleport To Me", {"bringtome"}, "", function()
             menu.trigger_commands("summon" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
+            
+        menu.action(tpthem, "TP To Their Waypoint", {"waypoint"}, "", function()
+            menu.trigger_commands("wptp" .. players.get_name(pid))
+            end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
+        menu.action(tpthem, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
             excludeselected = true
             menu.trigger_commands("sendtowp")
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(frienm, "Fix loading screen", {"fix"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
+        menu.action(tpthem, "Fix loading screen", {"fix"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
             menu.trigger_commands("givesh" .. players.get_name(pid))
             menu.trigger_commands("aptme" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
