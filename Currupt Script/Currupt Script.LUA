@@ -5317,6 +5317,15 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
         util.yield()
     end)
 
+    player_toggle_loop(tormentplayer, pid, "Flare Loop", {"flareloop"}, "", function()
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = ENTITY.GET_ENTITY_COORDS(ped)
+        for i = 1, 50 do
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 0, true, util.joaat("weapon_flare"), players.user_ped(), false, true, 1.0)
+        end
+        util.yield()
+    end)
+
     menu.toggle_loop(tormentplayer, "Drop Fake Bags", {"dropfakebags"}, "Old School :D", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
@@ -8235,6 +8244,7 @@ end)
     end)
 
     local drops = menu.list(frienm, "Currupt Drops", {}, "")
+
 
     menu.toggle_loop(drops, "Drop RP", {"rp"}, "", function()
         local coords = players.get_position(pid)
