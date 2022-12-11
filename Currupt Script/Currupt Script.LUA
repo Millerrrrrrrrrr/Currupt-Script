@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.0;if not dev_mode then 
+local a=1.1;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -5210,6 +5210,18 @@ GenerateFeatures = function(pid)
 		util.yield(600)
 		stopato = true
 	end)
+
+    menu.toggle(attachoptions, "Attach To Player", {"attachto"}, "", function(on)
+    if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == players.user_ped() then 
+        notify(translations.crash_saved)
+        return
+    end
+    if on then
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(players.user_ped(), PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), 0, 0.0, -0.20, 2.00, 1.0, 1.0,1, true, true, true, false, 0, true)
+    else
+        ENTITY.DETACH_ENTITY(players.user_ped(), false, false)
+        end
+    end)
 	
 	stopato = true
 
