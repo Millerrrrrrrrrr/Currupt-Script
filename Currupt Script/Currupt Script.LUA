@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.5;if not dev_mode then 
+local a=1.6;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=1.5;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3276,7 +3276,7 @@ end)
 
 menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /khos",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3286,7 +3286,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /khos",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -4735,21 +4735,21 @@ GenerateFeatures = function(pid)
 		end
 	end)
 
-	menu.action(mov_sub_vehicle_tab,"Boost", {"boost"}, "Sets max speed of vehicle to 100 better for cars",function()
+	menu.action(mov_sub_vehicle_tab,"Boost", {"giveboost"}, "Sets max speed of vehicle to 100 better for cars",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 100) 
 		end
 	end)
 
-	menu.action(mov_sub_vehicle_tab,"Currupt boost", {"Currupt boost"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
+	menu.action(mov_sub_vehicle_tab,"Currupt boost", {"curruptboosts"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 9999999) 
 		end
 	end)
 
-	menu.action(mov_sub_vehicle_tab,"Trash Speed", {"trashacc"}, "Sets max speed of vehicle to INT_MIN",function()
+	menu.action(mov_sub_vehicle_tab,"Trash Speed", {"trashaccs"}, "Sets max speed of vehicle to INT_MIN",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, -2147483647) 
@@ -4757,7 +4757,7 @@ GenerateFeatures = function(pid)
 	end)
 
             local player_torque = 1000
-            menu.slider(mov_sub_vehicle_tab, 'Set Torque', {'torque'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1, function(value)
+            menu.slider(mov_sub_vehicle_tab, 'Set Torque', {'torques'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1, function(value)
                 player_torque = value
                 util.create_tick_handler(function()
                     if PED.IS_PED_IN_ANY_VEHICLE(players.user_ped(), true) then
@@ -4769,7 +4769,7 @@ GenerateFeatures = function(pid)
                 end)
             end)
 
-            	menu.action(mov_sub_vehicle_tab, 'Reverse Car', {'reversecar'}, "Note: Restart Currupt Script if you need to reset your own speed",function()
+            	menu.action(mov_sub_vehicle_tab, 'Reverse Car', {'reversecars'}, "Note: Restart Currupt Script if you need to reset your own speed",function()
     	notification("Reverse Car On " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 	local vehicle = get_player_veh(pid,true)
             	local player_torques = 1000000
@@ -4787,7 +4787,7 @@ GenerateFeatures = function(pid)
             end)
 
 
-	menu.action(mov_sub_vehicle_tab,"Reset Speed", {"resetacc"}, "Resets max speed of vehicle",function()
+	menu.action(mov_sub_vehicle_tab,"Reset Speed", {"resetaccs"}, "Resets max speed of vehicle",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 1) 
@@ -5059,11 +5059,6 @@ GenerateFeatures = function(pid)
 
     menu.action(griefingtp, "TP All Players Near me", {"tpallnear"}, "Teleports all players near you.", function()
         menu.trigger_commands("aptmeall")
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-    menu.action(griefingtp, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
-        excludeselected = true
-        menu.trigger_commands("sendtowp")
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
     function attachto(offx, offy, offz, pid, angx, angy, angz, hash, isnpc, isveh)
@@ -8271,11 +8266,11 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             menu.trigger_commands("summon" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
             
-        menu.action(tpthem, "TP To Their Waypoint", {"waypoint"}, "", function()
+        menu.action(tpthem, "TP To Their Waypoint", {"gotowaypoint"}, "", function()
             menu.trigger_commands("wptp" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(tpthem, "TP All To Their Waypoint", {"alltowp"}, "Teleports all players near you.", function()
+        menu.action(tpthem, "TP All To Their Waypoint", {"alltowaypoint"}, "Teleports all players near you.", function()
             excludeselected = true
             menu.trigger_commands("sendtowp")
         end, nil, nil, COMMANDPERM_FRIENDLY)
@@ -8407,7 +8402,7 @@ end)
 		end
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-	menu.action(frienm,"Currupt boost", {"Currupt boost"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
+	menu.action(frienm,"Currupt boost", {"curruptboost"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 9999999) 
