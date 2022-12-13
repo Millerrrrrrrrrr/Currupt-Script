@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=1.8;if not dev_mode then 
+local a=2.0;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=1.8;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 0.9.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -5003,7 +5003,127 @@ GenerateFeatures = function(pid)
 		end
 	end)
 
+    local function spawn_object_in_front_of_ped(ped, hash, ang, room, zoff, setonground)
+        coords = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, room, zoff)
+        request_model_load(hash)
+        hdng = ENTITY.GET_ENTITY_HEADING(ped)
+        new = OBJECT.CREATE_OBJECT_NO_OFFSET(hash, coords['x'], coords['y'], coords['z'], true, false, false)
+        ENTITY.SET_ENTITY_HEADING(new, hdng+ang)
+        if setonground then
+            OBJECT.PLACE_OBJECT_ON_GROUND_PROPERLY(new)
+        end
+        return new
+    end
+
 	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
+
+    local windmilling = menu.list(griefing, "Windmilling", {}, "")
+
+    menu.toggle_loop(windmilling, "Spam Windmills", {"togglemills"}, "", function(on_toggle)
+        local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
+        local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
+        local Object_pizza2 = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+            OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
+        local Object_pizza2 = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+            OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
+        local Object_pizza2 = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+            OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
+        local Object_pizza2 = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+            OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
+        for i = 0, 100 do 
+            local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true);
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
+        util.yield(10)
+        entities.delete_by_handle(Object_pizza2)
+        entities.delete_by_handle(Object_pizza2)
+        entities.delete_by_handle(Object_pizza2)
+        entities.delete_by_handle(Object_pizza2)
+        return
+    end
+    end)
+
+    menu.toggle_loop(windmilling, "Windmills V2", {"togglemillsv1"}, "Skidded From 2take1", function(on_toggle)
+        BlockSyncs(pid, function()
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                entities.delete_by_handle(object)
+                local object = entities.create_object(util.joaat("prop_windmill_01"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+                OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, true)
+                util.yield(1000)
+                entities.delete_by_handle(object)
+            end)
+        end)
+
+    menu.toggle_loop(windmilling, "Attach Windmills", {"attachmills"}, "", function()
+        local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+        playerpos.z = playerpos.z + 3
+        local khanjali = util.joaat("prop_windmill_01")
+        STREAMING.REQUEST_MODEL(khanjali)
+        while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+            util.yield()
+        end
+        local vehicle1 = entities.create_object(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle2 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle3 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle4 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+        ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+        util.yield(10)
+    end)
+
+    menu.divider(windmilling, "__________________bruh__________________")
+
+    menu.action(windmilling, "Clear Windmill's", {"clearwindmills"}, "", function()
+        local count = 0
+        for k,ent in pairs(entities.get_all_objects_as_handles()) do
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(ent, false, false)
+            entities.delete_by_handle(ent)
+            count = count + 1
+            util.yield()
+        end
+    end)
 
     menu.action(griefing, "Make Player Explode All", {"makethemexplodeall"}, "", function()
 		menu.trigger_commands("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " explodeall")
@@ -6212,7 +6332,6 @@ end, nil, nil, COMMANDPERM_AGGRESSIVE)
             util.yield(100)
             end
         end)
-
 
     menu.toggle_loop(lagwiths, "Lag With Armytrailer2", {"lagwitharmytrailer2"}, "", function()
         local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -8831,7 +8950,7 @@ end
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
 local spawnDistance = 0
-local vehicleType = { 'hydra', 'cargoplane', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+local vehicleType = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
  'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
  'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
@@ -8840,7 +8959,144 @@ local spawnedPlanes = {}
 
 local craftcrash = menu.list(lobbycrash, "Craft Crashes", {}, "")
 
-menu.toggle_loop(craftcrash, "Start Loop", {"craftloop"}, "Hold down enter...", function (on_toggle)
+
+menu.toggle_loop(craftcrash, "Start Loop 1", {"craftloop1"}, "Hold down enter...", function (on_toggle)
+    local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local modelHash <const> = util.joaat(vehicleType[selected])
+    local startTime = util.current_time_millis()
+    local lastExplosion
+    local lastSpawn
+    STREAMING.REQUEST_MODEL(modelHash)
+    while not STREAMING.HAS_MODEL_LOADED(modelHash) do
+        util.yield_once()
+    end
+    util.toast("Incoming Craft o.o")
+    while util.current_time_millis() - startTime < 20000 do
+        local pos = playerposition(playerPed, spawnDistance)
+        pos.z = pos.z + 30.0
+        if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
+            local plane = entities.create_vehicle(modelHash, pos, 0.0)
+            NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
+            NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
+            table.insert(spawnedPlanes, plane)
+            lastSpawn = util.current_time_millis()
+        end
+        if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 1.0, true, false, 0.0, false)
+            lastExplosion = util.current_time_millis()
+        end
+        if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
+        util.yield_once()
+    end
+    deletehandlers(spawnedPlanes)
+    spawnedPlanes = {}
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
+end)
+
+menu.toggle_loop(craftcrash, "Start Loop 2", {"craftloop2"}, "Hold down enter...", function (on_toggle)
+    local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local modelHash <const> = util.joaat(vehicleType[selected])
+    local startTime = util.current_time_millis()
+    local lastExplosion
+    local lastSpawn
+    STREAMING.REQUEST_MODEL(modelHash)
+    while not STREAMING.HAS_MODEL_LOADED(modelHash) do
+        util.yield_once()
+    end
+    util.toast("Incoming Craft o.o")
+    while util.current_time_millis() - startTime < 20000 do
+        local pos = playerposition(playerPed, spawnDistance)
+        pos.z = pos.z + 30.0
+        if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
+            local plane = entities.create_vehicle(modelHash, pos, 0.0)
+            NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
+            NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
+            table.insert(spawnedPlanes, plane)
+            lastSpawn = util.current_time_millis()
+        end
+        if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 1.0, true, false, 0.0, false)
+            lastExplosion = util.current_time_millis()
+        end
+        if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
+        util.yield_once()
+    end
+    deletehandlers(spawnedPlanes)
+    spawnedPlanes = {}
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
+end)
+
+menu.toggle_loop(craftcrash, "Start Loop 3", {"craftloop3"}, "Hold down enter...", function (on_toggle)
+    local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local modelHash <const> = util.joaat(vehicleType[selected])
+    local startTime = util.current_time_millis()
+    local lastExplosion
+    local lastSpawn
+    STREAMING.REQUEST_MODEL(modelHash)
+    while not STREAMING.HAS_MODEL_LOADED(modelHash) do
+        util.yield_once()
+    end
+    util.toast("Incoming Craft o.o")
+    while util.current_time_millis() - startTime < 20000 do
+        local pos = playerposition(playerPed, spawnDistance)
+        pos.z = pos.z + 30.0
+        if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
+            local plane = entities.create_vehicle(modelHash, pos, 0.0)
+            NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
+            NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
+            table.insert(spawnedPlanes, plane)
+            lastSpawn = util.current_time_millis()
+        end
+        if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 1.0, true, false, 0.0, false)
+            lastExplosion = util.current_time_millis()
+        end
+        if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
+        util.yield_once()
+    end
+    deletehandlers(spawnedPlanes)
+    spawnedPlanes = {}
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
+end)
+
+menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop3"}, "Hold down enter...", function (on_toggle)
+    local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local modelHash <const> = util.joaat(vehicleType[selected])
+    local startTime = util.current_time_millis()
+    local lastExplosion
+    local lastSpawn
+    STREAMING.REQUEST_MODEL(modelHash)
+    while not STREAMING.HAS_MODEL_LOADED(modelHash) do
+        util.yield_once()
+    end
+    util.toast("Incoming Craft o.o")
+    while util.current_time_millis() - startTime < 20000 do
+        local pos = playerposition(playerPed, spawnDistance)
+        pos.z = pos.z + 30.0
+        if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
+            local plane = entities.create_vehicle(modelHash, pos, 0.0)
+            NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
+            NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
+            table.insert(spawnedPlanes, plane)
+            lastSpawn = util.current_time_millis()
+        end
+        if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 1.0, true, false, 0.0, false)
+            lastExplosion = util.current_time_millis()
+        end
+        if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
+        util.yield_once()
+    end
+    deletehandlers(spawnedPlanes)
+    spawnedPlanes = {}
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
+end)
+
+menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop3"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
     local modelHash <const> = util.joaat(vehicleType[selected])
     local startTime = util.current_time_millis()
@@ -14300,61 +14556,61 @@ end
 
 	menu.divider(standcrash, "Stand Crash Loops")
 
-    if menu.get_edition() >= 2 then 
+
         menu.toggle_loop(standcrash, "Elegant", {"togglecrash"}, "Blocked by most menus.", function()
             notification("Elegant sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("crash" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Irresponsible Disclosure", {"togglesmash"}, "Note: Use Panic Mode.", function(on_loop)
             notification("Irresponsible Disclosure sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("smash" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "BDSM", {"togglechoke"}, "Blocked by popular menus.", function(on_loop)
             notification("BDSM sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("choke" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Indecent Exposure", {"toggleflashcrash"}, "Blocked by popular menus.", function(on_loop)
             notification("Indecent Exposure sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("flashcrash" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Next-Gen", {"togglengcrash"}, "Blocked by popular menus.", function(on_loop)
             notification("Next-Gen sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("ngcrash" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Steamroller", {"togglesteamroll"}, "Note: This crash will also affect other players close to your target.", function(on_loop)
             notification("Steamroller sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("steamroll" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Burger King Foot Lettuce", {"togglefootlettuce"}, "Can't be blocked without consequences, but the target might karma you for using it.", function(on_loop)
             notification("Burger King Foot Lettuce sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("footlettuce" .. players.get_name(pid))
         end)
-    end
 
-    if menu.get_edition() >= 2 then 
+
+
         menu.toggle_loop(standcrash, "Vehicular Manslaughter", {"toggleslaughter"}, "A discrete kick that won't tell the target who did it. Unblockable when you are the host.", function(on_loop)
             notification("Vehicular Manslaughter sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("slaughter" .. players.get_name(pid))
         end)
-    end
+
 
 
 	menu.divider(crash, "Before Crashes")
@@ -14835,6 +15091,17 @@ menu.toggle_loop(self, "Stealth Vehicle Godmode Off", {}, "Turns off Godmode for
 end)
 
 local detections = menu.list(menu.my_root(), "Modder Detections", {}, "")
+
+
+menu.action(menu.my_root(), "Yeet Roulette", {"yeetroulette"}, "Tempting? hahahahah", function()
+    local pick = math.random(6)
+    if pick == 4 then 
+        util.log("You loose.")
+        ENTITY.APPLY_FORCE_TO_ENTITY(0, 1, 0, 0, 0, 0, 0, 0, 0, true, true, true, true, true)
+    else
+        util.toast("Lucky Bastard ;)")
+    end
+end)
 
 --[[
 menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
