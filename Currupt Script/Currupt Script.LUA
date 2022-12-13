@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.1;if not dev_mode then 
+local a=2.2;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -62,30 +62,6 @@ util.create_tick_handler(function()
         util.yield(100)
     end
 end)
-
-local aalib = require("aalib")
-local PlaySound = aalib.play_sound
-local SND_ASYNC<const> = 0x0001
-local SND_FILENAME<const> = 0x00020000
-
-store_dir = filesystem.store_dir() .. '\\startup_sound\\'
-sound_selection_dir = store_dir .. '\\sound.txt'
-
-if not filesystem.is_dir(store_dir) then
-    util.toast("Startup Sound is not installed properly.")
-    util.stop_script()
-end
-
-fp = io.open(sound_selection_dir, 'r')
-local file_selection = fp:read('*a')
-fp:close()
-
-local sound_location = store_dir .. '\\' .. file_selection
-if not filesystem.exists(sound_location) then
-    util.toast("[Startup Sound] " .. file_selection .. " was not found.")
-else
-    PlaySound(sound_location, SND_FILENAME | SND_ASYNC)
-end
 
 local aalib = require("aalib")
 local PlaySound = aalib.play_sound
@@ -3163,6 +3139,105 @@ menu.toggle_loop(protex, "Block Transaction Error 'Test'", {}, "Likely to lead t
         util.toast("It's not my fault the log error, wait for Stand to fix it")
     end
 end)
+
+----
+YOINK_PEDS = false
+YOINK_VEHICLES = false
+YOINK_OBJECTS = false
+YOINK_PICKUPS = false
+
+YOINK_RANGE = 500
+
+Yoinkshit = false
+
+local getEntityCoords = ENTITY.GET_ENTITY_COORDS
+local getPlayerPed = PLAYER.GET_PLAYER_PED
+
+menu.toggle(protex, "Force Request Control", {"controlall"}, "", function (yoink)
+    if yoink then
+        Yoinkshit = true
+        util.create_thread(function()
+            while Yoinkshit do
+                local yoinksq = YOINK_RANGE^2
+                local localCoord = getEntityCoords(getPlayerPed(players.user()))
+                local BigTable = {}
+                if YOINK_PEDS then
+                    local pedTable = entities.get_all_peds_as_pointers()
+                    for i = 1, #pedTable do
+                        local coord = entities.get_position(pedTable[i])
+                        local distsq = SYSTEM.VDIST2(coord.x, coord.y, coord.z, localCoord.x, localCoord.y, localCoord.z)
+                        local handle = entities.pointer_to_handle(pedTable[i])
+                        if not PED.IS_PED_A_PLAYER(handle) then
+                            if distsq <= yoinksq then
+                                BigTable[#BigTable+1] = handle
+                            end
+                        end
+                    end
+                end
+                wait()
+                if YOINK_VEHICLES then
+                    local vehTable = entities.get_all_vehicles_as_pointers()
+                    for i = 1, #vehTable do
+                        local coord = entities.get_position(vehTable[i])
+                        local distsq = SYSTEM.VDIST2(coord.x, coord.y, coord.z, localCoord.x, localCoord.y, localCoord.z)
+                        if distsq <= yoinksq then
+                            BigTable[#BigTable+1] = entities.pointer_to_handle(vehTable[i])
+                        end
+                    end
+                end
+                wait()
+                if YOINK_OBJECTS then
+                    local objTable = entities.get_all_objects_as_pointers()
+                    for i = 1, #objTable do
+                        local coord = entities.get_position(objTable[i])
+                        local distsq = SYSTEM.VDIST2(coord.x, coord.y, coord.z, localCoord.x, localCoord.y, localCoord.z)
+                        if distsq <= yoinksq then
+                            BigTable[#BigTable+1] = entities.pointer_to_handle(objTable[i])
+                        end
+                    end
+                end
+                if YOINK_PICKUPS then
+                    local pickTable = entities.get_all_pickups_as_pointers()
+                    for i = 1, #pickTable do
+                        local coord = entities.get_position(pickTable[i])
+                        local distsq = SYSTEM.VDIST2(coord.x, coord.y, coord.z, localCoord.x, localCoord.y, localCoord.z)
+                        if distsq <= yoinksq then
+                            BigTable[#BigTable+1] = entities.pointer_to_handle(pickTable[i])
+                        end
+                    end
+                end
+                for i = 1, #BigTable do
+                    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(BigTable[i])
+                    wait()
+                end
+                util.toast("Requested control of all")
+                ----
+                wait()
+            end
+            util.stop_thread()
+        end)
+    else
+        Yoinkshit = false
+    end
+end)
+local yoinkSettings = menu.list(protex, "Force Request Control Settings", {}, "")
+menu.slider(yoinkSettings, "Range For Request Control", {"controlrange"}, "", 1, 5000, 5000, 10, function (value)
+    YOINK_RANGE = value
+end)
+menu.toggle(yoinkSettings, "Peds", {}, "", function (peds)
+    YOINK_PEDS = peds
+end)
+menu.toggle(yoinkSettings, "Vehicles", {}, "", function (vehs)
+    YOINK_VEHICLES = vehs
+end)
+menu.toggle(yoinkSettings, "Objects", {}, "", function (objs)
+    YOINK_OBJECTS = objs
+end)
+menu.toggle(yoinkSettings, "Pickups", {}, "", function (pick)
+    YOINK_PICKUPS = pick
+end)
+
+
 
 	menu.toggle_loop(protex, "No Entity Spawn", {"noentities"}, "De spawns all entites.", function(on_loop)
 		local ct = 0
@@ -8951,7 +9026,7 @@ local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
 local craftcrash = menu.list(lobbycrash, "Vehicle Crashes", {}, "")
 
-menu.toggle_loop(pteleportEntities, "Teleport ALL Entities to Player Loop", {"tpallentitiesloop"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+menu.toggle_loop(craftcrash, "Teleport ALL Entities to Player Loop", {"tpallentitiesloop"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
 	if on_toggle then
         menu.trigger_commands("tppeds" .. players.get_name(pid))
         util.yield(100)
