@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.0;if not dev_mode then 
+local a=2.1;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -8949,20 +8949,39 @@ end
 
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
-local spawnDistance = 0
-local vehicleType = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+local craftcrash = menu.list(lobbycrash, "Vehicle Crashes", {}, "")
+
+menu.toggle_loop(pteleportEntities, "Teleport ALL Entities to Player Loop", {"tpallentitiesloop"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
+	if on_toggle then
+        menu.trigger_commands("tppeds" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tpvehs" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tpobjs" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tppickups" .. players.get_name(pid))
+    else
+        menu.trigger_commands("tppeds" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tpvehs" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tpobjs" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("tppickups" .. players.get_name(pid))
+    end
+end)
+
+local spawnDistance1 = 0
+local vehicleType1 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
  'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
  'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
-local selected = 1
-local spawnedPlanes = {}
-
-local craftcrash = menu.list(lobbycrash, "Craft Crashes", {}, "")
-
+local selected1 = 1
+local spawnedPlanes1 = {}
 
 menu.toggle_loop(craftcrash, "Start Loop 1", {"craftloop1"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local modelHash <const> = util.joaat(vehicleType[selected])
+    local modelHash <const> = util.joaat(vehicleType1[selected1])
     local startTime = util.current_time_millis()
     local lastExplosion
     local lastSpawn
@@ -8970,16 +8989,16 @@ menu.toggle_loop(craftcrash, "Start Loop 1", {"craftloop1"}, "Hold down enter...
     while not STREAMING.HAS_MODEL_LOADED(modelHash) do
         util.yield_once()
     end
-    util.toast("Incoming Craft o.o")
+    util.toast("Incoming Vehicles o.o")
     while util.current_time_millis() - startTime < 20000 do
-        local pos = playerposition(playerPed, spawnDistance)
+        local pos = playerposition(playerPed, spawnDistance1)
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
-            table.insert(spawnedPlanes, plane)
+            table.insert(spawnedPlanes1, plane)
             lastSpawn = util.current_time_millis()
         end
         if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
@@ -8989,14 +9008,31 @@ menu.toggle_loop(craftcrash, "Start Loop 1", {"craftloop1"}, "Hold down enter...
         if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
         util.yield_once()
     end
-    deletehandlers(spawnedPlanes)
-    spawnedPlanes = {}
+    deletehandlers(spawnedPlanes1)
+    spawnedPlanes1 = {}
     STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
 end)
+
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType1, 1, function (opt)
+    selected1 = opt
+end)
+
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance1, 25, function(distance)
+    spawnDistance1 = distance
+end)
+
+
+local spawnDistance2 = 0
+local vehicleType2 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+ 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+ 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+
+local selected2 = 1
+local spawnedPlanes2 = {}
 
 menu.toggle_loop(craftcrash, "Start Loop 2", {"craftloop2"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local modelHash <const> = util.joaat(vehicleType[selected])
+    local modelHash <const> = util.joaat(vehicleType2[selected2])
     local startTime = util.current_time_millis()
     local lastExplosion
     local lastSpawn
@@ -9004,16 +9040,16 @@ menu.toggle_loop(craftcrash, "Start Loop 2", {"craftloop2"}, "Hold down enter...
     while not STREAMING.HAS_MODEL_LOADED(modelHash) do
         util.yield_once()
     end
-    util.toast("Incoming Craft o.o")
+    util.toast("Incoming Vehicles o.o")
     while util.current_time_millis() - startTime < 20000 do
-        local pos = playerposition(playerPed, spawnDistance)
+        local pos = playerposition(playerPed, spawnDistance2)
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
-            table.insert(spawnedPlanes, plane)
+            table.insert(spawnedPlanes2, plane)
             lastSpawn = util.current_time_millis()
         end
         if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
@@ -9023,14 +9059,30 @@ menu.toggle_loop(craftcrash, "Start Loop 2", {"craftloop2"}, "Hold down enter...
         if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
         util.yield_once()
     end
-    deletehandlers(spawnedPlanes)
-    spawnedPlanes = {}
+    deletehandlers(spawnedPlanes2)
+    spawnedPlanes2 = {}
     STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
 end)
+
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType2, 1, function (opt)
+    selected2 = opt
+end)
+
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance2, 25, function(distance)
+    spawnDistance2 = distance
+end)
+
+local spawnDistance3 = 0
+local vehicleType3 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+ 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+ 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+
+local selected3 = 1
+local spawnedPlanes3 = {}
 
 menu.toggle_loop(craftcrash, "Start Loop 3", {"craftloop3"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local modelHash <const> = util.joaat(vehicleType[selected])
+    local modelHash <const> = util.joaat(vehicleType3[selected3])
     local startTime = util.current_time_millis()
     local lastExplosion
     local lastSpawn
@@ -9038,16 +9090,16 @@ menu.toggle_loop(craftcrash, "Start Loop 3", {"craftloop3"}, "Hold down enter...
     while not STREAMING.HAS_MODEL_LOADED(modelHash) do
         util.yield_once()
     end
-    util.toast("Incoming Craft o.o")
+    util.toast("Incoming Vehicles o.o")
     while util.current_time_millis() - startTime < 20000 do
-        local pos = playerposition(playerPed, spawnDistance)
+        local pos = playerposition(playerPed, spawnDistance3)
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
-            table.insert(spawnedPlanes, plane)
+            table.insert(spawnedPlanes3, plane)
             lastSpawn = util.current_time_millis()
         end
         if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
@@ -9057,14 +9109,30 @@ menu.toggle_loop(craftcrash, "Start Loop 3", {"craftloop3"}, "Hold down enter...
         if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
         util.yield_once()
     end
-    deletehandlers(spawnedPlanes)
-    spawnedPlanes = {}
+    deletehandlers(spawnedPlanes3)
+    spawnedPlanes3 = {}
     STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
 end)
 
-menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop3"}, "Hold down enter...", function (on_toggle)
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType3, 1, function (opt)
+    selected3 = opt
+end)
+
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance3, 25, function(distance)
+    spawnDistance3 = distance
+end)
+
+local spawnDistance4 = 0
+local vehicleType4 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+ 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+ 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+
+local selected4 = 1
+local spawnedPlanes4 = {}
+
+menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop4"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local modelHash <const> = util.joaat(vehicleType[selected])
+    local modelHash <const> = util.joaat(vehicleType4[selected4])
     local startTime = util.current_time_millis()
     local lastExplosion
     local lastSpawn
@@ -9072,16 +9140,16 @@ menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop3"}, "Hold down enter...
     while not STREAMING.HAS_MODEL_LOADED(modelHash) do
         util.yield_once()
     end
-    util.toast("Incoming Craft o.o")
+    util.toast("Incoming Vehicles o.o")
     while util.current_time_millis() - startTime < 20000 do
-        local pos = playerposition(playerPed, spawnDistance)
+        local pos = playerposition(playerPed, spawnDistance4)
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
-            table.insert(spawnedPlanes, plane)
+            table.insert(spawnedPlanes4, plane)
             lastSpawn = util.current_time_millis()
         end
         if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
@@ -9091,14 +9159,30 @@ menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop3"}, "Hold down enter...
         if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
         util.yield_once()
     end
-    deletehandlers(spawnedPlanes)
-    spawnedPlanes = {}
+    deletehandlers(spawnedPlanes4)
+    spawnedPlanes4 = {}
     STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
 end)
 
-menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop3"}, "Hold down enter...", function (on_toggle)
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType4, 1, function (opt)
+    selected4 = opt
+end)
+
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance4, 25, function(distance)
+    spawnDistance4 = distance
+end)
+
+local spawnDistance5 = 0
+local vehicleType5 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+ 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+ 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+
+local selected5 = 1
+local spawnedPlanes5 = {}
+
+menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop5"}, "Hold down enter...", function (on_toggle)
     local playerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local modelHash <const> = util.joaat(vehicleType[selected])
+    local modelHash <const> = util.joaat(vehicleType5[selected5])
     local startTime = util.current_time_millis()
     local lastExplosion
     local lastSpawn
@@ -9106,16 +9190,16 @@ menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop3"}, "Hold down enter...
     while not STREAMING.HAS_MODEL_LOADED(modelHash) do
         util.yield_once()
     end
-    util.toast("Incoming Craft o.o")
+    util.toast("Incoming Vehicles o.o")
     while util.current_time_millis() - startTime < 20000 do
-        local pos = playerposition(playerPed, spawnDistance)
+        local pos = playerposition(playerPed, spawnDistance5)
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
-            table.insert(spawnedPlanes, plane)
+            table.insert(spawnedPlanes5, plane)
             lastSpawn = util.current_time_millis()
         end
         if not lastExplosion or util.current_time_millis() - lastExplosion > 1000 then
@@ -9125,17 +9209,17 @@ menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop3"}, "Hold down enter...
         if not NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then break end
         util.yield_once()
     end
-    deletehandlers(spawnedPlanes)
-    spawnedPlanes = {}
+    deletehandlers(spawnedPlanes5)
+    spawnedPlanes5 = {}
     STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED	(modelHash)
 end)
 
-menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType, 1, function (opt)
-    selected = opt
+menu.list_select(craftcrash, 'Select your loop', {}, "", vehicleType5, 1, function (opt)
+    selected5 = opt
 end)
 
-menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance, 25, function(distance)
-    spawnDistance = distance
+menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance5, 25, function(distance)
+    spawnDistance5 = distance
 end)
 
 local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
