@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.2;if not dev_mode then 
+local a=2.3;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -5248,15 +5248,12 @@ GenerateFeatures = function(pid)
                 menu.trigger_commands("tp" .. players.get_name(pid))
                 end
                 end)
-
-        
             
 --      menu.toggle(griefing, "Rape Player", {"rapeplayer"}, "The player won't see you attached to them", function(on)
 --      TASK.TASK_PLAY_ANIM(players.user_ped(), "rcmpaparazzo_2", "shag_loop_a", 8.0, -8.0, -1, 1, 0.0, false, false, false)
 
 --      menu.toggle(griefing, "Piggy Back", {"piggyback"}, "The player won't see you attached to them", function(on)
 --      TASK.TASK_PLAY_ANIM(players.user_ped(), "rcmjosh2", "josh_sitting_loop", 8.0, -8.0, -1, 1, 0.0, false, false, false)
-
                         
         griefingtp = menu.list(tpoptions, "TP All Players", {}, "", function(); end)
 
@@ -5343,6 +5340,18 @@ GenerateFeatures = function(pid)
                 return true
             end
         end
+
+        --[[
+        local inf_loading = menu.list(griefing, "Infinite Loading Screen", {}, "Skidded From Femboy Jinx Hahah.")
+
+        menu.action(inf_loading, "MC Teleport Method", {}, "Skidded From Femboy Jinx Hahah.", function()
+            util.trigger_script_event(1 << pid, {0xDEE5ED91, pid, 0, 32, NETWORK.NETWORK_HASH_FROM_PLAYER_HANDLE(pid), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+        end)
+    
+        menu.action(inf_loading, "Apartment Method", {}, "Skidded From Femboy Jinx Hahah.", function()
+            util.trigger_script_event(1 << pid, {0x7EFC3716, pid, 0, 1, id})
+        end)
+         ]]   
 
     attachoptions = menu.list(griefing, "Attach Options", {}, "", function(); end)
 
@@ -8844,7 +8853,7 @@ end)
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
     menu.action(frienm, "Send Friend Request", {"friend"}, "", function()
-        menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid) .. " pyro")
+        menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid))
     end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(frienm, "Spectate", {"spec"}, "", function()
