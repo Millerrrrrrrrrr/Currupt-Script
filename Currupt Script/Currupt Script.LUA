@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.3;if not dev_mode then 
+local a=2.4;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -3340,10 +3340,6 @@ end)
 		end
 	end)
 
-    menu.action(protex, "Restart GTA V", {"restartgta"}, "Restarts your game in singleplayer, closes it in Online. You will need to reinject (duh).", function(on_click)
-        MISC.RESTART_GAME("E574A662ACAEFBB1")
-    end)
-
 	spams = menu.list(menu.my_root(), "Chat Spammers", {}, "", function(); end)
 	menu.divider(spams, "Chat Spammers")
 
@@ -5089,10 +5085,47 @@ GenerateFeatures = function(pid)
         end
         return new
     end
-
+    
 	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
 
     local windmilling = menu.list(griefing, "Windmilling", {}, "")
+
+    --[[
+
+    menu.toggle_loop(griefing, " Fuck", {""}, "", function()
+        local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+        playerpos.z = playerpos.z + 3
+        local khanjali = util.joaat("")
+        STREAMING.REQUEST_MODEL(khanjali)
+        while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+            util.yield()
+        end
+        local vehicle1 = entities.create_object(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle2 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle3 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        local vehicle4 = entities.create_object(khanjali, playerpos, 0)
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+            ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+        ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+        menu.trigger_commands("explodeloop " .. PLAYER.GET_PLAYER_NAME(pid))
+        util.yield(10)
+    end)
+
+    ]]
 
     menu.toggle_loop(windmilling, "Spam Windmills", {"togglemills"}, "", function(on_toggle)
         local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
@@ -6360,6 +6393,38 @@ menu.action(killgods, "Kill Godmode Player V2", {"killgodv2"}, "Note: this will 
     util.yield(1200)
     entities.delete_by_handle(vehicle1)
 end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+menu.toggle_loop(griefing, "Ramp infront of player", {""}, "", function()
+    local id = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playerpos = ENTITY.GET_ENTITY_COORDS(id)
+    playerpos.z = playerpos.z + 3
+    local khanjali = util.joaat("lts_prop_lts_ramp_03")
+    STREAMING.REQUEST_MODEL(khanjali)
+    while not STREAMING.HAS_MODEL_LOADED(khanjali) do
+        util.yield()
+    end
+    local vehicle1 = entities.create_vehicle(khanjali, ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.GET_PLAYER_PED(pid), 0, 2, 3), ENTITY.GET_ENTITY_HEADING(id))
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle2 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle3 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    local vehicle4 = entities.create_vehicle(khanjali, playerpos, 0)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle1, id, playerpos, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+		ENTITY.SET_ENTITY_VISIBLE(vehicle1, true, 0)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle1)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle2)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle3)
+    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(vehicle4)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle2, vehicle1, 0, 0, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle3, vehicle1, 0, 3, 3, 0, 0, 0, -180, 0, false, true, false, 0, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(vehicle4, vehicle1, 0, 3, 0, 0, 0, 0, 0, 0, false, true, false, 0, true)
+    ENTITY.SET_ENTITY_VISIBLE(vehicle1, true)
+    util.yield(100)
+end)
 
 	lagwiths = menu.list(griefing, "Lag With Shit", {}, "", function(); end)
 
@@ -8852,7 +8917,7 @@ end)
 		menu.trigger_commands("cash".. players.get_name(pid) .. " 0")
 	end, nil, nil, COMMANDPERM_FRIENDLY)
 
-    menu.action(frienm, "Send Friend Request", {"friend"}, "", function()
+    menu.action(frienm, "Send Friend Request", {"sendfriend"}, "", function()
         menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid))
     end, nil, nil, COMMANDPERM_FRIENDLY)
 
@@ -9056,9 +9121,9 @@ menu.toggle_loop(craftcrash, "Teleport ALL Entities to Player Loop", {"tpallenti
 end)
 
 local spawnDistance1 = 0
-local vehicleType1 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
- 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
- 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+local vehicleType1 = { 'hydra', 'cargoplane', 'lazer', 'blista', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
 local selected1 = 1
 local spawnedPlanes1 = {}
@@ -9107,9 +9172,9 @@ end)
 
 
 local spawnDistance2 = 0
-local vehicleType2 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
- 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
- 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+local vehicleType2 = { 'hydra', 'cargoplane', 'lazer', 'blista', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
 local selected2 = 1
 local spawnedPlanes2 = {}
@@ -9157,9 +9222,9 @@ menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance2, 25, fun
 end)
 
 local spawnDistance3 = 0
-local vehicleType3 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
- 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
- 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+local vehicleType3 = { 'hydra', 'cargoplane', 'lazer', 'blista', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
 local selected3 = 1
 local spawnedPlanes3 = {}
@@ -9207,9 +9272,9 @@ menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance3, 25, fun
 end)
 
 local spawnDistance4 = 0
-local vehicleType4 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
- 'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
- 'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
+local vehicleType4 = { 'hydra', 'cargoplane', 'lazer', 'blista', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
+'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
 local selected4 = 1
 local spawnedPlanes4 = {}
@@ -9257,7 +9322,7 @@ menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance4, 25, fun
 end)
 
 local spawnDistance5 = 0
-local vehicleType5 = { 'hydra', 'cargoplane', 'lazer', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
+local vehicleType5 = { 'hydra', 'cargoplane', 'lazer', 'blista', 'towtruck', 'towtruck2', 'bombushka', 'volatol', 'kosatka', 'seabreeze', 'tula', 'avenger2',
  'armytrailer2', 'buzzard', 'savage', 'seasparrow', 'frogger2', 'bulldozer', 'flatbed',
  'proptrailer', 'tr4', 'tug', 'cargobob', 'cargobob2', 'luxor2'}
 
@@ -9311,11 +9376,21 @@ local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
 menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is OP...", function()
     menu.trigger_commands("tpspread" .. players.get_name(pid))
     util.yield(100)
+    menu.trigger_commands("anticrashcamera")
+    util.yield(100)
     menu.trigger_commands("attachallnearby" .. players.get_name(pid))
     util.yield(100)
     menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
     util.yield(100)
-    menu.trigger_commands("craftloop" .. players.get_name(pid))
+    menu.trigger_commands("craftloop1" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop2" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop3" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop4" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop5" .. players.get_name(pid))
     util.yield(100)
     menu.trigger_commands("badnet" .. players.get_name(pid))
     util.yield(100)
@@ -9328,11 +9403,21 @@ menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is 
     util.toast("Wait For TP Loop to finish or restart the script...")
     menu.trigger_commands("tpspread" .. players.get_name(pid))
     util.yield(100)
+    menu.trigger_commands("anticrashcamera")
+    util.yield(100)
     menu.trigger_commands("attachallnearby" .. players.get_name(pid))
     util.yield(100)
     menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
     util.yield(100)
-    menu.trigger_commands("craftloop" .. players.get_name(pid))
+    menu.trigger_commands("craftloop1" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop2" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop3" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop4" .. players.get_name(pid))
+    util.yield(100)
+    menu.trigger_commands("craftloop5" .. players.get_name(pid))
     util.yield(100)
     menu.trigger_commands("badnet" .. players.get_name(pid))
     util.yield(100)
@@ -9352,7 +9437,7 @@ end)
 
 menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is OP...", function(on_toggle)
     if on_toggle then
-        menu.trigger_commands("panic")
+        menu.trigger_commands("anticrashcamera")
         util.yield(200)
         menu.trigger_commands("tpspread" .. players.get_name(pid))
         util.yield(200)
@@ -9360,8 +9445,16 @@ menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is
         util.yield(200)
         menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
         util.yield(200)
-        menu.trigger_commands("craftloop" .. players.get_name(pid))
-        util.yield(200)
+        menu.trigger_commands("craftloop1" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop2" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop3" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop4" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop5" .. players.get_name(pid))
+        util.yield(100)
         menu.trigger_commands("badnet" .. players.get_name(pid))
         util.yield(200)
         menu.trigger_commands("togglefragv3" .. players.get_name(pid))
@@ -9372,7 +9465,7 @@ menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is
         util.yield(200)
     else
         util.toast("Wait For TP Loop to finish or restart the script...")
-        menu.trigger_commands("panic")
+        menu.trigger_commands("anticrashcamera")
         util.yield(200)
         menu.trigger_commands("tpspread" .. players.get_name(pid))
         util.yield(200)
@@ -9380,8 +9473,16 @@ menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is
         util.yield(200)
         menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
         util.yield(200)
-        menu.trigger_commands("craftloop" .. players.get_name(pid))
-        util.yield(200)
+        menu.trigger_commands("craftloop1" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop2" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop3" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop4" .. players.get_name(pid))
+        util.yield(100)
+        menu.trigger_commands("craftloop5" .. players.get_name(pid))
+        util.yield(100)
         menu.trigger_commands("badnet" .. players.get_name(pid))
         util.yield(200)
         menu.trigger_commands("togglefragv3" .. players.get_name(pid))
@@ -9675,6 +9776,60 @@ end)
     local newcrash = menu.list(crash, "Annoy Modders", {}, "")
 
 	lagwithss = menu.list(newcrash, "Lag With Shit", {}, "", function(); end)
+
+    menu.toggle_loop(lagwithss, "Toggle All", {"togglelagwiths"}, "", function(on_toggle)
+        if on_toggle then
+            menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithbarracks" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithbarracks3" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithdune" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithtugsv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+            util.yield(100)
+        else
+            menu.trigger_commands("lagwitharmytrailer2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithbarracks" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithbarracks3" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithdune" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithtugs" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithtugsv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithcargos" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithcargosv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithsubs" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithsubsv2" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithkhanjali" .. players.get_name(pid))
+            util.yield(100)
+            menu.trigger_commands("lagwithkhanjaliv2" .. players.get_name(pid))
+            util.yield(100)
+            end
+        end)
 
     
 menu.toggle_loop(lagwithss, "Lag With Armytrailer2", {"lagwitharmytrailer2"}, "", function()
@@ -13640,8 +13795,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 util.yield(100)
                 menu.trigger_commands("crashs7" .. players.get_name(pid))
                 util.yield(100)
-                menu.trigger_commands("togglesus" .. players.get_name(pid))
-                util.yield(100)
+ --               menu.trigger_commands("togglesus" .. players.get_name(pid))
+--                util.yield(100)
                 menu.trigger_commands("toggleautomob" .. players.get_name(pid))
                 util.yield(100)
                 menu.trigger_commands("toggleautobike" .. players.get_name(pid))
@@ -13662,8 +13817,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 util.yield(100)
                 menu.trigger_commands("crashs7" .. players.get_name(pid))
                 util.yield(100)
-                menu.trigger_commands("togglesus" .. players.get_name(pid))
-                util.yield(100)
+--                menu.trigger_commands("togglesus" .. players.get_name(pid))
+--                util.yield(100)
                 menu.trigger_commands("toggleautomob" .. players.get_name(pid))
                 util.yield(100)
                 menu.trigger_commands("toggleautobike" .. players.get_name(pid))
@@ -13672,6 +13827,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 
             menu.toggle_loop(scrash, "All Script Event Crashes", {"togglesecrashes"}, "", function(on_toggle)
                 if on_toggle then
+                    menu.trigger_commands("crasheshmm" .. players.get_name(pid))
+                    util.yield(100)
                     menu.trigger_commands("crashs1" .. players.get_name(pid))
                     util.yield(100)
                     menu.trigger_commands("crashs0" .. players.get_name(pid))
@@ -13688,13 +13845,15 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     util.yield(100)
                     menu.trigger_commands("crashs7" .. players.get_name(pid))
                     util.yield(100)
-                    menu.trigger_commands("togglesus" .. players.get_name(pid))
-                    util.yield(100)
+ --                   menu.trigger_commands("togglesus" .. players.get_name(pid))
+ --                   util.yield(100)
                     menu.trigger_commands("toggleautomob" .. players.get_name(pid))
                     util.yield(100)
                     menu.trigger_commands("toggleautobike" .. players.get_name(pid))
                     util.yield(100)
                 else
+                    menu.trigger_commands("crasheshmm" .. players.get_name(pid))
+                    util.yield(100)
                     menu.trigger_commands("crashs1" .. players.get_name(pid))
                     util.yield(100)
                     menu.trigger_commands("crashs0" .. players.get_name(pid))
@@ -13711,8 +13870,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     util.yield(100)
                     menu.trigger_commands("crashs7" .. players.get_name(pid))
                     util.yield(100)
-                    menu.trigger_commands("togglesus" .. players.get_name(pid))
-                    util.yield(100)
+ --                   menu.trigger_commands("togglesus" .. players.get_name(pid))
+ --                   util.yield(100)
                     menu.trigger_commands("toggleautomob" .. players.get_name(pid))
                     util.yield(100)
                     menu.trigger_commands("toggleautobike" .. players.get_name(pid))
@@ -13720,7 +13879,26 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     end
                 end)
 
-            
+--[[
+                menu.toggle_loop(scrash, "SE Crash (hmm)", {"crasheshmm"}, "A very strong SE/SH crash", function(on_toggle)
+                    local int_min = -2147483647
+                    local int_max = 2147483647
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {-1139254401, 18, 0, 6671, math.random(int_min, int_max), math.random(int_min, int_max), 
+                            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-1139254401, 18, 0, 6671})
+                        end
+                        menu.trigger_commands("givesh" .. players.get_name(pid))
+                        util.yield()
+                        for i = 1, 15 do
+                            util.trigger_script_event(1 << pid, {-1139254401, 18, 0, 6671, pid, math.random(int_min, int_max)})
+                            util.trigger_script_event(1 << pid, {-1139254401, 18, 0, 6671})
+                        end
+                util.trigger_script_event(1 << pid, {-1139254401, 18, 0, 6671})
+                    end)
+  ]]          
+  
             menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
@@ -13888,7 +14066,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736})
                         end)
 
-
+--[[
                 menu.toggle_loop(scrash, "SUS Crash", {"togglesus"}, "This one is bound to hurt.", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
@@ -13929,7 +14107,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                             util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
                 notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                             end)
-
+]]
                 menu.toggle_loop(scrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
                             local int_min = -2147483647
                             local int_max = 2147483647
@@ -15261,7 +15439,7 @@ end)
 local detections = menu.list(menu.my_root(), "Modder Detections", {}, "")
 
 
-menu.action(menu.my_root(), "Yeet Roulette", {"yeetroulette"}, "Tempting? hahahahah", function()
+menu.action(menu.my_root(), "Yeet Roulette", {"yeetroulette"}, "Take a chance by instantly sending yourself to desktop or use the Restart GTA V Option.", function()
     local pick = math.random(6)
     if pick == 4 then 
         util.log("You loose.")
@@ -15269,6 +15447,10 @@ menu.action(menu.my_root(), "Yeet Roulette", {"yeetroulette"}, "Tempting? hahaha
     else
         util.toast("Lucky Bastard ;)")
     end
+end)
+
+menu.action(menu.my_root(), "Restart GTA V", {"restartgta"}, "Restarts your game in singleplayer, closes it in Online. You will need to reinject (duh).", function(on_click)
+    MISC.RESTART_GAME("E574A662ACAEFBB1")
 end)
 
 --[[
@@ -17698,6 +17880,7 @@ end
 	end)
 
 bountyloop = menu.list(protex, "Bounty Loops", {}, "", function(); end)
+
 
 --coded by MrWall 
 
