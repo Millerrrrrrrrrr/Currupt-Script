@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.5;if not dev_mode then 
+local a=2.6;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=2.5;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 0.9.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -595,6 +595,7 @@ players.on_join(function(player_id)
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--[[
 	cargoloops = menu.list(menu.my_root(), "Cargo Loop", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
 
 	cargoloo = menu.list(cargoloops, "Open Musiness Banager First", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
@@ -783,6 +784,7 @@ my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Auto-sells the crates of
     end
 end)
 
+]]
 
 util.keep_running()
 
@@ -2557,38 +2559,6 @@ local chaos, gravity, speed = false, true, 100
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
 					menu.trigger_commands("droprp" .. PLAYER.GET_PLAYER_NAME(pids))
 					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			end
-		end
-	end)
-
-	menu.action(custselc, "Give Cash (2k Drops)", {"givecashto"}, "3600 ms per drop per 2k.", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("cashon" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("cashon" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Cash has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			end
-		end
-	end)
-
-    menu.action(custselc, "Give Crazy Drop", {"crazydropto"}, "", function()
-		for pids = 0, 31 do
-			if excludeselected then
-				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("crazydrop" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
-				end
-			else
-				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("crazydrop" .. PLAYER.GET_PLAYER_NAME(pids))
-					notification("Crazy Drop has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
 		end
@@ -5741,6 +5711,22 @@ menu.action(CloneEntities, "Clone Centipede", {"clonecentipede"}, "Clone the pla
                     end
             end
     end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+--[[
+
+    menu.toggle_loop(ControlEntities, "Revive Peds", {"revivepeds"}, "", function()
+        local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local c = ENTITY.GET_ENTITY_COORDS(p)
+                all_peds = entities.get_all_peds_as_handles()
+                player_ped = PLAYER.PLAYER_PED_ID()
+                for k,ped in pairs(all_peds) do
+                    if not PED.IS_PED_A_PLAYER(ped) then
+                        PED.REVIVE_INJURED_PED(ped)
+                    end
+            end
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
+
+]]
 
     menu.toggle_loop(ControlEntities, "Writher Peds", {"writherpeds"}, "", function()
         local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
@@ -8959,7 +8945,6 @@ end)
 	end)
 
     local drops = menu.list(frienm, "Currupt Drops", {}, "")
-
 
     menu.toggle_loop(drops, "Drop RP", {"rp"}, "", function()
         local coords = players.get_position(pid)
@@ -12859,6 +12844,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
     menu.trigger_commands("2t1spec" .. PLAYER.GET_PLAYER_NAME(pid))
             end)
             
+            --[[
 
             local scrash = menu.list(crash, "Script Event Crashes", {}, "Won't work on yourself report any not working at all please.")
 
@@ -12879,7 +12865,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 util.yield(100)
                 menu.trigger_commands("crashs7" .. players.get_name(pid))
                 util.yield(100)
- --               menu.trigger_commands("togglesus" .. players.get_name(pid))
+--                menu.trigger_commands("togglesus" .. players.get_name(pid))
 --                util.yield(100)
                 menu.trigger_commands("toggleautomob" .. players.get_name(pid))
                 util.yield(100)
@@ -13110,7 +13096,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         util.trigger_script_event(1 << pid, {-1178972880, 1, 3, 8, 1, 1, 1})
                                 end)
 
---[[
+
 
                 menu.toggle_loop(scrash, "SE Crash (S5)", {"crashs5"}, "A very strong SE/SH crash", function(on_toggle)
                     notification("SE Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -13130,7 +13116,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     menu.trigger_commands("givesh" .. players.get_name(pid))
                             util.trigger_script_event(1 << pid, {1670832796, 17, 8389765640730081662, 3612517357159281440, 1195254326, -1315771977, -425873691, -1164711529, -1528456516, 177617928821990, 0, 0, 3141616568656})
                                     end)
-]]       
+
                                 
                 menu.toggle_loop(scrash, "SE Crash (S7)", {"crashs7"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
@@ -13150,7 +13136,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                         util.trigger_script_event(1 << pid, {-1529596656, 26, -547323955, -1612886483, -275646172, -879183487, 1221401895, -1674954067, 198848784, 495735107, 0, -1998972833, -129810361, 1888307736})
                         end)
 
---[[
+
                 menu.toggle_loop(scrash, "SUS Crash", {"togglesus"}, "This one is bound to hurt.", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
@@ -13191,7 +13177,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                             util.trigger_script_event(1 << pid, {-555356783, 3, 85952, 99999, 1142667203, 526822745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
                 notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                             end)
-]]
+
                 menu.toggle_loop(scrash, "Automobile Crash", {"toggleautomob"}, "Sends ped's and automobiles causing (S0) events. Blocked by most popular menus.", function(on_toggle)
                             local int_min = -2147483647
                             local int_max = 2147483647
@@ -13224,6 +13210,8 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 menu.trigger_commands("givesh" .. players.get_name(pid))
                                 util.trigger_script_event(1 << pid, {-555356783, 3, 420, 69, 1337, 88, 360, 666, 6969, 696969})
                             end)
+
+]]
 
             local oxtypecrash = menu.list(crash, "Ox Menu Type Crashes", {}, "From Nightfall")
 
