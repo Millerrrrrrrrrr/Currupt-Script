@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.7;if not dev_mode then 
+local a=2.8;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=2.7;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.0.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -9253,7 +9253,6 @@ menu.toggle_loop(craftcrash, "Start Loop 1", {"craftloop1"}, "Hold down enter...
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
-            upgrade_vehicle(pid)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
@@ -9305,7 +9304,6 @@ menu.toggle_loop(craftcrash, "Start Loop 2", {"craftloop2"}, "Hold down enter...
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
-            upgrade_vehicle(pid)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
@@ -9356,7 +9354,6 @@ menu.toggle_loop(craftcrash, "Start Loop 3", {"craftloop3"}, "Hold down enter...
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
-            upgrade_vehicle(pid)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
@@ -9407,7 +9404,6 @@ menu.toggle_loop(craftcrash, "Start Loop 4", {"craftloop4"}, "Hold down enter...
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
-            upgrade_vehicle(pid)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
@@ -9458,7 +9454,6 @@ menu.toggle_loop(craftcrash, "Start Loop 5", {"craftloop5"}, "Hold down enter...
         pos.z = pos.z + 30.0
         if not lastSpawn or util.current_time_millis() - lastSpawn > 10 then
             local plane = entities.create_vehicle(modelHash, pos, 0.0)
-            upgrade_vehicle(pid)
             NETWORK.SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK.VEH_TO_NET(plane), true)
             ENTITY.SET_ENTITY_AS_MISSION_ENTITY(plane, false, true)
             NETWORK.SET_NETWORK_ID_ALWAYS_EXISTS_FOR_PLAYER(NETWORK.VEH_TO_NET(plane), players.user(), true)
@@ -14188,7 +14183,18 @@ local function get_interior_player_is_in(pid)
 end
 
 local unreleased_vehicles = {
-    "virtue"
+    "virtue",
+    "eudora",
+    "boor",
+    "brickade2",
+    "broadway",
+    "cargoplane2",
+    "entity3",
+    "everon2",
+    "issi8",
+    "manchez3",
+    "panthere2",
+    "powersurge",
 }
 
 local modded_vehicles = {
