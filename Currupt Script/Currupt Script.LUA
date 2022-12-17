@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=2.6;if not dev_mode then 
+local a=2.7;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=2.6;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.0.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -14188,10 +14188,7 @@ local function get_interior_player_is_in(pid)
 end
 
 local unreleased_vehicles = {
-    "Rhinehart",
-    "Sentinel4",
-    "Weevil2",
-    "tenf2",
+    "virtue"
 }
 
 local modded_vehicles = {
@@ -14690,7 +14687,6 @@ menu.toggle_loop(unrelveh, "Unreleased Car Auto Kick Them Out", {}, "Detects if 
         end
     end
 end)
-
 
 local modhack = menu.list(detections, "It's a hacker", {}, "")
 menu.toggle_loop(modhack, "It's a hacker", {}, "Detects if the player is about to ban", function()
