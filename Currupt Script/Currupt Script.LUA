@@ -32,7 +32,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.0;if not dev_mode then 
+local a=3.1;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +40,7 @@ local a=3.0;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.0.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3828,6 +3828,156 @@ menu.toggle_loop(yuminwoman, "Yumin Woman", {"yuminwoman"}, "AUUUUUUUUUGGHH", fu
     util.yield(50)
 end)
 ----------------------Fun Shit-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+------------------------------------
+--Nuke
+------------------------------------
+
+function raycast_gameplay_cam(flag, distance)
+    local ptr1, ptr2, ptr3, ptr4 = memory.alloc(), memory.alloc(), memory.alloc(), memory.alloc()
+    local cam_rot = CAM.GET_GAMEPLAY_CAM_ROT(2)
+    local cam_pos = CAM.GET_GAMEPLAY_CAM_COORD()
+    local direction = toDirection(CAM.GET_GAMEPLAY_CAM_ROT(0))
+    local destination =
+    {
+        x = cam_pos.x + direction.x * distance,
+        y = cam_pos.y + direction.y * distance,
+        z = cam_pos.z + direction.z * distance
+    }
+    SHAPETEST.GET_SHAPE_TEST_RESULT(
+        SHAPETEST.START_EXPENSIVE_SYNCHRONOUS_SHAPE_TEST_LOS_PROBE(
+            cam_pos.x,
+            cam_pos.y,
+            cam_pos.z,
+            destination.x,
+            destination.y,
+            destination.z,
+            flag,
+            -1,
+            1
+        ), ptr1, ptr2, ptr3, ptr4)
+    local p1 = memory.read_int(ptr1)
+    local p2 = memory.read_vector3(ptr2)
+    local p3 = memory.read_vector3(ptr3)
+    local p4 = memory.read_int(ptr4)
+    return {p1, p2, p3, p4}
+end
+
+function direction()
+    local c1 = ENTITY.GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(PLAYER.PLAYER_PED_ID(), 0, 5, 0)
+    local res = raycast_gameplay_cam(-1, 1000)
+    local c2
+
+    if res[1] != 0 then
+        c2 = res[2]
+    else
+        c2 = get_offset_from_gameplay_camera(1000)
+    end
+
+    c2.x = (c2.x - c1.x) * 1000
+    c2.y = (c2.y - c1.y) * 1000
+    c2.z = (c2.z - c1.z) * 1000
+    return c2, c1
+end
+
+local remove_projectiles = false
+local function disableProjectileLoop(projectile)
+    util.create_thread(function()
+        util.create_tick_handler(function()
+            WEAPON.REMOVE_ALL_PROJECTILES_OF_TYPE(projectile, false)
+            return remove_projectiles
+        end)
+    end)
+end
+
+local exp_animal_toggle --so options above it have access to the toggle option
+
+local nuke_running = false
+local grenade_running = false
+local animals_running = false
+
+local nuke_height = 40
+local function executeNuke(pos)
+    for a = 0, nuke_height, 4 do
+        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z + a, 8, 10, true, false, 1, false)
+        util.yield(50)
+    end
+    FIRE.ADD_EXPLOSION(pos.x +8, pos.y +8, pos.z + nuke_height, 82, 10, true, false, 1, false)
+    FIRE.ADD_EXPLOSION(pos.x +8, pos.y -8, pos.z + nuke_height, 82, 10, true, false, 1, false)
+    FIRE.ADD_EXPLOSION(pos.x -8, pos.y +8, pos.z + nuke_height, 82, 10, true, false, 1, false)
+    FIRE.ADD_EXPLOSION(pos.x -8, pos.y -8, pos.z + nuke_height, 82, 10, true, false, 1, false)
+end
+
+--credit to lance for the entity gun, but i edited it a bit
+local nuke_gun_root = menu.list(funfun, 'Nuke options', {}, '')
+local nuke_gun_toggle = menu.toggle(funfun, 'Nuke gun', {'nukeGun'}, 'Upgrade RPG grenade then atomic bomb', function(toggle)
+    nuke_running = toggle
+    if nuke_running then
+        if animals_running then menu.trigger_command(exp_animal_toggle, 'off') end
+        util.create_tick_handler(function()
+            if WEAPON.GET_SELECTED_PED_WEAPON(players.user_ped()) == -1312131151 then --if holding homing launcher
+                if PED.IS_PED_SHOOTING(players.user_ped()) then
+                    if not remove_projectiles then
+                        remove_projectiles = true
+                        disableProjectileLoop(-1312131151)
+                    end
+                    util.create_thread(function()
+                        local hash = util.joaat('w_arena_airmissile_01a')
+                        STREAMING.REQUEST_MODEL(hash)
+                        local cam_rot = CAM.GET_FINAL_RENDERED_CAM_ROT(2)
+                        local dir, pos = direction()
+                        local bomb = entities.create_object(hash, pos)
+                        ENTITY.APPLY_FORCE_TO_ENTITY(bomb, 0, dir.x, dir.y, dir.z, 0.0, 0.0, 0.0, 0, true, false, true, false, true)
+                        ENTITY.SET_ENTITY_ROTATION(bomb, cam_rot.x, cam_rot.y, cam_rot.z, 1, true)
+                        while not ENTITY.HAS_ENTITY_COLLIDED_WITH_ANYTHING(bomb) do util.yield() end
+                        local nukePos = ENTITY.GET_ENTITY_COORDS(bomb, true)
+                        entities.delete(bomb)
+                        executeNuke(nukePos)
+                    end)
+                else
+                    remove_projectiles = false
+                end
+            else
+                remove_projectiles = false
+            end
+            return nuke_running
+        end)
+    end
+end)
+
+
+local function get_waypoint_pos2()
+    if HUD.IS_WAYPOINT_ACTIVE() then
+        local blip = HUD.GET_FIRST_BLIP_INFO_ID(8)
+        local waypoint_pos = HUD.GET_BLIP_COORDS(blip)
+        return waypoint_pos
+    else
+        toast('Set a waypoint you fool xD')
+    end
+end
+
+menu.action(nuke_gun_root, 'Nuke waypoint', {'nukeWP'}, 'Drop the bomb on the specified point on the map.', function()
+    local waypointPos = get_waypoint_pos2()
+    if waypointPos then
+        local hash = util.joaat('w_arena_airmissile_01a')
+        STREAMING.REQUEST_MODEL(hash)
+        waypointPos.z += 30
+        local bomb = entities.create_object(hash, waypointPos)
+        waypointPos.z -= 30
+        ENTITY.SET_ENTITY_ROTATION(bomb, -90, 0, 0,  2, true)
+        ENTITY.APPLY_FORCE_TO_ENTITY(bomb, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0, true, false, true, false, true)
+        STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(hash)
+        while not ENTITY.HAS_ENTITY_COLLIDED_WITH_ANYTHING(bomb) do util.yield() end
+        entities.delete(bomb)
+        executeNuke(waypointPos)
+    end
+end)
+
+
+menu.slider(nuke_gun_root, 'Nuke height', {'nukeHeight'}, 'mushroom height.', 10, 100, nuke_height, 10, function(value)
+    nuke_height = value
+end)
 
 
 -------------------------------------
@@ -8502,21 +8652,21 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         kick = menu.list(menu.player_root(pid), "Kicks", {}, "Network Bail", function(); end)
 
 
-        menu.action(kick, "Blast Kick", {"blast"}, "Blocks the player join reaction then uses breakup kick", function()
+        menu.action(kick, "Blast Kick", {"blast"}, "Blocks the player join reaction then uses buttplug kick", function()
         notification("Blast kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("historyblock " .. players.get_name(pid))
             menu.trigger_commands("buttplug" .. players.get_name(pid))
     	end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
-        menu.action(kick, "Boop Kick", {"boop"}, "Kicks the player using a SE kick like breakup kick but uses 3 types of SE kicks then 3 more new ones if they don't work", function()
-            util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
-            util.trigger_script_event(1 << pid, {0x6A16C7F, pid, memory.script_global(0x2908D3 + 1 + (pid * 0x1C5) + 0x13E + 0x7)})
-            util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
+        menu.action(kick, "Boop Kick", {"boop"}, "", function()
+            util.trigger_script_event(1 << pid, {697566862, pid, 0x4, -1, 1, 1, 1}) --697566862 Give Collectible
+            util.trigger_script_event(1 << pid, {1268038438, pid, memory.script_global(2657589 + 1 + (pid * 466) + 321 + 8)}) 
+            util.trigger_script_event(1 << pid, {915462795, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
             menu.trigger_commands("breakup" .. players.get_name(pid))
-            util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
-            util.trigger_script_event(1 << pid, {0x6A16C7F, pid, memory.script_global(0x2908D3 + 1 + (pid * 0x1C5) + 0x13E + 0x7)})
-            util.trigger_script_event(1 << pid, {0x63D4BFB1, players.user(), memory.read_int(memory.script_global(0x1CE15F + 1 + (pid * 0x257) + 0x1FE))})
-    	end, nil, nil, COMMANDPERM_AGGRESSIVE)
+            util.trigger_script_event(1 << pid, {697566862, pid, 0x4, -1, 1, 1, 1})
+            util.trigger_script_event(1 << pid, {1268038438, pid, memory.script_global(2657589 + 1 + (pid * 466) + 321 + 8)})
+            util.trigger_script_event(1 << pid, {915462795, players.user(), memory.read_int(memory.script_global(1894573 + 1 + (pid * 608) + 510))})
+        end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
         menu.action(kick, "Desync Kick", {"desynckick"}, "Desyncs the player from the session", function()
         notification("Desycn kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -12837,9 +12987,29 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
     menu.trigger_commands("2t1spec" .. PLAYER.GET_PLAYER_NAME(pid))
             end)
             
-            --[[
+
 
             local scrash = menu.list(crash, "Script Event Crashes", {}, "Won't work on yourself report any not working at all please.")
+
+            menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash logged from a good friend 0xDEADBEEF.", function(on_toggle)
+                local int_min = -2147483647
+                local int_max = 2147483647
+                    for i = 1, 15 do
+                        util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149, math.random(int_min, int_max), math.random(int_min, int_max), 
+                        math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                        math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
+                    end
+                    menu.trigger_commands("givesh" .. players.get_name(pid))
+                    util.yield()
+                    for i = 1, 15 do
+                        util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149, pid, math.random(int_min, int_max)})
+                        util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
+                    end
+            util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
+                end)
+
+            --[[
 
             menu.action(scrash, "All Script Event Crashes", {"allsecrashes"}, "", function()
                 menu.trigger_commands("crashs1" .. players.get_name(pid))
@@ -12942,26 +13112,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     end
                 end)
 
---
-                menu.toggle_loop(scrash, "SE Crash (hmm)", {"crasheshmm"}, "A very strong SE/SH crash", function(on_toggle)
-                    local int_min = -2147483647
-                    local int_max = 2147483647
-                        for i = 1, 15 do
-                            util.trigger_script_event(1 << pid, {1200439149, 15, 0, 63, 0, -1002518047, 1134965994, 1128470531, 1886929256, 811035445, 1178104131, 0, 0, 0, 6008500, math.random(int_min, int_max), math.random(int_min, int_max), 
-                            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-                            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                            util.trigger_script_event(1 << pid, {1200439149, 15, 0, 63, 0, -1002518047, 1134965994, 1128470531, 1886929256, 811035445, 1178104131, 0, 0, 0, 6008500})
-                        end
-                        menu.trigger_commands("givesh" .. players.get_name(pid))
-                        util.yield()
-                        for i = 1, 15 do
-                            util.trigger_script_event(1 << pid, {1200439149, 15, 0, 63, 0, -1002518047, 1134965994, 1128470531, 1886929256, 811035445, 1178104131, 0, 0, 0, 6008500, pid, math.random(int_min, int_max)})
-                            util.trigger_script_event(1 << pid, {1200439149, 15, 0, 63, 0, -1002518047, 1134965994, 1128470531, 1886929256, 811035445, 1178104131, 0, 0, 0, 6008500})
-                        end
-                util.trigger_script_event(1 << pid, {1200439149, 15, 0, 63, 0, -1002518047, 1134965994, 1128470531, 1886929256, 811035445, 1178104131, 0, 0, 0, 6008500})
-                    end)
-           
-  
             menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
                         local int_max = 2147483647
@@ -15695,7 +15845,7 @@ menu.action(protex, "Fix Casino Heist", {}, "If you've bricked your casino heist
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_ACCESSPOINTS"), 0, true)
 end)
 
-menu.toggle_loop(protex, "Accept Joins", {}, "Automatically accept join screens", function() -- credits to jinx for letting me steal this
+menu.toggle_loop(protex, "Accept Joins", {}, "Automatically accept join screens", function()
     local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
     if message_hash == 15890625 or message_hash == -398982408 or message_hash == -587688989 then
         PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
