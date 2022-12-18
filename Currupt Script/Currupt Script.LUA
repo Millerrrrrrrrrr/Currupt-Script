@@ -1,14 +1,9 @@
 --[[
 Huge Credits to all the people that provided us with public code <3
 I wouldn't of coded anything if it wasn't for these people.
+Sorry if I missed anyone xD.
 
-ICYPhoenix
-Lance
-Prisuhm
-Nowiry
-Sapphire
-Sainan
-Jade
+Kerami
 PANDA
 Mirror
 Bunny
@@ -16,6 +11,16 @@ Ayrapheyr
 Ren
 HoppaC4
 Jayphen
+
+But fuck all these peaces of shit rotten stand devs XD imagine being femboy. ewww.
+
+Prisuhm
+Lance
+Nowiry
+Sapphire
+Sainan
+Jade
+ICYPhoenix
 
 WE HAVE TAKEN OVER░ \☻/\☻/
 ░░░░░░░░░░░░░░░░░░░▌░ ▌
@@ -32,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.1;if not dev_mode then 
+local a=3.2;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -40,7 +45,7 @@ local a=3.1;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.0.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -384,24 +389,7 @@ local fake_pickup_types <const> = {
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	menu.divider(funfun, "Fun Shit")
 
-
-local local_lists <const> = {
-    ["Self"] = menu.list(funfun, "Self"),
-}
-
-menu.divider(local_lists["Self"], "Self")
-
-local local_sub_lists <const> = {
-    ["Weapons"] = menu.list(local_lists["Self"], "Weapons"),
-}
-
-------------------------------
--- Weapons Menu
-------------------------------
-
-menu.divider(local_sub_lists["Weapons"], "Weapons")
-
-menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"}, "Autoload all the weapons everytime you join a new session.", function(state)
+menu.toggle(funfun, "Autoload Weapons", {"autoloadweapons"}, "Autoload all the weapons everytime you join a new session.", function(state)
     if state then
         players.on_join(function(player_id)
             local my_player_id <const> = players.user()
@@ -416,7 +404,6 @@ menu.toggle(local_sub_lists["Weapons"], "Autoload Weapons", {"autoloadweapons"},
         end)
     end
 end)
-
 
 
 players.on_join(function(player_id)
@@ -2960,6 +2947,15 @@ end)
 		end
 	end)
 
+    menu.toggle_loop(protex, "Engine Always On", {"alwayson"}, "", function()
+        if PED.IS_PED_IN_ANY_VEHICLE(players.user_ped(), false) then
+            local vehicle = PED.GET_VEHICLE_PED_IS_IN(players.user_ped(), false)
+            VEHICLE.SET_VEHICLE_ENGINE_ON(vehicle, true, true, true)
+            VEHICLE.SET_VEHICLE_LIGHTS(vehicle, 0)
+            VEHICLE.SET_VEHICLE_HEADLIGHT_SHADOWS(vehicle, 2)
+        end
+    end)
+
 	menu.action(protex, "Remove Attachments", {"remove attachments"}, "Cleans your ped of all attachments by regenerating it", function()
 		notification("Removing Attachments", colors.red)
 		if PED.IS_PED_MALE(PLAYER.PLAYER_PED_ID()) then
@@ -4174,6 +4170,9 @@ menu.rainbow(menu.colour(fire_wings_list, "Fire wings colour", {'ToxfireWingsCol
     fireWingsSettings.fireColour = colour
 end))
 
+menu.toggle(funfun, "Quiet footsteps", {"quietsteps"}, "Disables the sound of your footsteps.", function(toggle)
+    AUDIO.SET_PED_FOOTSTEPS_EVENTS_ENABLED(players.user_ped(), not toggle)
+end)
 
 util.keep_running()
 local player = players.user_ped()
@@ -4362,16 +4361,17 @@ menu.toggle(playermode, "Toggle Sneaky Mode", {"sneakymode"}, "Turns you invisib
         menu.trigger_commands("invisibility" .. " on")
         menu.trigger_commands("reducedcollision" .. " on")
         menu.trigger_commands("otr")
+        menu.trigger_commands("quietsteps")
         util.toast("Sneaky Mode On") 
     else
         menu.trigger_commands("tpmazehelipad")
         menu.trigger_commands("invisibility" .. " off")
         menu.trigger_commands("reducedcollision" .. " off")
         menu.trigger_commands("otr")
+        menu.trigger_commands("quietsteps")
         util.toast("Sneaky Mode Off")
         end 
 end)
-
 
 menu.toggle(playermode, "Toggle Pidgeon Mode", {"pidgeonmode"}, "Turns you into a Pidgeon, off radar and no collisions...", function(on_toggle)
     if on_toggle then
@@ -5646,12 +5646,14 @@ end)
             menu.trigger_commands("invisibility" .. " on")
             menu.trigger_commands("reducedcollision" .. " on")
             menu.trigger_commands("otr")
+            menu.trigger_commands("quietsteps")
             util.toast("Sneaky Mode On") 
         else
             menu.trigger_commands("tpmazehelipad")
             menu.trigger_commands("invisibility" .. " off")
             menu.trigger_commands("reducedcollision" .. " off")
             menu.trigger_commands("otr")
+            menu.trigger_commands("quietsteps")
             util.toast("Sneaky Mode Off")
             end 
     end)
@@ -9341,6 +9343,35 @@ local function deletehandlers(list)
     end
 end
 
+function attach_ladder(hash, aY, aZ, a_, b0, b1, b2, b3, pid)
+    while not STREAMING.HAS_MODEL_LOADED(hash) do
+        STREAMING.REQUEST_MODEL(hash)
+        util.yield()
+    end
+    playerped3 = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    table_ladder[attach] = OBJECT.CREATE_OBJECT(hash, 1.55, 3.35, 0, true, true)
+    ENTITY.ATTACH_ENTITY_TO_ENTITY(
+        table_ladder[attach],
+        playerped3,
+        0,
+        aY,
+        aZ,
+        a_,
+        b0,
+        b2,
+        b1,
+        false,
+        true,
+        true,
+        false,
+        0,
+        false
+    )
+    ENTITY.SET_ENTITY_VISIBLE(table_ladder[attach], b3)
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(hash)
+    attach = attach + 1
+end
+
 --         _____ ________________ ________  _   __
 --        / ___// ____/ ___/ ___//  _/ __ \/ | / /
 --        \__ \/ __/  \__ \\__ \ / // / / /  |/ / 
@@ -10726,12 +10757,53 @@ menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami 
             vehicles[#vehicles+1] = veh
         end)
     end
-    util.yield(2000)
+    menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
+    util.yield(100)
     for _, v in pairs(vehicles) do
         NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(v)
         entities.delete_by_handle(v)
 		end
 	end)
+
+    menu.toggle_loop(keramicrash, "Bad Net Crash V2", {"badnetv2"}, "", function(on_toggle)
+        local hashes = {970385471, 2336777441, 184361638, 1030400667, 920453016, 240201337, 642617954, 586013744, 868868440, 1550581940, 3334677549, 3186376089}
+        local vehicles = {}
+        for i = 1, 4 do
+            util.create_thread(function()
+                request_model(hashes[i])
+                local pcoords = getEntityCoords(getPlayerPed(pid))
+                local veh =  VEHICLE.CREATE_VEHICLE(hashes[i], pcoords.x, pcoords.y, pcoords.z, math.random(0, 360), true, true, false)
+                ENTITY.ATTACH_ENTITY_TO_ENTITY(hashes[i], veh, pcoords, 0, 0, 0, 0, 0, 0, 0, 0, true, true, false, 0, true)
+                for a = 1, 20 do NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(veh) end
+                VEHICLE.SET_VEHICLE_MOD_KIT(veh, 0)
+                for j = 0, 49 do
+                    local mod = VEHICLE.GET_NUM_VEHICLE_MODS(veh, j) - 1 
+                    VEHICLE.SET_VEHICLE_MOD(veh, j, mod, true)
+                    VEHICLE.TOGGLE_VEHICLE_MOD(veh, mod, true)
+                end
+                for j = 0, 20 do
+                    if VEHICLE.DOES_EXTRA_EXIST(veh, j) then VEHICLE.SET_VEHICLE_EXTRA(veh, j, true) end
+                end
+                VEHICLE.SET_VEHICLE_TYRES_CAN_BURST(veh, false)
+                VEHICLE.SET_VEHICLE_WINDOW_TINT(veh, 1)
+                VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(veh, 1)
+                VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(veh, " ")
+                for ai = 1, 50 do
+                    NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(veh)
+                    pcoords = getEntityCoords(getPlayerPed(pid))
+                    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(veh, pcoords.x, pcoords.y, pcoords.z, false, false, false)
+    
+                    util.yield()
+                end
+                vehicles[#vehicles+1] = veh
+            end)
+        end
+        util.yield(100)
+        for _, v in pairs(vehicles) do
+            NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(v)
+            entities.delete_by_handle(v)
+            end
+        end)
 
 menu.toggle_loop(keramicrash, "Plague Crash Player", {"plaguecrash"}, "", function(on_loop)
     notification("Plague Crash Player sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
