@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.2;if not dev_mode then 
+local a=3.3;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=3.2;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.0.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.0.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3311,7 +3311,7 @@ end)
 
 menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /help6 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3321,7 +3321,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /help6 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3343,7 +3343,7 @@ end)
 
 menu.action(khosspams, "Join Kwengz Discord", {"khos"}, "", function()
     chat.send_message(
-        "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
+        "Please Join Our Discord > discord.gg/6KrQcRXnHS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3353,7 +3353,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(khosspams, "Join Kwengz Discord", {"khos"}, "", function(on_toggle)
     chat.send_message(
-        "Please Join Our Discord > discord.gg/KHOS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
+        "Please Join Our Discord >discord.gg/6KrQcRXnHS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3361,27 +3361,6 @@ menu.toggle_loop(khosspams, "Join Kwengz Discord", {"khos"}, "", function(on_tog
     util.yield(150000)
 end)
 
-	kwengzlinkspams = menu.list(spams, "Join Kwengz Discord Candy's Link", {}, "Command: kwengzlink", function(); end)
-
-menu.action(kwengzlinkspams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", function()
-    chat.send_message(
-        "Please Join Our Discord > discord.gg/CMxfrbvdm7 < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
-
-menu.toggle_loop(kwengzlinkspams, "Join Kwengz Discord Candy's Link", {"kwengzlink"}, "", function(on_toggle)
-    chat.send_message(
-        "Please Join Our Discord > discord.gg/CMxfrbvdm7 < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	curruptlink = menu.list(spams, "Join Currupt Discord Link", {}, "Command: curruptlink", function(); end)
 
@@ -3497,7 +3476,7 @@ end)
 
 menu.action(help1, "Commands A", {"help1"}, "", function()
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashonfast NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
+        "/max NAME - Gives auto heal, ammo guns and ceo pay. /ceopay NAME /givecollectibles NAME /rp NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3507,7 +3486,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help1, "Commands A", {}, "", function(on_toggle)
     chat.send_message(
-        "/rankplayer NAME /crazydrop NAME /cashon NAME /cashonfast NAME /cashoff NAME /killgod NAME /killgodv2 NAME",
+        "/max NAME - Gives auto heal, ammo guns and ceo pay. /ceopay NAME /givecollectibles NAME /rp NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3519,7 +3498,7 @@ end)
 
 menu.action(help2, "Commands B", {"help2"}, "", function()
     chat.send_message(
-        "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
+        "/boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3529,7 +3508,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help2, "Commands B", {}, "", function(on_toggle)
     chat.send_message(
-        "/max NAME /boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
+        "/boost NAME /curruptboost NAME /resetacc NAME /repair NAME /invon NAME /invoff NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3541,7 +3520,7 @@ end)
 
 menu.action(help3, "Commands C", {"help3"}, "", function()
     chat.send_message(
-        "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
+        "/arm NAME /ammo NAME /autoheal NAME /bail NAME /giveotr NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3551,7 +3530,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help3, "Commands C", {}, "", function(on_toggle)
     chat.send_message(
-        "Command list: /ceopayNAME - /givecollectiblesNAME - /rpNAME  - /armNAME - /ammoNAME - /autohealNAME - /bailNAME - /giveotrNAME",
+        "/arm NAME /ammo NAME /autoheal NAME /bail NAME /giveotr NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3563,7 +3542,7 @@ end)
 
 menu.action(help4, "Commands D", {"help4"}, "", function()
     chat.send_message(
-        "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3573,7 +3552,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help4, "Commands D", {}, "", function(on_toggle)
     chat.send_message(
-        "/armNAME /ammoNAME /autohealNAME /bailNAME- No Cops /giveotrNAME - Off the Radar",
+        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3585,7 +3564,7 @@ end)
 
 menu.action(help5, "Commands E", {"help5"}, "", function()
     chat.send_message(
-        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
+        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3595,18 +3574,6 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help5, "Commands E", {}, "", function(on_toggle)
     chat.send_message(
-        "/blast NAME /boop NAME /desynckick NAME /storymode NAME /kickv1 NAME",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
-
-    help6 = menu.list(spams, "Commands F", {}, "Command: help5", function(); end)
-
-menu.action(help6, "Commands F", {"help6"}, "", function()
-    chat.send_message(
         "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
         false, -- in team chat
         true, -- add to local history
@@ -3615,37 +3582,6 @@ menu.action(help6, "Commands F", {"help6"}, "", function()
     util.yield(150000)
 end)
 
-menu.toggle_loop(help6, "Commands F", {}, "", function(on_toggle)
-    chat.send_message(
-        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
-
-	moneyhelp = menu.list(spams, "Money Drop Method", {}, "Command: moneyhelp", function(); end)
-
-menu.action(moneyhelp, "Money Drop Method", {"moneyhelp"}, "", function()
-    chat.send_message(
-        "If you want new safe money method type /cashNAME 3600 its a timer not ammount if faster than 3600 you just get errors /cashNAME 0 to stop",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
-
-menu.toggle_loop(moneyhelp, "Money Drop Method", {"moneyhelp"}, "", function(on_toggle)
-    chat.send_message(
-        "If you want new safe money method type /cashNAME 3600 its a timer not ammount if faster than 3600 you just get errors /cashNAME 0 to stop",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
 
 	casinohelp1 = menu.list(spams, "Roulette Method", {}, "Command: casinohelp1", function(); end)
 
@@ -13082,107 +13018,6 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 end)
 
             --[[
-
-            menu.action(scrash, "All Script Event Crashes", {"allsecrashes"}, "", function()
-                menu.trigger_commands("crashs1" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs0" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs0a" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs1a" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs2" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs3" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs4" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs7" .. players.get_name(pid))
-                util.yield(100)
---                menu.trigger_commands("togglesus" .. players.get_name(pid))
---                util.yield(100)
-                menu.trigger_commands("toggleautomob" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("toggleautobike" .. players.get_name(pid))
-                util.yield(3000)
-                menu.trigger_commands("crashs1" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs0" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs0a" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs1a" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs2" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs3" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs4" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("crashs7" .. players.get_name(pid))
-                util.yield(100)
---                menu.trigger_commands("togglesus" .. players.get_name(pid))
---                util.yield(100)
-                menu.trigger_commands("toggleautomob" .. players.get_name(pid))
-                util.yield(100)
-                menu.trigger_commands("toggleautobike" .. players.get_name(pid))
-                util.yield(100)
-            end)
-
-            menu.toggle_loop(scrash, "All Script Event Crashes", {"togglesecrashes"}, "", function(on_toggle)
-                if on_toggle then
-                    menu.trigger_commands("crasheshmm" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs1" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs0" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs0a" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs1a" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs2" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs3" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs4" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs7" .. players.get_name(pid))
-                    util.yield(100)
- --                   menu.trigger_commands("togglesus" .. players.get_name(pid))
- --                   util.yield(100)
-                    menu.trigger_commands("toggleautomob" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("toggleautobike" .. players.get_name(pid))
-                    util.yield(100)
-                else
-                    menu.trigger_commands("crasheshmm" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs1" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs0" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs0a" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs1a" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs2" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs3" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs4" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("crashs7" .. players.get_name(pid))
-                    util.yield(100)
- --                   menu.trigger_commands("togglesus" .. players.get_name(pid))
- --                   util.yield(100)
-                    menu.trigger_commands("toggleautomob" .. players.get_name(pid))
-                    util.yield(100)
-                    menu.trigger_commands("toggleautobike" .. players.get_name(pid))
-                    util.yield(100)
-                    end
-                end)
 
             menu.toggle_loop(scrash, "SE Crash (S1)", {"crashs1"}, "A very strong SE/SH crash", function(on_toggle)
                         local int_min = -2147483647
