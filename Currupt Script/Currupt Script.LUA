@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.5;if not dev_mode then 
+local a=3.6;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=3.5;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -13006,7 +13006,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                     for i = 1, 15 do
                         util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149, pid, math.random(int_min, int_max)})
                         util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
-                        til.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
+                        util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
                     end
                 end)
 
@@ -14079,7 +14079,6 @@ local unreleased_vehicles = {
     "virtue",
     "eudora",
     "boor",
-    "brickade2",
     "broadway",
     "cargoplane2",
     "everon2",
@@ -14547,7 +14546,7 @@ menu.toggle_loop(unrelveh, "Unreleased Vehicle", {}, "Detects if someone is usin
     end
 end)
 
-menu.toggle_loop(unrelveh, "Unreleased Vehicle Auto Kick", {}, "Detects if someone is using a vehicle that has not been released yet, blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(unrelveh, "Unreleased Vehicle Auto Kick", {}, "Detects if someone is using a vehicle that has not been released yet, blocks there joins and buttplug kicks them.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local modelHash = players.get_vehicle_model(pid)
         for i, name in ipairs(unreleased_vehicles) do
@@ -14599,7 +14598,7 @@ menu.toggle_loop(modhack, "It's a hacker", {}, "Detects if the player is about t
     end
 end)
 
-menu.toggle_loop(modhack, "It's a hacker Auto Kick", {}, "Detects if the player is about to ban, blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(modhack, "It's a hacker Auto Kick", {}, "Detects if the player is about to ban, blocks there joins and buttplug kicks them.", function()
     for _, player_id in ipairs(players.list(false, true, true)) do
         local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
         local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
@@ -14612,14 +14611,15 @@ menu.toggle_loop(modhack, "It's a hacker Auto Kick", {}, "Detects if the player 
     end
 end)
 
-menu.toggle_loop(modhack, "It's a hacker Auto Crash", {}, "Detects if the player is about to ban, then blocks there joins and sends Fatal Crash to annoy them :).", function()
+menu.toggle_loop(modhack, "It's a hacker Auto Crash", {}, "Detects if the player is about to banned, then blocks there joins and sends Attach Crash to annoy them :).", function()
     for _, player_id in ipairs(players.list(false, true, true)) do
         local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
         local reason = NETWORK.NETWORK_PLAYER_GET_CHEATER_REASON(player_id)
         if NETWORK.NETWORK_PLAYER_IS_CHEATER(player_id) then
-                menu.trigger_commands("fatal" .. players.get_name(pid))
+                menu.trigger_commands("attachcrash" .. players.get_name(pid))
+                menu.trigger_commands("historyblock" .. players.get_name(pid))
             util.draw_debug_text(players.get_name(player_id) .. " They are about to ban him :u, reason:", reason)
-                util.toast(players.get_name(pid) .. " Is a hacker and is being Fatal Crashed!" .. "(" .. name .. ")")
+                util.toast(players.get_name(pid) .. " Is a hacker and is being Attach Crashed!" .. "(" .. name .. ")")
             break
         end
     end
@@ -14637,7 +14637,7 @@ menu.toggle_loop(modweps, "Weapon In Interior", {}, "Detects if you use a gun in
     end
 end)
 
-menu.toggle_loop(modweps, "Weapon In Interior Auto Kick", {}, "Detects if you use a gun indoors, then blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(modweps, "Weapon In Interior Auto Kick", {}, "Detects if you use a gun indoors, then blocks there joins and buttplug kicks them.", function()
     for _, player_id in ipairs(players.list(false, true, true)) do
         local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(player_id)
         if players.is_in_interior(player_id) and WEAPON.IS_PED_ARMED(player, 7) then
@@ -14676,7 +14676,7 @@ menu.toggle_loop(modwep, "Modded Weapon", {}, "Detects if someone is using a wea
     end
 end)
 
-menu.toggle_loop(modwep, "Modded Weapon Auto Kick", {}, "Detects if someone is using a weapon that can not be obtained in online, blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(modwep, "Modded Weapon Auto Kick", {}, "Detects if someone is using a weapon that can not be obtained in online, blocks there joins and buttplug kicks them.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         for i, hash in ipairs(modded_weapons) do
@@ -14719,7 +14719,7 @@ menu.toggle_loop(modveh, "Modded Vehicle", {}, "Detects if someone is using a ve
     end
 end)
 
-menu.toggle_loop(modveh, "Modded Vehicle Auto Kick", {}, "Detects if someone is using a vehicle that can not be obtained in online, blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(modveh, "Modded Vehicle Auto Kick", {}, "Detects if someone is using a vehicle that can not be obtained in online, blocks there joins and buttplug kicks them.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local modelHash = players.get_vehicle_model(pid)
         for i, name in ipairs(modded_vehicles) do
@@ -14776,7 +14776,7 @@ menu.toggle_loop(detsuperd, "Super Drive", {}, "Detects if the player is using s
     end
 end)
 
-menu.toggle_loop(detsuperd, "Super Drive Auto Kick", {}, "Detects if the player is using super drive, blocks there joins and breakup kicks them.", function()
+menu.toggle_loop(detsuperd, "Super Drive Auto Kick", {}, "Detects if the player is using super drive, blocks there joins and buttplug kicks them.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local vehicle = PED.GET_VEHICLE_PED_IS_USING(ped)
