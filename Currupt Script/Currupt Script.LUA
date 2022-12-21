@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.7;if not dev_mode then 
+local a=3.8;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=3.7;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.4\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -3556,7 +3556,7 @@ end)
 
 menu.action(help5, "Commands E", {"help5"}, "", function()
     chat.send_message(
-        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
+        "/gotowaypoint NAME /alltowaypoint NAME /fixme NAME /yoinkpickups NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3566,7 +3566,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(help5, "Commands E", {}, "", function(on_toggle)
     chat.send_message(
-        "/gotowaypoint NAME /alltowaypoint NAME /fix NAME /yoinkpickups NAME",
+        "/gotowaypoint NAME /alltowaypoint NAME /fixme NAME /yoinkpickups NAME",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -14454,29 +14454,16 @@ menu.action(menu.my_root(), "Restart GTA V", {"restartgta"}, "Restarts your game
     MISC.RESTART_GAME("E574A662ACAEFBB1")
 end)
 
---[[
+local autohost = menu.list(detections, "Godmode", {}, "")
 
-menu.toggle_loop(detections, "Host", {}, "Detects if someone host an auto kicks using blast kick.", function()
-    local host = players.get_host()
-    if not host == players.user() then
-       --kick
-    end
- end)
-
-menu.toggle_loop(detections, "Host", {}, "Detects if someone host an auto kicks using blast kick.", function()
-    for _, pid in ipairs(players.list(false, true, true)) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
-        for i, interior in ipairs(interior_stuff) do
-            if (players.get_host(pid) or not NETWORK.NETWORK_SESSION_HOST(pid)) and not NETWORK.NETWORK_IS_HOST(pid) and NETWORK.NETWORK_HOST_TRANSITION(pid) and NETWORK.NETWORK_GET_TRANSITION_HOST(pid) and NETWORK.NETWORK_HAS_RECEIVED_HOST_BROADCAST_DATA(pid) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
-                util.draw_debug_text(players.get_name(pid) .. " Is Host")
-                break
-            end
-        end
-    end 
+menu.toggle_loop(detections, "Is Host", {}, "Detects if someone host", function()
+    util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
 end)
 
-]]
+menu.toggle_loop(detections, "Auto Kick Host", {}, "Detects if someone host, then kicks them this is best for basic and regular users.", function()
+    util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
+    menu.trigger_commands("blast" .. players.get_name(pid))
+end)
 
 local gdmedits = menu.list(detections, "Godmode", {}, "")
 menu.toggle_loop(gdmedits, "Godmode", {}, "Detects if someone is using godmode.", function()
