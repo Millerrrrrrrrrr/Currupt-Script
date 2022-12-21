@@ -12,7 +12,7 @@ Ren
 HoppaC4
 Jayphen
 
-But fuck all these peaces of shit rotten stand devs XD imagine being femboy. ewww.
+But fuck all these peaces of shit rotten stand devs XD imagine being a femboy. ewww.
 
 Prisuhm
 Lance
@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.6;if not dev_mode then 
+local a=3.7;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=3.6;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -404,6 +404,8 @@ menu.toggle(funfun, "Autoload Weapons", {"autoloadweapons"}, "Autoload all the w
         end)
     end
 end)
+
+
 
 
 players.on_join(function(player_id)
@@ -2450,18 +2452,6 @@ local candycrashes = {
 }
 
 
-function Huhcrash(pid) 
-	for i,v in ipairs(crashes) do
-		par1 = math.random(-100000, 99999999)
-		par2 = math.random(-4827432, 3231229)
-		par3 = math.random(46190868, 999999999)
-		par4 = math.random(-133223, 42746729)
-		par5 = math.random(-999999999, 428747628)
-		send_script_event(v, pid, {pid, par1, par2, par3, par4, par5})
-		util.yield()
-	end
-end
-
 function Curruptcrash(pid) 
 	for i,v in ipairs(crash) do
 		par1 = math.random(-100000, 99999999)
@@ -2748,7 +2738,9 @@ local chaos, gravity, speed = false, true, 100
 
 
 	protex = menu.list(menu.my_root(), "Net Shit", {"netshit"}, "", function(); end)
+
     	local pidsacam = menu.list(protex, "Anti Crash Camera", {}, "")
+
 
 	local BlockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Enabled")
 	local UnblockNetEvents = menu.ref_by_path("Online>Protections>Events>Raw Network Events>Any Event>Block>Disabled")
@@ -2814,7 +2806,7 @@ local chaos, gravity, speed = false, true, 100
 			menu.trigger_commands("levitate" .. " Off")
 			menu.trigger_commands("freecam" .. " Off")
 			menu.trigger_commands("potatomode off")
-    			menu.trigger_commands("nosky Off")
+    		menu.trigger_commands("nosky Off")
 			menu.trigger_commands("reducedcollision" .. " Off")
 			menu.trigger_commands("nocollision" .. " Off")
 			menu.trigger_commands("showcamall" .. " Off")
@@ -2825,7 +2817,6 @@ local chaos, gravity, speed = false, true, 100
 			menu.trigger_commands("superc")
 			menu.trigger_commands("clean")
 		end
-	
 	end)
 
 
@@ -2847,6 +2838,7 @@ if memory.read_int(memory.script_global(1835502 + 4 + 1 + (players.user() * 3)))
 else
     end
 end)
+
 
 local anti_mugger = menu.list(protex, "Block Muggers")
 
@@ -5544,7 +5536,6 @@ end)
 
     menu.toggle(attachoptions, "Attach To Player", {"attachto"}, "", function(on)
         if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == players.user_ped() then 
-            notify(translations.crash_saved)
             return
         end
         if on then
@@ -8589,7 +8580,6 @@ function spawn_buzzard(pid, gunner_weapon, collision)
         crash = menu.list(menu.player_root(pid), "Crashes", {}, "Currupt Crash", function(); end)
         kick = menu.list(menu.player_root(pid), "Kicks", {}, "Network Bail", function(); end)
 
-
         menu.action(kick, "Blast Kick", {"blast"}, "Blocks the player join reaction then uses buttplug kick", function()
         notification("Blast kick sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
             menu.trigger_commands("historyblock " .. players.get_name(pid))
@@ -8806,7 +8796,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             menu.trigger_commands("sendtowp")
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
-        menu.action(tpthem, "Fix loading screen", {"fix"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
+        menu.action(tpthem, "Fix loading screen", {"fixme"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
             menu.trigger_commands("givesh" .. players.get_name(pid))
             menu.trigger_commands("aptme" .. players.get_name(pid))
             end, nil, nil, COMMANDPERM_FRIENDLY)
@@ -9043,6 +9033,51 @@ end)
         OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, card, false, true)
                 util.yield(300)
     end)
+
+    menu.toggle_loop(drops, "Drop All Figures Fast", {"figures"}, "", function()
+        local coords = players.get_position(pid)
+        coords.z = coords.z + 1.5
+        local random_hash = 0x4D6514A3
+        local random_int = math.random(1, 8)
+        if random_int == 1 then
+            random_hash = 0x4D6514A3
+        elseif random_int == 2 then
+            random_hash = 0x748F3A2A
+        elseif random_int == 3 then
+            random_hash = 0x1A9736DA
+        elseif random_int == 4 then
+            random_hash = 0x3D1B7A2F
+        elseif random_int == 5 then
+            random_hash = 0x1A126315
+        elseif random_int == 6 then
+            random_hash = 0xD937A5E9
+        elseif random_int == 7 then
+            random_hash = 0x23DDE6DB
+        elseif random_int == 8 then
+            random_hash = 0x991F8C36
+        end
+        STREAMING.REQUEST_MODEL(random_hash)
+        if STREAMING.HAS_MODEL_LOADED(random_hash) == false then  
+            STREAMING.REQUEST_MODEL(random_hash)
+        end
+        OBJECT.CREATE_AMBIENT_PICKUP(-1009939663, coords.x, coords.y, coords.z, 0, 1, random_hash, false, true)
+        util.yield(50)
+        menu.trigger_commands("attachto" .. players.get_name(pid))
+        menu.trigger_commands("tppickups" .. players.get_name(pid))
+    end)
+
+
+    menu.toggle(drops, "Detach From Player", {"unattach"}, "", function(on)
+        if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == players.user_ped() then 
+            return
+        end
+        if on then
+            ENTITY.ATTACH_ENTITY_TO_ENTITY(players.user_ped(), PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), 0, 0.0, -0.20, 2.00, 1.0, 1.0,1, true, true, true, false, 0, true)
+        else
+            ENTITY.DETACH_ENTITY(players.user_ped(), false, false)
+            end
+        end)
+
 
     menu.toggle_loop(drops, "Drop Cards", {}, "Players can only pickup 54 cards per session, Note: this hasn't been tested for bans but it should be safe", function()
         local coords = players.get_position(pid)
@@ -14420,18 +14455,27 @@ menu.action(menu.my_root(), "Restart GTA V", {"restartgta"}, "Restarts your game
 end)
 
 --[[
-menu.toggle_loop(detections, "Check If Been Suspened", {""}, "", function()
+
+menu.toggle_loop(detections, "Host", {}, "Detects if someone host an auto kicks using blast kick.", function()
+    local host = players.get_host()
+    if not host == players.user() then
+       --kick
+    end
+ end)
+
+menu.toggle_loop(detections, "Host", {}, "Detects if someone host an auto kicks using blast kick.", function()
     for _, pid in ipairs(players.list(false, true, true)) do
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(ped, false)
         for i, interior in ipairs(interior_stuff) do
-            if (PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) or not NETWORK.NETWORK_WAS_GAME_SUSPENDED(ped)) and not NETWORK.NETWORK_WAS_GAME_SUSPENDED(pid) and ENTITY.IS_ENTITY_VISIBLE(ped) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
-                util.draw_debug_text(players.get_name(pid) .. " WAS GAME SUSPENDED!!!")
+            if (players.get_host(pid) or not NETWORK.NETWORK_SESSION_HOST(pid)) and not NETWORK.NETWORK_IS_HOST(pid) and NETWORK.NETWORK_HOST_TRANSITION(pid) and NETWORK.NETWORK_GET_TRANSITION_HOST(pid) and NETWORK.NETWORK_HAS_RECEIVED_HOST_BROADCAST_DATA(pid) and get_transition_state(pid) ~= 0 and get_interior_player_is_in(pid) == interior then
+                util.draw_debug_text(players.get_name(pid) .. " Is Host")
                 break
             end
         end
     end 
 end)
+
 ]]
 
 local gdmedits = menu.list(detections, "Godmode", {}, "")
