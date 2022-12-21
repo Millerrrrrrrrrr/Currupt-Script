@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=3.9;if not dev_mode then 
+local a=4.0;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=3.9;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.5\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.6\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -5322,6 +5322,44 @@ GenerateFeatures = function(pid)
             util.trigger_script_event(1 << pid, {0x7EFC3716, pid, 0, 1, id})
         end)
          ]]   
+
+         invkicks = menu.list(griefing, "Invalid Apartment Kicks", {}, "", function(); end)
+
+         menu.toggle_loop(invkicks, "Invalid Apartment Kick V1", {"invkick1"}, "Invalid Apartment Invite.", function(on_toggle)
+            local int_min = -2147483647
+            local int_max = 2147483647
+            for i = 1, 15 do
+                util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674, math.random(int_min, int_max), math.random(int_min, int_max), 
+                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674})
+            end
+            menu.trigger_commands("givesh" .. players.get_name(pid))
+            util.yield()
+            for i = 1, 15 do
+                util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674, pid, math.random(int_min, int_max)})
+                util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674})
+                util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674})
+            end
+        end)
+
+        menu.toggle_loop(invkicks, "Invalid Apartment Kick V1", {"invkick2"}, "Invalid Apartment Invite.", function(on_toggle)
+            local int_min = -2147483647
+            local int_max = 2147483647
+            for i = 1, 15 do
+                util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085, math.random(int_min, int_max), math.random(int_min, int_max), 
+                math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+                math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+                util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085})
+            end
+            menu.trigger_commands("givesh" .. players.get_name(pid))
+            util.yield()
+            for i = 1, 15 do
+                util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085, pid, math.random(int_min, int_max)})
+                util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085})
+                util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085})
+            end
+        end)
 
     attachoptions = menu.list(griefing, "Attach Options", {}, "", function(); end)
 
@@ -13009,7 +13047,7 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
 
             local scrash = menu.list(crash, "Script Event Crashes", {}, "Won't work on yourself report any not working at all please.")
 
-            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash logged from a good friend 0xDEADBEEF.", function(on_toggle)
+            menu.toggle_loop(scrash, "SE Crash (S0)", {"crashs0"}, "A very strong SE/SH crash.", function(on_toggle)
                 local int_min = -2147483647
                 local int_max = 2147483647
                 for i = 1, 15 do
@@ -14459,6 +14497,7 @@ local autohost = menu.list(detections, "Host Detection", {}, "")
 menu.toggle_loop(autohost, "Is Host", {}, "Detects if someone host", function()
     util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
 end)
+
 
 menu.toggle_loop(autohost, "Auto Kick Host", {}, "Detects if someone host, then kicks them this is best for basic and regular users.", function()
     util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
