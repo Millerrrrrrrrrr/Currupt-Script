@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=4.1;if not dev_mode then 
+local a=4.2;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=4.1;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.7\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -4700,13 +4700,13 @@ GenerateFeatures = function(pid)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_FIXED(vehicle)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 
 	menu.action(vehopts,"Spawn them a vehicle", {}, "Spawns a vehicle on target player", function()
 		menu.show_command_box("as " .. PLAYER.GET_PLAYER_NAME(pid) .. " ")
 		notification("now type the name of the vehicle in the command box", colors.red)
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	for i = 1, #newcrashes do
 		if checkbruhmoment == newcrashes[i] then
@@ -4817,35 +4817,35 @@ GenerateFeatures = function(pid)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "Currupt")
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plates,"TRUMP Plate Text", {"trumpplate"}, "Sets player's vehicle plate text to TRUMP", function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "TRUMP") 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plates,"TRASH Plate Text", {"trashplate"}, "Sets player's vehicle plate text to TRASH", function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "TRASH")
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plates,"Bitch Plate Text", {"bitchplate"}, "Sets player's vehicle plate text to Bitch", function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "Bitch")
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(troll_sub_vehicle_tab, "Honk", {"honk"}, "", function()
 	local vehicle = get_player_veh(pid,true)
 	if vehicle then
             			VEHICLE.START_VEHICLE_HORN(vehicle, 50000, 0)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(troll_sub_vehicle_tab, "Sound Car Alarm", {"soundalarm"}, "", function()
 	local vehicle = get_player_veh(pid,true)
@@ -4853,32 +4853,32 @@ GenerateFeatures = function(pid)
             			VEHICLE.SET_VEHICLE_ALARM(vehicle, true)
             			VEHICLE.START_VEHICLE_ALARM(vehicle)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(health_sub_vehicle_tab,"Repair Vehicle Shell", {"repair"}, "Repairs player's vehicle but don't repair it's engine", function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_DEFORMATION_FIXED(vehicle)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(health_sub_vehicle_tab,"Quick Upgrade Vehicle", {"ugveh"}, "Upgrades player's vehicle",function()
 		upgrade_vehicle(pid)
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(health_sub_vehicle_tab,"Disable Invincibility", {"removeinv"}, "Removes invincibility from player's vehicle",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then	
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, false) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(health_sub_vehicle_tab,"Enable Invincibility", {"giveinv"}, "Gives invincibility to player's vehicle",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then	
 			ENTITY.SET_ENTITY_INVINCIBLE(vehicle, true) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(health_sub_vehicle_tab,"Destroy Engine", {"killveh"}, "Destroys vehicle engine", function()
 		local vehicle = get_player_veh(pid,true)
@@ -4887,7 +4887,7 @@ GenerateFeatures = function(pid)
 			VEHICLE.SET_VEHICLE_BODY_HEALTH(vehicle, -4000)
 			VEHICLE.SET_VEHICLE_PETROL_TANK_HEALTH(vehicle, -4000)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(health_sub_vehicle_tab,"Revive Engine", {"reviveh"}, "Revives vehicle engine", function()
 		local vehicle = get_player_veh(pid,true)
@@ -4896,7 +4896,7 @@ GenerateFeatures = function(pid)
 			VEHICLE.SET_VEHICLE_BODY_HEALTH(vehicle, 1000)
 			VEHICLE.SET_VEHICLE_PETROL_TANK_HEALTH(vehicle, 1000)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(health_sub_vehicle_tab,"Explode Vehicle", {"explodeveh"}, "Explodes vehicle",function()
 		local vehicle = get_player_veh(pid,false)
@@ -4906,28 +4906,28 @@ GenerateFeatures = function(pid)
 			VEHICLE.ADD_VEHICLE_PHONE_EXPLOSIVE_DEVICE(vehicle)
 			VEHICLE.DETONATE_VEHICLE_PHONE_EXPLOSIVE_DEVICE()
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"Boost", {"giveboost"}, "Sets max speed of vehicle to 100 better for cars",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 100) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(mov_sub_vehicle_tab,"Currupt boost", {"curruptboosts"}, "Sets max speed of vehicle to 9999999 better for bikes",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 9999999) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 
 	menu.action(mov_sub_vehicle_tab,"Trash Speed", {"trashaccs"}, "Sets max speed of vehicle to INT_MIN",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, -2147483647) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
             local player_torque = 1000
             menu.slider(mov_sub_vehicle_tab, 'Set Torque', {'torques'}, 'Modifies the speed of their vehicle.', -1000000, 1000000, player_torque, 1, function(value)
@@ -4940,7 +4940,7 @@ GenerateFeatures = function(pid)
                     end
                     return (player_torque ~= 1000)
                 end)
-            end)
+            end, nil, nil, COMMANDPERM_FRIENDLY)
 
             	menu.action(mov_sub_vehicle_tab, 'Reverse Car', {'reversecars'}, "Note: Restart Currupt Script if you need to reset your own speed",function()
     	notification("Reverse Car On " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
@@ -4957,7 +4957,7 @@ GenerateFeatures = function(pid)
                     end
                     return (player_torques ~= 1000000)
                 end)
-            end)
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 	menu.action(mov_sub_vehicle_tab,"Reset Speed", {"resetaccs"}, "Resets max speed of vehicle",function()
@@ -4965,43 +4965,43 @@ GenerateFeatures = function(pid)
 		if vehicle then
 			VEHICLE.MODIFY_VEHICLE_TOP_SPEED(vehicle, 1) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_FRIENDLY)
 		
 	menu.action(mov_sub_vehicle_tab,"East", {"eastveh"}, "Boosts player's vehicle in the East direction",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 10000, 0, 0, true, false, true)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"West", {"westveh"}, "Boosts player's vehicle in the West direction",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, -10000, 0, 0, true, false, true)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"South", {"southveh"}, "Boosts player's vehicle in the South direction",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 0, -10000, 0, true, false, true)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"North", {"northveh"}, "Boosts player's vehicle in the North direction",function()
 		northp_vehicle(pid)
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"Launch Up", {"launchup"}, "Shoots player up",function()
 		launch_vehicle(pid)
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"Launch Down", {"launchdown"}, "Shoots player down",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			ENTITY.APPLY_FORCE_TO_ENTITY_CENTER_OF_MASS(vehicle, 1, 0, 0, -10000, true, false, true)
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	---menu.action(main,"delete vehicle", {"delveh"}, "Deletes player's vehicle",function() <-- help
 	---	local vehicle = get_player_veh(pid,true)
@@ -5016,98 +5016,91 @@ GenerateFeatures = function(pid)
 		if vehicle then
 			VEHICLE.DETACH_VEHICLE_FROM_TRAILER(vehicle) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(detach_sub_vehicle_tab,"Detach from Cargobob", {"detachcbob"}, "Detaches from Cargobob",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.DETACH_VEHICLE_FROM_ANY_CARGOBOB(vehicle) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Lock Doors", {"lockveh"}, "Locks the doors",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_DOORS_LOCKED(vehicle, 4) 
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Unlock Doors", {"unlockveh"}, "Unlocks the doors",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_DOORS_LOCKED(vehicle, 1)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Make Vehicle Drivable", {"engineon"}, "Makes player's vehicle drivable again",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_UNDRIVEABLE(vehicle, false)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Make Vehicle Undrivable", {"engineoff"}, "Makes player's vehicle undrivable",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_VEHICLE_UNDRIVEABLE(vehicle, true)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Deploy Landing Gear", {"landing1"}, "",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.CONTROL_LANDING_GEAR(vehicle, 0)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Retract Landing Gear", {"landing0"}, "",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.CONTROL_LANDING_GEAR(vehicle, 3)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Disable Cargobob's Hook", {"nohook"}, "Disables cargobob's hook. when used, that cargobob's hook will no longer work",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.REMOVE_PICK_UP_ROPE_FOR_CARGOBOB(vehicle)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Strong Turbulence", {"turb1"}, "Makes turbulence stronger",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_PLANE_TURBULENCE_MULTIPLIER(vehicle, 1.0)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"No Turbulence", {"turb0"}, "Makes turbulence weaker",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_PLANE_TURBULENCE_MULTIPLIER(vehicle, 0.0)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Set Propeller Speed at 100%", {"propel100"}, "",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_HELI_BLADES_SPEED(vehicle, 1.0)		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(plane_sub_vehicle_tab,"Set Propeller Speed at 0%", {"propel0"}, "",function()
 		local vehicle = get_player_veh(pid,true)
 		if vehicle then
 			VEHICLE.SET_HELI_BLADES_SPEED(vehicle, 0.0)		
 		end
-	end)
-
-	---menu.action(plane_sub_vehicle_tab,"Destroy Rear Helicopter Roter", {"bunlockcar"}, "",function() <--- I have no ideas what am I doing here
-	---	local vehicle = get_player_veh(pid,true)
-	---	if vehicle then
-	---		VEHICLE.SET_HELI_TAIL_ROTOR_HEALTH(vehicle, 0)		
-	---	end
-	---end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Lock that bitch in", {"lockcar"}, "Locks the doors, paints the car Hot Pink, changes plate text to 'LOCKED'",function()
 		local vehicle = get_player_veh(pid,true)
@@ -5116,7 +5109,7 @@ GenerateFeatures = function(pid)
 			VEHICLE.SET_VEHICLE_COLOURS(vehicle, 135, 135)
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "LOCKED")
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(lock_sub_vehicle_tab,"Release that bitch out", {"bunlockcar"}, "Unlocks the doors, paints the vehicle Green, changes plate text to 'URFREE'",function()
 		local vehicle = get_player_veh(pid,true)
@@ -5125,17 +5118,17 @@ GenerateFeatures = function(pid)
 			VEHICLE.SET_VEHICLE_COLOURS(vehicle, 92, 92)
 			VEHICLE.SET_VEHICLE_NUMBER_PLATE_TEXT(vehicle, "URFREE")		
 		end
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 	menu.action(mov_sub_vehicle_tab,"Teleport to me", {"tp2me"}, "Teleport player's vehicle to you (Better to spectate first)",function()
 		local coords = ENTITY.GET_ENTITY_COORDS(PLAYER.PLAYER_PED_ID(), true)
 		tp_veh_to(pid,coords.x,coords.y,coords.z)
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 	menu.action(mov_sub_vehicle_tab,"Teleport to ocean", {"tp2sea"}, "Tries to teleport player's vehicle to the ocean",function()	
 		tp_veh_to(pid, -15000, -15000,0)
-	end)
+    end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
 	menu.action(vehopts, "Spectate", {"spec"}, "", function()
@@ -14499,7 +14492,7 @@ end)
 
 menu.toggle_loop(autohost, "Auto Kick Host", {}, "Detects if someone host, then kicks them this is best for basic and regular users.", function()
     util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
-    menu.trigger_commands("blast" .. players.get_name(pid))
+    menu.trigger_commands("blast" .. players.get_name(players.get_host()))
 end)
 
 local gdmedits = menu.list(detections, "Godmode", {}, "")
