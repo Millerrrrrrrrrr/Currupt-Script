@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=4.2;if not dev_mode then 
+local a=4.3;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=4.2;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.8\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.1.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -389,24 +389,21 @@ local fake_pickup_types <const> = {
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	menu.divider(funfun, "Fun Shit")
 
-menu.toggle(funfun, "Autoload Weapons", {"autoloadweapons"}, "Autoload all the weapons everytime you join a new session.", function(state)
-    if state then
-        players.on_join(function(player_id)
-            local my_player_id <const> = players.user()
+    menu.toggle(funfun, "Autoload Weapons", {"autoloadweapons"}, "Autoload all the weapons everytime you join a new session.", function(state)
+        if state then
+            players.on_join(function(player_id)
+                local my_player_id <const> = players.user()
 
-            if player_id == my_player_id then
-                local all_weapons_command_ref <const> = menu.ref_by_path("Self>Weapons>Get Weapons>All Weapons")
+                if player_id == my_player_id then
+                    local all_weapons_command_ref <const> = menu.ref_by_path("Self>Weapons>Get Weapons>All Weapons")
 
-                wait_session_transition()
-                menu.trigger_command(all_weapons_command_ref)
-                util.toast("Weapons loaded successfully. :)")
-            end
-        end)
-    end
-end)
-
-
-
+                    wait_session_transition()
+                    menu.trigger_command(all_weapons_command_ref)
+                    util.toast("Weapons loaded successfully. :)")
+                end
+            end)
+        end
+    end)
 
 players.on_join(function(player_id)
 
@@ -816,16 +813,6 @@ function format_int(number) -- Credits to Bart Kiers from stackoverflow
   int = int:reverse():gsub("(%d%d%d)", "%1,")
   return minus .. int:reverse():gsub("^,", "") .. fraction
 end
-
-	custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
-
-	menu.toggle(custselc, "Exclude Selected", {}, "", function(on_toggle)
-		if on_toggle then
-			excludeselected = true
-		else
-			excludeselected = false
-		end
-	end)
 
 local function exportstring( s )
     return string.format("%q", s)
@@ -2489,6 +2476,16 @@ function drift(toggle)
 		end
 	end
 end
+
+custselc = menu.list(menu.my_root(), "Select Pussies", {}, "", function(); end)
+
+menu.toggle(custselc, "Exclude Selected", {}, "", function(on_toggle)
+    if on_toggle then
+        excludeselected = true
+    else
+        excludeselected = false
+    end
+end)
 
 selectedplayer = {}
 for b = 0, 31 do
@@ -4197,6 +4194,7 @@ ROLL_DOWN_INDIVIDUAL = menu.list(wrolls, "Roll down individual windows")
         VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, v.number)
         end)
     end
+
 ROLL_UP_INDIVIDUAL = menu.list(wrolls, "Roll up individual windows")
     for k, v in pairs(windows) do
         menu.action(ROLL_UP_INDIVIDUAL, "Roll up " .. v.name .. " window", {}, "Rolls up " .. v.name .. " window", function()
@@ -4209,6 +4207,7 @@ menu.action(wrolls, "Roll all down", {"pwcalldown"}, "Rolls all windows of the c
     currentVehicle = entities.get_user_vehicle_as_handle()
     VEHICLE.ROLL_DOWN_WINDOWS(currentVehicle)
 end)
+
 menu.action(wrolls, "Roll all up", {"pwcallup"}, "Rolls all windows of the current vehicle up", function()
     for k, v in pairs(windows) do
         currentVehicle = entities.get_user_vehicle_as_handle()
@@ -4221,6 +4220,7 @@ menu.action(wrolls, "Roll down front windows", {"pwcfrontdown"}, "Rolls the fron
     VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 0)
     VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 1)
 end)
+
 menu.action(wrolls, "Roll down rear windows", {"pwcreardown"}, "Rolls the rear left/rear right windows down", function()
     currentVehicle = entities.get_user_vehicle_as_handle()
     VEHICLE.ROLL_DOWN_WINDOW(currentVehicle, 2)
@@ -4228,12 +4228,26 @@ menu.action(wrolls, "Roll down rear windows", {"pwcreardown"}, "Rolls the rear l
 end)
 
 end
-
-
-
 drawScriptMenu()
 
 	playermode = menu.list(funfun, "Player Modes", {}, "", function(); end)
+
+
+    menu.toggle_loop(playermode, "Front Flip", {"frontflip"}, "Do a front flip.", function(on)
+        local hash = util.joaat("prop_ecola_can")
+        request_model_load(hash)
+        local prop = entities.create_object(hash, players.get_position(players.user()))
+        ENTITY.FREEZE_ENTITY_POSITION(prop)
+        ENTITY.ATTACH_ENTITY_TO_ENTITY(players.user_ped(), prop, 0, 0, 0, 0, 0, 0, 0, true, false, false, false, 0, true)
+        local hdg = CAM.GET_GAMEPLAY_CAM_ROT(0).z
+        ENTITY.SET_ENTITY_ROTATION(prop, 0, 0, hdg, 1)
+        for i=1, -360, -8 do
+            ENTITY.SET_ENTITY_ROTATION(prop, i, 0, hdg, 1)
+            util.yield()
+        end
+        ENTITY.DETACH_ENTITY(players.user_ped())
+        entities.delete_by_handle(prop)
+    end)
 
     menu.toggle(playermode, "Furry Mode", {"spawnfurry"}, "Activates Furry, then to Candy's outfit.", function(on)
         if on then
@@ -5158,9 +5172,67 @@ GenerateFeatures = function(pid)
         end
         return new
     end
-    
+
+read_global = {
+	byte = function(global)
+		local address = memory.script_global(global)
+		return memory.read_byte(address)
+	end,
+	int = function(global)
+		local address = memory.script_global(global)
+		return memory.read_int(address)
+	end,
+	float = function(global)
+		local address = memory.script_global(global)
+		return memory.read_float(address)
+	end,
+	string = function(global)
+		local address = memory.script_global(global)
+		return memory.read_string(address)
+	end
+}
+
+    function is_player_active(player, isPlaying, inTransition)
+        if player == -1 or
+        not NETWORK.NETWORK_IS_PLAYER_ACTIVE(player) then
+            return false
+        end
+        if isPlaying and not PLAYER.IS_PLAYER_PLAYING(player) then
+            return false
+        end
+        return true
+    end
+
 
 	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
+
+local usingPiggyback = false
+local usingRape = false
+
+	menu.toggle(griefing, "Rape", {"rape"}, "The player won't see you attached to them", function (on)
+		usingRape = on
+		-- Otherwise the game would crash
+		if pId == players.user() then
+			return
+		end
+		if usingRape then
+			usingPiggyback = false
+			local target = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pId)
+			STREAMING.REQUEST_ANIM_DICT("rcmpaparazzo_2")
+			while not STREAMING.HAS_ANIM_DICT_LOADED("rcmpaparazzo_2") do
+				util.yield_once()
+			end
+			TASK.TASK_PLAY_ANIM(players.user_ped(), "rcmpaparazzo_2", "shag_loop_a", 8.0, -8.0, -1, 1, 0.0, false, false, false)
+			ENTITY.ATTACH_ENTITY_TO_ENTITY(players.user_ped(), target, 0, 0, -0.3, 0, 0.0, 0.0, 0.0, false, true, false, false, 0, true, 0)
+			while usingRape and is_player_active(pId, false, true) and
+			not util.is_session_transition_active() do
+				util.yield_once()
+			end
+			usingRape = false
+			TASK.CLEAR_PED_TASKS_IMMEDIATELY(players.user_ped())
+			ENTITY.DETACH_ENTITY(players.user_ped(), true, false)
+		end
+	end)
 
 
     menu.action(griefing, "Make Player Explode All", {"makethemexplodeall"}, "", function()
@@ -8599,6 +8671,11 @@ function spawn_buzzard(pid, gunner_weapon, collision)
             util.trigger_script_event(1 << pid, {111242367, pid, memory.script_global(2689235 + 1 + (pid * 453) + 318 + 7)})
             end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
+            
+        menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
+            util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
+        end)
+
             menu.toggle_loop(kick, "Invalid Apartment Kick V1", {"invkick1"}, "Invalid Apartment Invite.", function(on_toggle)
                local int_min = -2147483647
                local int_max = 2147483647
@@ -8615,9 +8692,9 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                    util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674})
                    util.trigger_script_event(1 << pid, {-168599209, 4, -106354710, 1957299332, 1, 115, 2037557198, -1322654879, -1220141674})
                end
-           end)
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
    
-           menu.toggle_loop(kick, "Invalid Apartment Kick V1", {"invkick2"}, "Invalid Apartment Invite.", function(on_toggle)
+           menu.toggle_loop(kick, "Invalid Apartment Kick V2", {"invkick2"}, "Invalid Apartment Invite.", function(on_toggle)
                local int_min = -2147483647
                local int_max = 2147483647
                for i = 1, 15 do
@@ -8633,11 +8710,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
                    util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085})
                    util.trigger_script_event(1 << pid, {-168599209, 4, 827588970, 828619960, 1, 115, 330139908, -2089816692, -2142984085})
                end
-           end)
-
-        menu.toggle_loop(kick, "Invalid Figure Kick", {"figurekick"}, "Drops invalid figures on player causing them to be kicked, also gives them rp and a lot of notifications with errors.", function(on_toggle)
-            util.trigger_script_event(1 << pid, {0xB9BA4D30, pid, 0x4, -1, 1, 1, 1})
-        end)
+            end, nil, nil, COMMANDPERM_AGGRESSIVE)
         
         menu.action(kick, "SE kick v1", {"kickv1"}, "", function()
             local int_min = -2147483647
@@ -9049,7 +9122,7 @@ end)
         ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.PLAYER_PED_ID(), pos['x'], pos['y'], pos['z'], true, false, false)
 	end)
 
-    local drops = menu.list(frienm, "Currupt Drops", {}, "")
+    local drops = menu.list(frienm, "Currupt Drops/Help", {}, "")
 
     menu.toggle_loop(drops, "Drop RP", {"rp"}, "", function()
         local coords = players.get_position(pid)
@@ -9132,6 +9205,20 @@ end)
                 TpAllPickups(pid)
             end
     end)
+
+    menu.action(drops, "Auto Casino Rig", {"autocasino"}, "(BETA)", function(click_type)
+            menu.trigger_commands("casinotp " .. PLAYER.GET_PLAYER_NAME(pid))
+            util.trigger_script_event(1 << pid, {1268038438, 4, 123, 0, 0, 1, -1001291848, -1016910157, 1108672448, 0, -1, 0, 2147483647, 0, -1}) -- Casino Invite
+            local CasinoRigBJ <const> = menu.ref_by_path("Online>Quick Progress>Casino>Always Win Blackjack")
+            menu.trigger_command(CasinoRigBJ)
+            menu.trigger_commands("rigroulette ".. "1")
+            util.yield(1500)
+            local player_ped = PLAYER.PLAYER_PED_ID()    
+            local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+            local pld = PLAYER.GET_PLAYER_PED(pid)
+            local pos = ENTITY.GET_ENTITY_COORDS(pld)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1132.2958, 263.93478, -51.035763)
+        end, nil, nil, COMMANDPERM_AGGRESSIVE)
 
 
     menu.action(frienm, "Send Friend Request", {"sendfriend"}, "", function()
@@ -14488,7 +14575,6 @@ local autohost = menu.list(detections, "Host Detection", {}, "")
 menu.toggle_loop(autohost, "Is Host", {}, "Detects if someone host", function()
     util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
 end)
-
 
 menu.toggle_loop(autohost, "Auto Kick Host", {}, "Detects if someone host, then kicks them this is best for basic and regular users.", function()
     util.draw_debug_text(players.get_name(players.get_host()) .. " Is Host")
