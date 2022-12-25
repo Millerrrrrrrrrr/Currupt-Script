@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=4.3;if not dev_mode then 
+local a=4.4;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=4.3;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.1.9\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.2.0\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2604,7 +2604,7 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
-    menu.action(custselc, "TP Players To Their Waypoint", {"sendtowp"}, "", function()
+    menu.action(custselc, "TP Players To Their Waypoint", {"sendtowaypoints"}, "", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
@@ -8895,7 +8895,7 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
         menu.action(tpthem, "TP All To Their Waypoint", {"alltowaypoint"}, "Teleports all players near you.", function()
             excludeselected = true
-            menu.trigger_commands("sendtowp")
+            menu.trigger_commands("sendalltowp")
         end, nil, nil, COMMANDPERM_FRIENDLY)
 
         menu.action(tpthem, "Fix loading screen", {"fixme"}, "Try to fix player's infinite loading screen by giving him script host and teleporting to nearest apartment.", function()
@@ -9449,7 +9449,7 @@ end
 
 local lobbycrash = menu.list(crash, "Lobby Crashes", {}, "")
 
-local craftcrash = menu.list(lobbycrash, "Vehicle Crashes", {}, "")
+local craftcrash = menu.list(crash, "Vehicle Crashes", {}, "")
 
 menu.toggle_loop(craftcrash, "Teleport ALL Entities to Player Loop", {"tpallentitiesloop"}, "WARNING: DO NOT SPECTATE! & Toggle Panic Mode Or You Most Likly Crash.", function(on_toggle)
 	if on_toggle then
@@ -9722,6 +9722,126 @@ menu.slider(craftcrash, "Loop Distance", {}, "", 0, 500, spawnDistance5, 25, fun
     spawnDistance5 = distance
 end)
 
+
+local selectedobject = 1268884662
+local all_objects = {-1268884662,1085274000,1729911864,2166988379,3702106121,
+1398809829,
+1043035044,
+3639322914,
+464329140,
+4046278932,
+3785611910,
+388197031,
+2977746558,
+659187150,
+420170064,
+2436749075,
+1193854962,
+476379176,
+630616933,
+3945660640,
+1565925668,
+175309727,
+3196461136,
+3251728163,
+176008245,
+2112015640,
+993120320,
+865627822,
+266130508,
+3762892718,
+3854180205,
+2804199464,
+523317885,1327834842,1321190118,29828513,-1026778664,310817095,4130089803,148511758,3087007557,2969831089,3533371316,2024855755,2450168807,297107423
+} 
+local object_names = {"Bricks","Pizza's","prop_boombox_01","xm3_prop_xm3_boombox_01a","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","Dandy's","Keypad's","Brittle Bush","Saplin","Fragment","Gas","Ball","Flagpole","Combat MG","Mag1","Barrel","40mm","Corp Rope"}
+
+local AntiCrashCam <const> = menu.ref_by_path("Game>Camera>Anti-Crash Camera", 38)
+local function RequestModel(Hash, timeout)
+    STREAMING.REQUEST_MODEL(Hash)
+    local time = util.current_time_millis() + (timeout or 1000)
+    while time > util.current_time_millis() and not STREAMING.HAS_MODEL_LOADED(Hash) do
+        util.yield()
+    end
+    return STREAMING.HAS_MODEL_LOADED(Hash)
+end
+local function RequestControl(Entity, timeout)
+    local time = util.current_time_millis() + (timeout or 1000)
+    while time > util.current_time_millis() and not NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(Entity) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(Entity)
+        util.yield()
+    end
+    return NETWORK.NETWORK_HAS_CONTROL_OF_ENTITY(Entity)
+end
+local function ClearEntities(list)
+    for _, entity in pairs(list) do
+        if ENTITY.DOES_ENTITY_EXIST(entity) then
+            ENTITY.SET_ENTITY_AS_MISSION_ENTITY(entity, false, false)
+            RequestControl(entity)
+            entities.delete_by_handle(entity)
+        end
+    end
+end
+local function CreateObject(Hash, Pos, static)
+    RequestModel(Hash)
+    local Object = entities.create_object(Hash, Pos)
+    ENTITY.FREEZE_ENTITY_POSITION(Object, (static or false))
+    return Object
+end
+
+
+local objectc = menu.list(crash, "Object Crashes", {}, "")
+
+local amount = 200
+local delay = 100
+menu.slider(objectc, "Spawn Amount", {}, "", 0, 2500, amount, 50, function(val)
+    amount = val
+end)
+
+menu.slider(objectc, "Spawn Delay", {}, "", 0, 500, delay, 10, function(val)
+    delay = val
+end)
+
+menu.list_select(objectc, "Object Model", {}, "", object_names, 1, function(val)
+    selectedobject = all_objects[val]
+end)
+
+menu.toggle_loop(objectc, "Send Objects", {}, "", function()
+    
+    local pped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local ppos = ENTITY.GET_ENTITY_COORDS(pped, true)
+    local myped = PLAYER.PLAYER_PED_ID()
+    local mypos = ENTITY.GET_ENTITY_COORDS(myped, true)
+    local objects = {}
+    for i = 1, amount do
+        if not players.exists(pid) then
+            break
+        end
+        ppos = ENTITY.GET_ENTITY_COORDS(pped, true)
+        ppos.x = ppos.x + math.random(-1, 1)
+        ppos.y = ppos.y + math.random(-1, 1)
+        objects[#objects+1] = CreateObject(selectedobject, ppos)
+        FIRE.ADD_EXPLOSION(ppos.x, ppos.y, ppos.z, 0, 1.0, false, true, 0.0, false)
+        util.yield(delay)
+    end
+    STREAMING.SET_MODEL_AS_NO_LONGER_NEEDED(selectedobject)
+    if players.exists(pid) then
+        util.yield(2500)
+    end
+    ClearEntities(objects)
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(myped, mypos.x, mypos.y, mypos.z, false, false, false)
+    util.yield(50)
+    local allobjs = entities.get_all_objects_as_handles()
+    for i, object in ipairs(allobjs) do
+        if ENTITY.GET_ENTITY_MODEL(object) == 3026082634 or ENTITY.GET_ENTITY_MODEL(object) == selectedobject then
+            entities.delete_by_handle(object)
+        end
+    end
+    util.yield(50)
+    
+    util.toast("[Object Crash] Finished.")
+end)
+
 local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
 
 menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is OP...", function()
@@ -9850,75 +9970,6 @@ menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is
         util.yield(200)
         end
     end)
-    
-menu.toggle_loop(lobbycrash, "Train Crash", {"toggletrains"}, "Causes Crash Events (XC).", function(on_toggle)
-    local TargetPlayerPed = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PlayerID)
-    local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true)
-    local Object_pizza2 = entities.create_object(util.joaat("des_traincrash_root1"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-    local Object_pizza2 = entities.create_object(util.joaat("des_traincrash_root2"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-    local Object_pizza2 = entities.create_object(util.joaat("des_traincrash_root3"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-    local Object_pizza2 = entities.create_object(util.joaat("des_traincrash_root7"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("cs1_14b_des_train_engine"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb10"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb11"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb13"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb15"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb16"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb17"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb2"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb4"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb5"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb6"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_mpchristmas3_additions_trainb8"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("freightgrain"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("tankercar"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("metrotrain"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("cablecar"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("freightcar2"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("Trained to Kill Tee"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("canyonriver01_traincrash"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-        local Object_pizza2 = entities.create_object(util.joaat("xm3_train_crash"), ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
-    for i = 0, 100 do 
-        local TargetPlayerPos = ENTITY.GET_ENTITY_COORDS(TargetPlayerPed, true);
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(Object_pizza2, TargetPlayerPos.x, TargetPlayerPos.y, TargetPlayerPos.z, false, true, true)
-    util.yield(10)
-    entities.delete_by_handle(Object_pizza2)
-    entities.delete_by_handle(Object_pizza2)
-    entities.delete_by_handle(Object_pizza2)
-    entities.delete_by_handle(Object_pizza2)
-    util.yield(1500)
-    menu.trigger_commands("tpallentitiesloop" .. players.get_name(pid))
-    util.yield(100)
-    return
-    end
-end)
 
 local chunguscrashes = menu.list(lobbycrash, "Big Chungus Crashes", {}, "")
 
@@ -10250,7 +10301,6 @@ end)
             util.yield(100)
             end
         end)
-
     
 menu.toggle_loop(lagwithss, "Lag With Armytrailer2", {"lagwitharmytrailer2"}, "", function()
     notification("Lag With Armytrailer2 sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
@@ -10922,403 +10972,6 @@ menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on
     PHYSICS.ROPE_UNLOAD_TEXTURES()
     end)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local clonecrash = menu.list(crash, "Clone Crashes", {}, "Warning: You will self crash if spectating whilst toggled.")
-
-local pclpid = {}
-
-menu.action(clonecrash, "Clone Crash", {"clonecrash"}, "Clone the player causing Crash event (XC)", function()
-    local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local c = ENTITY.GET_ENTITY_COORDS(p)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
-    all_peds = entities.get_all_peds_as_handles()
-    local last_ped = 0
-    local last_ped_ht = 0
-    for k,ped in pairs(all_peds) do
-        if not PED.IS_PED_A_PLAYER(ped) and not PED.IS_PED_FATALLY_INJURED(ped) then
-            get_control_request(ped)
-            if PED.IS_PED_IN_ANY_VEHICLE(ped, true) then
-                TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
-                TASK.TASK_LEAVE_ANY_VEHICLE(ped, 0, 16)
-            end
-
-            ENTITY.DETACH_ENTITY(ped, false, false)
-            if last_ped ~= 0 then
-                ENTITY.ATTACH_ENTITY_TO_ENTITY(ped, last_ped, 0, 0.0, 0.0, last_ped_ht-0.5, 0.0, 0.0, 0.0, false, false, false, false, 0, false)
-            else
-                ENTITY.SET_ENTITY_COORDS(ped, c.x, c.y, c.z)
-            end
-            last_ped = ped
-        end
-    end
-end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-menu.toggle_loop(clonecrash, "Clone Crash Loop", {"toggleclonecrash"}, "Clone the player causing Crash event (XC) and sometimes (A0:16).", function(on_toggle)
-    local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local c = ENTITY.GET_ENTITY_COORDS(p)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-end)
-
-menu.toggle_loop(clonecrash, "SkyDive Centipede Crash", {"toggleskycrash"}, "Clone the player and skydive them causing Crash event (XC) and sometimes (A0:16).", function(on_toggle)
-    local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local c = ENTITY.GET_ENTITY_COORDS(p)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    TASK.TASK_SKY_DIVE(pclone)
-    local p = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-    local c = ENTITY.GET_ENTITY_COORDS(p)
-    local pclone = entities.create_ped(26, ENTITY.GET_ENTITY_MODEL(p), c, 0)
-    pclpid [#pclpid + 1] = pclone 
-    PED.CLONE_PED_TO_TARGET(p, pclone)
-    local c = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
-    all_peds = entities.get_all_peds_as_handles()
-    local last_ped = 0
-    local last_ped_ht = 0
-    for k,ped in pairs(all_peds) do
-        if not PED.IS_PED_A_PLAYER(ped) and not PED.IS_PED_FATALLY_INJURED(ped) then
-            TASK.TASK_SKY_DIVE(ped)
-            get_control_request(ped)
-            if PED.IS_PED_IN_ANY_VEHICLE(ped, true) then
-                TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
-                TASK.TASK_LEAVE_ANY_VEHICLE(ped, 0, 16)
-            end
-            ENTITY.DETACH_ENTITY(ped, false, false)
-            if last_ped ~= 0 then
-                ENTITY.ATTACH_ENTITY_TO_ENTITY(ped, last_ped, 0, 0.0, 0.0, last_ped_ht-0.5, 0.0, 0.0, 0.0, false, false, false, false, 0, false)
-            else
-                ENTITY.SET_ENTITY_COORDS(ped, c.x, c.y, c.z)
-            end
-            last_ped = ped
-        end
-    end
-end)
 
 local bigyachtycrash = menu.list(crash, "Big Yatchy Crashes", {}, "")
 
