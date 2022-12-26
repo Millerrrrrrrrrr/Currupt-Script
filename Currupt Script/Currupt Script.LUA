@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=4.5;if not dev_mode then 
+local a=4.6;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=4.5;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.2.1\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.2.2\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -598,7 +598,6 @@ players.on_join(function(player_id)
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---[[
 	cargoloops = menu.list(menu.my_root(), "Cargo Loop", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
 
 	cargoloo = menu.list(cargoloops, "Open Musiness Banager First", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
@@ -753,7 +752,8 @@ my_root:action("Get crates", {"fillcurrentwhouse"}, "", function()
 end)
 local appsecuroserv = util.joaat("appsecuroserv")
 local money_loop = false
-my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Auto-sells the crates of the CURRENTLY SELECTED WAREHOUSE IN MB.", function(on)
+my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Auto-sells the crates of the CURRENTLY SELECTED WAREHOUSE IN MB, and skips errors.", function(on)
+    menu.trigger_commands("autoenter")
     money_loop = on
     while true do 
         if not money_loop then 
@@ -786,8 +786,6 @@ my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Auto-sells the crates of
         util.yield(sell_delay)
     end
 end)
-
-]]
 
 util.keep_running()
 
@@ -5236,7 +5234,6 @@ read_global = {
         return true
     end
 
-
 	griefing = menu.list(menu.player_root(pid), "Griefing", {}, "", function(); end)
 
 local usingPiggyback = false
@@ -5267,7 +5264,6 @@ local usingRape = false
 		end
 	end)
 
-    
     menu.toggle_loop(playermode, "Front Flip", {"frontflip"}, "WARNING! Do not click change outfit. Do a front flip.", function(on)
         local hash = util.joaat("prop_ecola_can")
         request_model_load(hash)
@@ -15441,7 +15437,7 @@ menu.action(protex, "Fix Casino Heist", {}, "If you've bricked your casino heist
 	STATS.STAT_SET_INT(util.joaat("MP0_H3OPT_ACCESSPOINTS"), 0, true)
 end)
 
-menu.toggle_loop(protex, "Accept Joins", {}, "Automatically accept join screens", function()
+menu.toggle_loop(protex, "Accept Joins", {"autojoin"}, "Automatically accept join screens", function()
     local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
     if message_hash == 15890625 or message_hash == -398982408 or message_hash == -587688989 then
         PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
@@ -15449,10 +15445,16 @@ menu.toggle_loop(protex, "Accept Joins", {}, "Automatically accept join screens"
     end
 end)
 
+menu.toggle_loop(protex, "Auto Enter", {"autoenter"}, "Automatically hits enter.", function()
+    HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
+    PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
+    util.yield(100)
+end)
+
 menu.toggle(protex, "Rejoin Failed Joins", {"rejoinfail"}, "Joins previously failed transitions, Joins previously failed sessions but if failed will join new public.", function(state)
     local message_hash = HUD.GET_WARNING_SCREEN_MESSAGE_HASH()
     local my_player_id = players.user_ped()
-    local playerstatus = {0, 1} -- This tels thee player status, 0 for story mode and 1 for online mode.
+    local playerstatus = {0, 1} -- This tells the player status, 0 for story mode and 1 for online mode.
     local message_hashes = {15890625, -398982408, -587688989} 
     if state then
         if message_hash == message_hashes then
