@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=4.7;if not dev_mode then 
+local a=4.8;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=4.7;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.2.3\n" .. "\n" .. "Official Discord: https://discord.gg/CMBYPZr2Rc\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.2.4\n" .. "\n" .. "Official Discord: https://discord.gg/5taGHugK8J\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -67,7 +67,7 @@ util.log("▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▀▀▒▒�
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	splashes = menu.list(menu.my_root(), "Join Discord", {}, "", function(); end)
+	splashes = menu.list(menu.my_root(), "Join New Discord", {}, "", function(); end)
 
     local translations = {}
     setmetatable(translations, {
@@ -129,7 +129,7 @@ end)
     PlaySound(resources_dir .. "\\bruh.wav", SND_FILENAME | SND_ASYNC)
         end
 
-menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/CMBYPZr2Rc")
+menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/5taGHugK8J")
 --------------------------------------------------------------------------------------
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
 
@@ -3343,27 +3343,6 @@ menu.toggle_loop(helpcommands, "Type Help Commands", {"typehelpcommand"}, "", fu
     util.yield(150000)
 end)
 
-	khosspams = menu.list(spams, "Join Kwengz Discord", {}, "Command: khos", function(); end)
-
-menu.action(khosspams, "Join Kwengz Discord", {"khos"}, "", function()
-    chat.send_message(
-        "Please Join Our Discord > discord.gg/6KrQcRXnHS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
-
-menu.toggle_loop(khosspams, "Join Kwengz Discord", {"khos"}, "", function(on_toggle)
-    chat.send_message(
-        "Please Join Our Discord >discord.gg/6KrQcRXnHS < Mod menu Giveaways From Kwengz Server! #KWENGZ-IS-KING",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
 
 
 	curruptlink = menu.list(spams, "Join Currupt Discord Link", {}, "Command: curruptlink", function(); end)
