@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=5.4;if not dev_mode then 
+local a=5.5;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=5.4;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.0\n" .. "\n" .. "Official Discord: https://discord.gg/xhFBQw9vhD\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.1\n" .. "\n" .. "Official Discord: https://discord.gg/xhFBQw9vhD\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -3349,7 +3349,7 @@ end)
 
 menu.action(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function()
     chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/d6ZnaQakpY < Open discord hit the + to join server and type my link!",
+        "Please Join Currupt Script Discord > discord.gg/xhFBQw9vhD < Open discord hit the + to join server and type my link!",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3359,29 +3359,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function(on_toggle)
     chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/d6ZnaQakpY < Open discord hit the + to join server and type my link!",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
-
-	candylinkspams = menu.list(spams, "Join CandyPie Mods Discord Link", {}, "Command: candylink", function(); end)
-
-menu.action(candylinkspams, "Join CandyPie Mods Discord Link", {"candylink"}, "", function()
-    chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/XHhqfbaqTN < Open discord hit the + to join server and type my link!",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
-
-menu.toggle_loop(candylinkspams, "Join CandyPie Mods Discord Link", {"candylink"}, "", function(on_toggle)
-    chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/XHhqfbaqTN < Open discord hit the + to join server and type my link!",
+        "Please Join Currupt Script Discord > discord.gg/xhFBQw9vhD < Open discord hit the + to join server and type my link!",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -9996,7 +9974,7 @@ end)
 
 local attachcrash = menu.list(lobbycrash, "Attachment Crashes", {}, "")
 
-menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is OP...", function()
+menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "It will turn on anticam for you, Warning! This is OP...", function()
     menu.trigger_commands("tpspread" .. players.get_name(pid))
     util.yield(100)
     menu.trigger_commands("anticrashcamera")
@@ -10058,7 +10036,7 @@ menu.action(attachcrash, "Attachment Crash", {"attachcrash"}, "Warning! This is 
     util.yield(100)
 end)
 
-menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "Warning! This is OP...", function(on_toggle)
+menu.toggle(attachcrash, "Attachment Crash", {"toggleattach"}, "It will turn on anticam for you, Warning! This is OP...", function(on_toggle)
     if on_toggle then
         menu.trigger_commands("anticrashcamera")
         util.yield(200)
