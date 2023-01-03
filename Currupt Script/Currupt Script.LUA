@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=5.2;if not dev_mode then 
+local a=5.3;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=5.2;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.2.8\n" .. "\n" .. "Official Discord: https://discord.gg/5taGHugK8J\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.2.9\n" .. "\n" .. "Official Discord: https://discord.gg/xhFBQw9vhD\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -67,7 +67,7 @@ util.log("▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▀▀▒▒�
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-	splashes = menu.list(menu.my_root(), "Join New Discord", {}, "", function(); end)
+	splashes = menu.list(menu.my_root(), "Join Our Discord", {}, "", function(); end)
 
     local translations = {}
     setmetatable(translations, {
@@ -129,7 +129,7 @@ end)
     PlaySound(resources_dir .. "\\bruh.wav", SND_FILENAME | SND_ASYNC)
         end
 
-menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/5taGHugK8J")
+menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/xhFBQw9vhD")
 --------------------------------------------------------------------------------------
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
 
@@ -13787,6 +13787,23 @@ menu.action(menu.my_root(), "Yeet Roulette", {"yeetroulette"}, "Take a chance by
         ENTITY.APPLY_FORCE_TO_ENTITY(0, 1, 0, 0, 0, 0, 0, 0, 0, true, true, true, true, true)
     else
         util.toast("Lucky Bastard ;)")
+    end
+end)
+
+menu.action(menu.my_root(), "Yeet Roulette new", {"yeetroulette"}, "Take a chance by instantly sending yourself to desktop or use the Restart GTA V Option.", function()
+    local pick = math.random(6)
+    if pick == 4 then 
+        util.log("You loose.")
+        menu.show_command_box("say " .. "I loose.")
+        util.yield(1500)
+        PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
+        util.yield(1500)
+--        ENTITY.APPLY_FORCE_TO_ENTITY(0, 1, 0, 0, 0, 0, 0, 0, 0, true, true, true, true, true)
+    else
+        util.toast("Lucky Bastard ;)")
+		menu.show_command_box("say " .. "I got lucky ;)")
+        util.yield(1500)
+        PAD.SET_CONTROL_VALUE_NEXT_FRAME(2, 201, 1.0)
     end
 end)
 
