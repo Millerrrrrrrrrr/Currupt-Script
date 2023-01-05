@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=5.8;if not dev_mode then 
+local a=5.9;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=5.8;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.4\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.5\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -2611,6 +2611,20 @@ local chaos, gravity, speed = false, true, 100
 					menu.trigger_commands("summon" .. PLAYER.GET_PLAYER_NAME(pids))
                     util.toast("Give them a second to get on..." .. PLAYER.GET_PLAYER_NAME(pids))
 					notification("Teleporting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
+				end
+			end
+		end
+	end)
+
+    menu.action(custselc, "TP Players To Casino", {}, "It will send your player to the table if selected on you to.", function()
+		for pids = 0, 31 do
+			if excludeselected then
+				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("autocasino" .. PLAYER.GET_PLAYER_NAME(pids))
+				end
+			else
+				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
+					menu.trigger_commands("autocasino" .. PLAYER.GET_PLAYER_NAME(pids))
 				end
 			end
 		end
@@ -9291,20 +9305,30 @@ end)
             end
     end)
 
-    menu.action(drops, "Auto Casino Rig", {"autocasino"}, "(BETA)", function(click_type)
-            menu.trigger_commands("casinotp " .. PLAYER.GET_PLAYER_NAME(pid))
-            util.trigger_script_event(1 << pid, {1268038438, 4, 123, 0, 0, 1, -1001291848, -1016910157, 1108672448, 0, -1, 0, 2147483647, 0, -1}) -- Casino Invite
-            local CasinoRigBJ <const> = menu.ref_by_path("Online>Quick Progress>Casino>Always Win Blackjack")
-            menu.trigger_command(CasinoRigBJ)
-            menu.trigger_commands("rigroulette ".. "1")
-            util.yield(1500)
+    menu.toggle(drops, "Auto Casino Rig", {"autocasino"}, "Teleports them to casino then turns on the tables. It will spawn you to the table if you select it for yourself.", function(on_toggle)
+        if on_toggle then
             local player_ped = PLAYER.PLAYER_PED_ID()    
             local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
             local pld = PLAYER.GET_PLAYER_PED(pid)
             local pos = ENTITY.GET_ENTITY_COORDS(pld)
+            menu.trigger_commands("casinotp" .. PLAYER.GET_PLAYER_NAME(pid))
+            util.trigger_script_event(1 << pid, {1268038438, 4, 123, 0, 0, 1, -1001291848, -1016910157, 1108672448, 0, -1, 0, 2147483647, 0, -1}) -- Casino Invite
+            util.yield(1500)
+            menu.trigger_commands("rigblackjack")
+            menu.trigger_commands("rigroulette ".. "1")
+            util.yield(1500)
             ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 1132.2958, 263.93478, -51.035763)
-        end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
+        else
+            menu.trigger_commands("rigblackjack")
+            menu.trigger_commands("rigroulette ".. "-1")
+            local player_ped = PLAYER.PLAYER_PED_ID()    
+            local old_coords = ENTITY.GET_ENTITY_COORDS(player_ped)
+            local pld = PLAYER.GET_PLAYER_PED(pid)
+            local pos = ENTITY.GET_ENTITY_COORDS(pld)
+            ENTITY.SET_ENTITY_COORDS_NO_OFFSET(player_ped, 924.2497, 46.7545, 81.0961)
+            end
+        end)
+        
 
     menu.action(frienm, "Send Friend Request", {"sendfriend"}, "", function()
         menu.show_command_box("historybefriend " .. PLAYER.GET_PLAYER_NAME(pid))
@@ -9809,7 +9833,12 @@ end)
 
 
 local selectedobject = 1268884662
-local all_objects = {-1268884662,1085274000,1729911864,2166988379,3702106121,
+local all_objects = {
+-1268884662,
+1085274000,
+1729911864,
+2166988379,
+3702106121,
 1398809829,
 1043035044,
 3639322914,
@@ -9837,9 +9866,174 @@ local all_objects = {-1268884662,1085274000,1729911864,2166988379,3702106121,
 3762892718,
 3854180205,
 2804199464,
-523317885,1327834842,1321190118,29828513,-1026778664,310817095,4130089803,148511758,3087007557,2969831089,3533371316,2024855755,2450168807,297107423
+523317885,
+1327834842,
+1321190118,
+29828513,
+-1026778664,
+310817095,
+4130089803,
+148511758,
+3087007557,
+2969831089,
+3533371316,
+2024855755,
+2450168807,
+297107423,
+2017086435,
+3553022755,
+4046278932,
+3639322914,
+3231494328,
+3271283456,
+386059801,
+202070568,
+1971657777,
+2005313754,
+3859048180,
+866394777,
+740404217,
+2409855828,
+286298615,
+795984016,
+2374537677,
+3161612443,
+1165195353,
+2450522579,
+4260070095,
+974883178,
+3965551402,
+3854180205,
+3696781377,
+4124467285,
+2684801972,
+3449848423,
+118627012,
+1565925668,
+1924419321,
+2201918560,
+3762892718,
+266130508,
+1193854962, 
+630616933,
+476379176,
+2436749075,
+2154892897,
+1369811908,
+2420804668,
+1948561556,
+356462018,
+462203053,
+3552768664,
+2057223314,
+3290378943,
+168901740,
+303280717,
+725259233,
+2064599526
 } 
-local object_names = {"Bricks","Pizza's","prop_boombox_01","xm3_prop_xm3_boombox_01a","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","Dandy's","Keypad's","Brittle Bush","Saplin","Fragment","Gas","Ball","Flagpole","Combat MG","Mag1","Barrel","40mm","Corp Rope"}
+
+local object_names = {
+
+"Bricks",
+"Pizza's",
+"prop_boombox_01",
+"xm3_prop_xm3_boombox_01a",
+"1",
+"2",
+"3",
+"4",
+"5",
+"6",
+"7",
+"8",
+"9",
+"10",
+"11",
+"12",
+"13",
+"14",
+"15",
+"16",
+"17",
+"18",
+"19",
+"20",
+"21",
+"22",
+"23",
+"24",
+"25",
+"26",
+"27",
+"28",
+"29",
+"Dandy's",
+"Keypad's",
+"Brittle Bush",
+"Saplin",
+"Fragment",
+"Gas",
+"Ball",
+"Flagpole",
+"Combat MG",
+"Mag1",
+"Barrel",
+"40mm",
+"Corp Rope",
+"prop_amb_ciggy_01",
+"prop_table_03_chr",
+"prop_parasol_03",
+"prop_traffic_01d",
+"prop_streetlight_01",
+"v_serv_bs_gelx3",
+"prop_table_03",
+"v_serv_bs_foam1",
+"v_ret_ta_paproll2",
+"v_serv_bs_razor",
+"prop_tv_05",
+"v_ret_gc_box2",
+"prop_rub_stool",
+"prop_speaker_05",
+"v_serv_bs_shvbrush",
+"v_serv_bs_shampoo",
+"v_ret_ta_spray",
+"v_serv_bs_cond",
+"v_serv_bs_clutter",
+"v_ilev_bs_door",
+"prop_ld_purse_01",
+"prop_amb_phone",
+"prop_bin_10b",
+"prop_amb_40oz_02",
+"p_amb_coffeecup_01",
+"prop_coffee_mac_02",
+"prop_fire_exting_2a",
+"prop_wall_light_06a",
+"prop_xmas_ext",
+"xm_prop_x17_osphatch_col",
+"reh_prop_reh_sign_jk_01a",
+"reh_prop_reh_bag_para_01a",
+"tr_prop_tr_meet_coll_01",
+"vw_prop_vw_garage_coll_01a",
+"prop_forsale_dyn_01",
+"xm_prop_base_cabinet_door_01",
+"xm_prop_x17dlc_rep_sign_01a",
+"gr_prop_gr_bunkeddoor_col",
+"v_ret_ta_firstaid",
+"prop_aircon_m_01",
+"prop_wall_light_02a",
+"v_ret_gc_calc",
+"prop_micro_04",
+"prop_gumball_02",
+"prop_watercooler",
+"prop_radio_01",
+"prop_game_clock_01",
+"prop_cctv_cam_06a",
+"prop_till_01",
+"prop_chair_02",
+"prop_chair_04a"
+
+}
 
 local AntiCrashCam <const> = menu.ref_by_path("Game>Camera>Anti-Crash Camera", 38)
 local function RequestModel(Hash, timeout)
