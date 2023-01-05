@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=5.9;if not dev_mode then 
+local a=6.0;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=5.9;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.5\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.6\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -10604,40 +10604,6 @@ menu.toggle_loop(keramicrash, "Bad Net Crash", {"badnet"}, "Skidded from kerami 
             entities.delete_by_handle(v)
             end
         end)
-
-menu.toggle_loop(keramicrash, "Plague Crash Player", {"plaguecrash"}, "", function(on_loop)
-    notification("Plague Crash Player sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
-    for i = 1, 10 do
-        local cord = getEntityCoords(getPlayerPed(pid))
-        request_model(-930879665)
-        util.yield(10)
-        request_model(3613262246)
-        util.yield(10)
-        request_model(452618762)
-        util.yield(10)
-        local a1 = entities.create_object(-930879665, cord)
-        util.yield(10)
-        local a2 = entities.create_object(3613262246, cord)
-        util.yield(10)
-        local b1 = entities.create_object(452618762, cord)
-        util.yield(10)
-        local b2 = entities.create_object(3613262246, cord)
-        util.yield(300)
-        entities.delete_by_handle(a1)
-        entities.delete_by_handle(a2)
-        entities.delete_by_handle(b1)
-        entities.delete_by_handle(b2)
-        request_model(452618762)
-        util.yield(10)
-        request_model(3613262246)
-        util.yield(10)
-        request_model(-930879665)
-        util.yield(10)
-        end
-        if SE_Notifications then
-            util.toast("Finished.")
-	end
-end)
 
 menu.toggle_loop(keramicrash, "Rope Crash Lobby", {"ropecrash"}, "", function(on_loop)
     notification("Rope Crash Lobby sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
