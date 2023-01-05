@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=6.0;if not dev_mode then 
+local a=6.1;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=6.0;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.6\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.7\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -2538,12 +2538,12 @@ local chaos, gravity, speed = false, true, 100
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("droprp" .. PLAYER.GET_PLAYER_NAME(pids))
+					menu.trigger_commands("giverp" .. PLAYER.GET_PLAYER_NAME(pids))
 					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			else
 				if pids ~= players.user() and selectedplayer[pids] and players.exists(pids) then
-					menu.trigger_commands("droprp" .. PLAYER.GET_PLAYER_NAME(pids))
+					menu.trigger_commands("giverp" .. PLAYER.GET_PLAYER_NAME(pids))
 					notification("RP has been sent to " .. PLAYER.GET_PLAYER_NAME(pids), colors.green)
 				end
 			end
@@ -2616,7 +2616,7 @@ local chaos, gravity, speed = false, true, 100
 		end
 	end)
 
-    menu.action(custselc, "TP Players To Casino", {}, "It will send your player to the table if selected on you to.", function()
+    menu.action(custselc, "TP Players To Casino", {"autocasinoall"}, "It will send your player to the table if selected on you to.", function()
 		for pids = 0, 31 do
 			if excludeselected then
 				if pids ~= players.user() and not selectedplayer[pids] and players.exists(pids) then
@@ -9222,7 +9222,7 @@ end)
 
     local drops = menu.list(frienm, "Currupt Drops/Help", {}, "")
 
-    menu.toggle_loop(drops, "Drop RP", {"rp"}, "", function()
+    menu.toggle_loop(drops, "Drop RP", {"giverp"}, "", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
         local card = MISC.GET_HASH_KEY("vw_prop_vw_colle_prbubble")
