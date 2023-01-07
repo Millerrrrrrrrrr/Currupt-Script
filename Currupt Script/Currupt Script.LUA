@@ -37,7 +37,7 @@ util.require_natives("natives-1651208000")
 util.require_natives("natives-1663599433")
 guidedMissile = require("guided_missile")
 
-local a=6.1;if not dev_mode then 
+local a=6.2;if not dev_mode then 
     async_http.init("raw.githubusercontent.com","/Millerrrrrrrrrr/Currupt-Script/main/Currupt Script/CurruptScriptVersion.lua",function(b)
         currentVer=tonumber(b)response=true;if a~=currentVer then 
             menu.action(menu.my_root(),"Update",{"updatecurrupt"},"If it still says update when its been updated just ignore it until you see my change logs in my server.",function()
@@ -45,7 +45,7 @@ local a=6.1;if not dev_mode then
                     local d=select(2,load(c))if d then util.toast("Update failed to download")return end;local e=io.open(filesystem.scripts_dir()..SCRIPT_RELPATH,"wb")e:write(c)e:close()
                         util.toast("Update finished")util.stop_script()end)async_http.dispatch()end)end end,function()response=true end)async_http.dispatch()repeat util.yield()until response end
 
-util.toast("Welcome To Currupt Script 1.3.7\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
+util.toast("Welcome To Currupt Script 1.3.8\n" .. "\n" .. "Keep your eyes peeled for updates...\n" .. "\n" .. "WARNING! Notifications aren't always accurate")
 
 util.log("░█████╗░██╗░░░██╗██████╗░██████╗░██╗░░░██╗██████╗░████████╗  ░██████╗░█████╗░██████╗░██╗██████╗░████████╗")
 util.log("██╔══██╗██║░░░██║██╔══██╗██╔══██╗██║░░░██║██╔══██╗╚══██╔══╝  ██╔════╝██╔══██╗██╔══██╗██║██╔══██╗╚══██╔══╝")
@@ -8955,11 +8955,11 @@ function spawn_buzzard(pid, gunner_weapon, collision)
 
     		local frienm = menu.list(menu.player_root(pid), 'Friendly', {}, '')
 
-	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, vehiclegodmode, never wanted, gives all weapons, ammo/infinite and parachute all at once", function ()
+	menu.action(frienm, "Protect Player", {"max"}, "Turns on auto heal, vehiclegodmode, vehicle boost, never wanted, gives all weapons, ammo/infinite and parachute all at once", function ()
     	notification("Protecting " .. PLAYER.GET_PLAYER_NAME(pids), colors.red)
         		menu.trigger_commands("bail".. players.get_name(pid))
         		menu.trigger_commands("arm".. players.get_name(pid))
-        		menu.trigger_commands("ammo".. players.get_name(pid))
+                menu.trigger_commands("boost".. players.get_name(pid))
                 menu.trigger_commands("autoammo".. players.get_name(pid))
                 menu.trigger_commands("autoheal".. players.get_name(pid))
                 menu.trigger_commands("givevehgodmode".. players.get_name(pid))
@@ -9222,6 +9222,10 @@ end)
 
     local drops = menu.list(frienm, "Currupt Drops/Help", {}, "")
 
+    menu.action(drops, "Give All Collectibles", {"collects"}, "", function()
+        menu.trigger_commands("givecollectibles" .. players.get_name(pid))
+    end)
+
     menu.toggle_loop(drops, "Drop RP", {"giverp"}, "", function()
         local coords = players.get_position(pid)
         coords.z = coords.z + 1.5
@@ -9267,7 +9271,7 @@ end)
     end)
 
 
-    menu.toggle(drops, "Detach From Player", {"unattach"}, "", function(on)
+    menu.toggle(drops, "Detach/Attach Player", {"attachplayer"}, "", function(on)
         if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == players.user_ped() then 
             return
         end
